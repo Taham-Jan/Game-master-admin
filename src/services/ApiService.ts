@@ -31,17 +31,26 @@ const ApiService = {
       ) {
         try {
           const text = await errors.response.data.text();
-          const data = JSON.parse(text);
+          const data = JSON.parse(text) as {
+            msg?: string;
+            message?: string;
+            errors?: string[];
+          };
           errorMessage =
             data?.msg || data?.message || data?.errors?.[0] || errorMessage;
         } catch (e) {
           errorMessage = `Failed to parse error response ${e}`;
         }
       } else {
+        const errorData = errors.response.data as {
+          msg?: string;
+          message?: string;
+          errors?: string[];
+        };
         errorMessage =
-          errors.response.data?.msg ||
-          errors.response.data?.message ||
-          errors.response.data?.errors?.[0] ||
+          errorData?.msg ||
+          errorData?.message ||
+          errorData?.errors?.[0] ||
           errors.message ||
           errorMessage;
       }

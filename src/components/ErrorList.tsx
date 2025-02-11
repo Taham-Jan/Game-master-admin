@@ -6,7 +6,7 @@ interface ErrorListProps {
   className?: string;
 }
 
-const flattenErrors = (errors: FormikErrors<any>, prefix = ""): string[] => {
+const flattenErrors = (errors: any, prefix = ""): string[] => {
   return Object.entries(errors).flatMap(([key, value]) => {
     const path = prefix ? `${prefix}.${key}` : key;
 
