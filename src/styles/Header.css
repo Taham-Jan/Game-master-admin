@@ -1,0 +1,183 @@
+:root {
+  --icon-size: 3em;
+  --font-bold: bolder;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.back-btn-container,
+.right-btn-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin: 0 1%;
+}
+
+.back-btn,
+.right-btn {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 150px;
+}
+
+.back-content,
+.right-content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 3%;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.back-icon,
+.right-icon {
+  height: var(--icon-size);
+}
+
+.back-svg-text {
+  width: 60%;
+  height: auto;
+}
+
+.right-svg-text {
+  width: 100%;
+  height: auto;
+}
+
+.back-svg-text > text,
+.right-svg-text > text {
+  font-size: 1.6em;
+  font-weight: var(--font-bold);
+  stroke-width: 7px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+.back-svg-text > text {
+  stroke: #1e4e8a;
+}
+
+.right-svg-text > text {
+  stroke: #3d6600;
+}
+
+.header-title-container {
+  position: relative;
+  display: inline-block;
+}
+
+.header-title-container > img {
+  width: 100%;
+}
+
+.title-svg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.title-svg-text > text {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+@media (max-width: 1400px) {
+  .title-svg-text > text {
+    font-size: 4em;
+  }
+  .right-icon,
+  .back-icon {
+    height: 2.5em;
+  }
+
+  .back-svg-text > text,
+  .right-svg-text > text {
+    font-size: 1.6em;
+    stroke-width: 7px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .title-svg-text > text {
+    font-size: 2.5em;
+  }
+
+  .right-icon,
+  .back-icon {
+    height: 1.9em;
+  }
+
+  .back-svg-text > text,
+  .right-svg-text > text {
+    font-size: 1.3em;
+    stroke-width: 3px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .title-svg-text > text {
+    font-size: 2em;
+  }
+
+  .right-icon,
+  .back-icon {
+    height: 1.8em;
+  }
+
+  .back-svg-text > text,
+  .right-svg-text > text {
+    font-size: 1em;
+    stroke-width: 3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .right-icon,
+  .back-icon {
+    height: 1em;
+  }
+
+  .back-svg-text > text,
+  .right-svg-text > text {
+    font-size: 0.7em;
+    stroke-width: 2px;
+  }
+}
+
+@media (max-width: 500px) {
+  .title-svg-text > text {
+    font-size: 1.2em;
+  }
+
+  .right-icon,
+  .back-icon {
+    height: 0.7em;
+  }
+
+  .back-svg-text > text,
+  .right-svg-text > text {
+    font-size: 0.5em;
+    stroke-width: 1.3px;
+  }
+}

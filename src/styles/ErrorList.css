@@ -1,0 +1,19 @@
+.error-container {
+  background-color: #ffe6e6;
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  color: #d9534f;
+  margin: 0px 50px;
+  border-radius: 5px;
+  border: 1px solid #d9534f;
+}
+
+.error-list {
+  list-style-type: decimal;
+  font-size: 1rem;
+}
+
+.error-item {
+  margin: 5px 0;
+}

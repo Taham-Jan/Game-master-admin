@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Euclid";
+  src: url("/fonts/Euclid-Circular-A-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Euclid";
+  src: url("/fonts/Euclid-Circular-A-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+  font-family: "Euclid", sans-serif;
+}
+
+:root {
+  --background: #0a1027;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* line-height: 1.5; */
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.full-page {
+  /* min-width: 100vw; */
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body {
+  margin: 0;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow-y: auto;
+  /* overflow-x: hidden; */
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button:focus,
+button:focus-visible {
+  /* outline: 4px auto -webkit-focus-ring-color; */
+}
