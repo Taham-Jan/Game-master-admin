@@ -7,12 +7,14 @@
   margin: auto;
 }
 
-.question-mode-container {
+.question-mode-container,
+.age-range-container {
   display: flex;
   gap: 2rem;
 }
 
-.question-mode-select > select {
+.question-mode-select > select,
+.age-range-select > select {
   appearance: none;
   border-radius: 8px;
   box-shadow: var(--button-shadow);
@@ -27,18 +29,21 @@
   cursor: pointer;
 }
 
-.question-mode-select > select::-ms-expand {
+.question-mode-select > select::-ms-expand,
+.age-range-select > select::-ms-expand {
   display: none;
 }
 
-.question-mode-select {
+.question-mode-select,
+.age-range-select {
   position: relative;
   display: flex;
   width: 15em;
   height: 4em;
 }
 
-.question-mode-select::after {
+.question-mode-select::after,
+.age-range-select::after {
   content: "";
   position: absolute;
   top: 15%;

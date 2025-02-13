@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Header from "../../Header";
@@ -6,6 +6,19 @@ import "../../../styles/CategoryQuestion.css";
 import AudioPlayer from "./AudioPlayer";
 import VideoPlayer from "./VideoPlayer";
 import ErrorList from "../../ErrorList";
+import {
+  createNewCategoryQuestion,
+  getCategoryQuestionById,
+  updateCategoryQuestion,
+} from "../../../services/QuestionService";
+import { useParams } from "react-router-dom";
+import {
+  AgeRanges,
+  AgeRangeType,
+  CategoryQuestionResponse,
+} from "../../../types/QuestionTypes";
+import { uploadFile } from "../../../services/UploadService";
+import { handleHttpReq } from "../../../utils/HandleHttpReq";
 
 enum QuestionMode {
   TEXT = "Text Mode",
@@ -51,25 +64,56 @@ const validationSchema = Yup.object().shape({
     then: (schema) => schema.required("File is required"),
     otherwise: (schema) => schema.notRequired(),
   }),
+  ageRange: Yup.string().required("Age range is required"),
 });
 
-const initialValues = {
-  questionMode: QuestionMode.TEXT,
-  questionText: { en: "", ar: "" },
-  answers: {
-    A: { en: "", ar: "" },
-    B: { en: "", ar: "" },
-    C: { en: "", ar: "" },
-    D: { en: "", ar: "" },
-  },
-  selectedAnswer: null as string | null,
-  selectedFile: null as File | null,
+function convertServerQuestionMode(questionType: string): QuestionMode {
+  switch (questionType.toLowerCase()) {
+    case "text":
+      return QuestionMode.TEXT;
+    case "image":
+      return QuestionMode.IMAGE;
+    case "video":
+      return QuestionMode.VIDEO;
+    case "audio":
+      return QuestionMode.SOUND;
+    default:
+      return QuestionMode.TEXT;
+  }
+}
+
+function convertQuestionModeForServer(questionType: QuestionMode): string {
+  switch (questionType) {
+    case QuestionMode.TEXT:
+      return "text";
+    case QuestionMode.IMAGE:
+      return "image";
+    case QuestionMode.VIDEO:
+      return "video";
+    case QuestionMode.SOUND:
+      return "audio";
+    default:
+      return "text";
+  }
+}
+
+type FormValueType = {
+  questionMode: QuestionMode;
+  questionText: { en: string; ar: string };
+  answers: { [key: string]: { ar: string; en: string } };
+  selectedAnswer: string | null;
+  selectedFile: File | string | null;
+  ageRange: AgeRangeType;
 };
 
 const CategoryQuestionForm: React.FC = () => {
+  const { categoryId, id } = useParams();
   const [language, setLanguage] = useState<"en" | "ar">("en");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const errorListRef = useRef<HTMLDivElement | null>(null);
+  const [editData, setEditData] = useState<CategoryQuestionResponse | null>(
+    null
+  );
 
   const getUploadIcon = (questionMode: QuestionMode) => {
     switch (questionMode) {
@@ -97,13 +141,84 @@ const CategoryQuestionForm: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getCategoryQuestionById(id);
+      setEditData(response.data.data);
+    };
+
+    if (id) {
+      handleHttpReq(fetchData);
+    }
+  }, [id]);
+
+  const initialValues: FormValueType = {
+    questionMode: convertServerQuestionMode(editData?.questionType || "text"),
+    questionText: editData?.text || { en: "", ar: "" },
+    answers: editData?.options || {
+      A: { en: "", ar: "" },
+      B: { en: "", ar: "" },
+      C: { en: "", ar: "" },
+      D: { en: "", ar: "" },
+    },
+    selectedAnswer: editData?.correctAnswer || (null as string | null),
+    selectedFile: editData?.media || (null as File | string | null),
+    ageRange: editData?.ageRange || AgeRanges[0],
+  };
+
+  const handleSubmit = async (values: FormValueType) => {
+    let uploadedLink: string | null = null;
+
+    if (values.selectedFile) {
+      if (typeof values.selectedFile === "string") {
+        uploadedLink = values.selectedFile;
+      } else if (values.selectedFile instanceof File) {
+        try {
+          const formData = new FormData();
+          formData.append("file", values.selectedFile);
+
+          handleHttpReq(async () => {
+            const response = await uploadFile(formData);
+            uploadedLink = response?.data?.url ?? null;
+          });
+        } catch (error) {
+          console.error("File upload failed:", error);
+          return;
+        }
+      }
+    }
+
+    handleHttpReq(async () => {
+      if (id) {
+        await updateCategoryQuestion(id, {
+          ageRange: values.ageRange,
+          categoryName: categoryId,
+          correctAnswer: values.selectedAnswer,
+          options: values.answers,
+          questionType: convertQuestionModeForServer(values.questionMode),
+          media: uploadedLink || undefined,
+          text: values.questionText,
+        });
+      } else {
+        await createNewCategoryQuestion({
+          ageRange: values.ageRange,
+          categoryName: "math",
+          correctAnswer: values.selectedAnswer,
+          options: values.answers,
+          questionType: convertQuestionModeForServer(values.questionMode),
+          media: uploadedLink || undefined,
+          text: values.questionText,
+        });
+      }
+    });
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log("Form submitted:", values);
-      }}
+      enableReinitialize={true}
+      onSubmit={handleSubmit}
     >
       {({ values, setFieldValue, handleSubmit, validateForm }) => (
         <>
@@ -132,10 +247,11 @@ const CategoryQuestionForm: React.FC = () => {
           />
           <div className="question-form-container">
             <div className="question-mode-container">
-              <h2>Question Mode</h2>
+              <h2 style={{ opacity: id ? "0.5" : "1" }}>Question Mode</h2>
               <div className="question-mode-select">
                 <select
                   value={values.questionMode}
+                  disabled={!!id}
                   onChange={(e) => {
                     const newMode = e.target.value as QuestionMode;
                     setFieldValue("questionMode", newMode);
@@ -170,6 +286,23 @@ const CategoryQuestionForm: React.FC = () => {
               </button>
             </div>
 
+            <div className="age-range-container">
+              <h2>Age Range</h2>
+              <div className="age-range-select">
+                <select
+                  value={values.ageRange}
+                  onChange={(e) => {
+                    setFieldValue("ageRange", e.target.value);
+                  }}
+                >
+                  {AgeRanges.map((mode) => (
+                    <option key={mode} value={mode}>
+                      {mode}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="question-container">
               {values.questionMode === QuestionMode.TEXT ? (
                 <textarea
@@ -219,7 +352,11 @@ const CategoryQuestionForm: React.FC = () => {
                         )}
                         {values.questionMode === QuestionMode.IMAGE && (
                           <img
-                            src={URL.createObjectURL(values.selectedFile)}
+                            src={
+                              values.selectedFile instanceof File
+                                ? URL.createObjectURL(values.selectedFile)
+                                : values.selectedFile
+                            }
                             alt="Uploaded"
                             className="uploaded-media"
                           />

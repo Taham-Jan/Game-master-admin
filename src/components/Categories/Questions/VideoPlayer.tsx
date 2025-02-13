@@ -2,7 +2,7 @@ import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import { AiFillSound } from "react-icons/ai";
 
 interface VideoPlayerProps {
-  file: File;
+  file: File | string;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ file }) => {
@@ -15,7 +15,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ file }) => {
 
   useEffect(() => {
     if (file) {
-      const newSrc = URL.createObjectURL(file);
+      const newSrc = file instanceof File ? URL.createObjectURL(file) : file;
       setIsPlaying(false);
       setProgress(0);
       setVideoSrc(newSrc);
@@ -71,7 +71,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ file }) => {
           onLoadedMetadata={handleProgress}
           // controls
         >
-          <source src={videoSrc} type={file?.type} />
+          <source src={videoSrc} type={file?.type || undefined} />
           Your browser does not support the video tag.
         </video>
       )}

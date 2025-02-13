@@ -7,6 +7,7 @@ import { uploadFile } from "../../services/UploadService";
 import { showNotificationMessage } from "../../utils/toast";
 import { CreateNewCategory } from "../../services/CategoryService";
 import { useNavigate } from "react-router-dom";
+import { handleHttpReq } from "../../utils/HandleHttpReq";
 
 type FormValues = {
   categoryName: string;
@@ -116,8 +117,11 @@ const CategoryForm = () => {
           const formData = new FormData();
           formData.append("file", values[key]);
 
-          const response = await uploadFile(formData);
-          const uploadedLink = response?.data?.url;
+          let uploadedLink;
+          handleHttpReq(async () => {
+            const response = await uploadFile(formData);
+            uploadedLink = response?.data?.url;
+          });
 
           if (uploadedLink) {
             uploadedUrls[key] = uploadedLink;
@@ -134,7 +138,9 @@ const CategoryForm = () => {
         ...uploadedUrls,
       };
 
-      await CreateNewCategory(categoryData);
+      handleHttpReq(async () => {
+        await CreateNewCategory(categoryData);
+      });
 
       showNotificationMessage(
         "Success",

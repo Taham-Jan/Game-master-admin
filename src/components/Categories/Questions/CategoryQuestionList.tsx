@@ -12,6 +12,7 @@ import {
 import useListApi from "../../../hooks/useListApi";
 import { useState } from "react";
 import { showNotificationMessage } from "../../../utils/toast";
+import { handleHttpReq } from "../../../utils/HandleHttpReq";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -32,8 +33,6 @@ const CategoryQuestionList = () => {
     CategoryQuestionExtraData
   >(listUrl, "", initialFilter);
 
-  const [loading, setLoading] = useState(false);
-
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -43,8 +42,7 @@ const CategoryQuestionList = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    setLoading(true);
-    try {
+    handleHttpReq(async () => {
       await uploadCsvQuestions(formData);
       fetchDataApi();
       showNotificationMessage(
@@ -52,16 +50,7 @@ const CategoryQuestionList = () => {
         `Successfully imported questions csv`,
         "success"
       );
-    } catch (error) {
-      showNotificationMessage(
-        "Success",
-        `Failed to import questions csv`,
-        "error"
-      );
-      console.log("Error uploading file.", error);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   return (
@@ -71,7 +60,7 @@ const CategoryQuestionList = () => {
         showRightButton={true}
         rightButtonText="Add More"
         rightButtonIcon="/images/header/add-icon.png"
-        onRightButtonClick={() => navigate("/categories-questions-form")}
+        onRightButtonClick={() => navigate(`/categories-questions/${id}/form`)}
         RightButtonProps={{
           rightButtonAxis: "35%",
           rightButtonIconAxis: "18%",
@@ -85,17 +74,15 @@ const CategoryQuestionList = () => {
             id="fileInput"
             className="hidden-input"
             onChange={handleFileChange}
-            disabled={loading}
           />
 
           <label htmlFor="fileInput" className="custom-file-label">
             <button
               className="importButton"
               onClick={() => document.getElementById("fileInput")?.click()}
-              disabled={loading}
             >
               <img src="/images/categories/import.png" alt="Start Icon" />
-              <svg viewBox="0 0 350 70">
+              <svg viewBox="0 0 500 70">
                 <defs>
                   <linearGradient
                     id="startBtnGradient"
@@ -120,14 +107,17 @@ const CategoryQuestionList = () => {
                   y="52"
                   fill="url(#startBtnGradient)"
                 >
-                  Import CSV
+                  Import
                 </text>
               </svg>
             </button>
           </label>
         </div>
         {data.map((item) => (
-          <CategoryQuestionCard key={item._id} props={item} />
+          <CategoryQuestionCard
+            key={item._id}
+            props={{ ...item, categoryId: id }}
+          />
         ))}
       </div>
     </>

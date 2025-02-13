@@ -16,12 +16,31 @@ export type GetCategoryQuestionParams = {
   ageRange?: AgeRangeType;
 };
 
+export type CategoryQuestionCreatePayload = {
+  categoryName: string;
+  questionType: string;
+  text?: {
+    en: string;
+    ar: string;
+  };
+  options: {
+    [key: string]: {
+      ar: string;
+      en: string;
+    };
+  };
+  media?: string;
+  correctAnswer: string;
+  ageRange: AgeRangeType;
+};
+
+export type CategoryQuestionUpdatePayload = CategoryQuestionCreatePayload;
 export interface CategoryQuestionResponse {
   _id: string;
   category: string;
-  questionType: string;
+  questionType: QuestionTypes;
   media: string;
-  ageRange: string;
+  ageRange: AgeRangeType;
   text: {
     en: string;
     ar: string;
@@ -30,10 +49,9 @@ export interface CategoryQuestionResponse {
     [key: string]: {
       ar: string;
       en: string;
-      isCorrect: boolean;
     };
   };
-
+  correctAnswer: string;
   createdAt: Date | string;
   updatedAt: Date | string;
   __v: number;

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 
 interface AudioPlayerProps {
-  file: File;
+  file: File | string;
 }
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({ file }) => {
@@ -13,7 +13,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ file }) => {
 
   useEffect(() => {
     if (file) {
-      const newSrc = URL.createObjectURL(file);
+      const newSrc = file instanceof File ? URL.createObjectURL(file) : file;
       setIsPlaying(false);
       setDuration(0);
       setCurrentTime(0);

@@ -4,6 +4,7 @@ import { showNotificationMessage } from "../utils/toast";
 import ApiService from "../services/ApiService";
 import _ from "lodash";
 import { ApiResponse } from "../types/ApiResponse";
+import { handleHttpReq } from "../utils/HandleHttpReq";
 
 export type OnSortParam = { order: "asc" | "desc" | ""; key: string | number };
 
@@ -46,27 +47,29 @@ function useListApi<T, U = undefined>(
     };
     try {
       // fetch result
-      const result = await ApiService.fetchData<ApiResponse<T[]>>({
-        url: listUrl,
-        method: "get",
-        params,
+      handleHttpReq(async () => {
+        const result = await ApiService.fetchData<ApiResponse<T[]>>({
+          url: listUrl,
+          method: "get",
+          params,
+        });
+
+        console.log("result==>", result);
+
+        // for testing
+        // await new Promise((resolve) => setTimeout(resolve, 3000))
+
+        // set data in state
+        setLoading(false);
+
+        setData(result.data.data);
+        const { data: _, ...rest } = result.data;
+        setExtraData(rest as never);
+
+        setPageIndex(result.data.page?.page ?? 1);
+        setPageSize(result.data.page?.limit ?? 10);
+        setTotal(result.data.page?.totalDocs ?? 0);
       });
-
-      console.log("result==>", result);
-
-      // for testing
-      // await new Promise((resolve) => setTimeout(resolve, 3000))
-
-      // set data in state
-      setLoading(false);
-
-      setData(result.data.data);
-      const { data: _, ...rest } = result.data;
-      setExtraData(rest as never);
-
-      setPageIndex(result.data.page?.page ?? 1);
-      setPageSize(result.data.page?.limit ?? 10);
-      setTotal(result.data.page?.totalDocs ?? 0);
     } catch (error) {
       console.log(`error`, error);
       setLoading(false);
