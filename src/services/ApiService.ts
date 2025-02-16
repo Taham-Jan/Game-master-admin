@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import BaseService from "./BaseService";
 import { showNotificationMessage } from "../utils/toast";
 
@@ -14,6 +14,11 @@ const ApiService = {
       const response = await BaseService(param);
       return response;
     } catch (errors) {
+      if (axios.isCancel(errors)) {
+        console.log("Request was canceled:", errors.message);
+        return Promise.reject(new Error("Request was canceled"));
+      }
+
       const errorMessage = await this.extractErrorMessage(errors, param);
       showNotificationMessage("Failure", errorMessage, "error");
       console.error("API Error:", errors);

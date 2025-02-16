@@ -1,11 +1,12 @@
-import { Ref } from "react";
+import { RefObject } from "react";
 
-let topLoaderRef: Ref<any> | undefined = null;
-function setTopLoaderRef(value: Ref<any> | undefined) {
+let topLoaderRef: RefObject<any> | null = null;
+
+function setTopLoaderRef(value: RefObject<any> | null) {
   topLoaderRef = value;
 }
 
-function getTopLoaderRef() {
+function getTopLoaderRef(): RefObject<any> | null {
   return topLoaderRef;
 }
 

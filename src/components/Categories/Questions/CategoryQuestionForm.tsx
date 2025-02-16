@@ -173,26 +173,23 @@ const CategoryQuestionForm: React.FC = () => {
       if (typeof values.selectedFile === "string") {
         uploadedLink = values.selectedFile;
       } else if (values.selectedFile instanceof File) {
-        try {
-          const formData = new FormData();
-          formData.append("file", values.selectedFile);
+        const formData = new FormData();
+        formData.append("file", values.selectedFile);
 
-          handleHttpReq(async () => {
-            const response = await uploadFile(formData);
-            uploadedLink = response?.data?.url ?? null;
-          });
-        } catch (error) {
-          console.error("File upload failed:", error);
-          return;
-        }
+        const response = await handleHttpReq(
+          (controller) => uploadFile(formData, controller),
+          "Uploading"
+        );
+        if (!response) return;
+        uploadedLink = response?.data?.url ?? null;
       }
     }
 
-    handleHttpReq(async () => {
+    await handleHttpReq(async () => {
       if (id) {
         await updateCategoryQuestion(id, {
           ageRange: values.ageRange,
-          categoryName: categoryId,
+          categoryId: categoryId,
           correctAnswer: values.selectedAnswer,
           options: values.answers,
           questionType: convertQuestionModeForServer(values.questionMode),
@@ -202,7 +199,7 @@ const CategoryQuestionForm: React.FC = () => {
       } else {
         await createNewCategoryQuestion({
           ageRange: values.ageRange,
-          categoryName: "math",
+          categoryId: categoryId,
           correctAnswer: values.selectedAnswer,
           options: values.answers,
           questionType: convertQuestionModeForServer(values.questionMode),
@@ -223,7 +220,7 @@ const CategoryQuestionForm: React.FC = () => {
       {({ values, setFieldValue, handleSubmit, validateForm }) => (
         <>
           <Header
-            pageTitle="Question 1"
+            pageTitle={`${id ? `Update` : `Create New`} Question`}
             showRightButton={true}
             rightButtonText="Save"
             rightButtonIcon="/images/header/save-icon.png"

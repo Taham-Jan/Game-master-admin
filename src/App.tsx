@@ -3,9 +3,9 @@ import MainLayout from "./layouts/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { lazy, Suspense } from "react";
-import Loader from "./components/Loader/loader";
 import TopLoader from "./components/Loader/TopLoader";
 import Datahandle from "./utils/Datahandle";
+import Loader from "./components/Loader/loader";
 
 const MainScreen = lazy(() => import("./pages/MainScreen"));
 const Categories = lazy(() => import("./pages/Categories"));

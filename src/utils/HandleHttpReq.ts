@@ -1,20 +1,32 @@
+import axios from "axios";
 import Datahandle from "./Datahandle";
-import { showNotificationMessage } from "./toast";
+import { showNotificationMessage } from "../utils/toast";
 
-const handleHttpReq = async (fn: () => void) => {
+const handleHttpReq = async <T>(
+  fn: (controller: AbortController) => Promise<T>,
+  loaderText: string = "Loading"
+): Promise<T | undefined> => {
+  const controller = new AbortController();
+
   try {
-    // new Promise((resolve) => setTimeout(() => {}, 3000))
-    Datahandle.getTopLoaderRef()?.show();
-
-    // await new Promise((resolve) => setTimeout(resolve, 3000))
-
-    return await fn();
+    Datahandle.getTopLoaderRef()?.show(loaderText, controller);
+    return await fn(controller);
   } catch (error) {
-    console.log(error);
-
-    showNotificationMessage("Error", error, "error");
+    if (axios.isCancel(error)) {
+      console.log("Request canceled:", error.message);
+    } else {
+      console.error(error);
+      showNotificationMessage(
+        "Error",
+        error instanceof Error ? error.message : "An unknown error occurred",
+        "error"
+      );
+    }
   } finally {
     Datahandle.getTopLoaderRef()?.hide();
   }
+
+  return undefined;
 };
+
 export { handleHttpReq };

@@ -1,26 +1,42 @@
-import React, { useImperativeHandle, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import Loader from "./loader";
+import { ImCross } from "react-icons/im";
 
-const TopLoader = (props: any, forwardedRef: any) => {
-  const [isVisibale, setIsVisible] = useState(false);
+interface TopLoaderHandle {
+  show: (text?: string, controller?: AbortController) => void;
+  hide: () => void;
+}
 
-  const hideMoadl = () => {
+const TopLoader = forwardRef<TopLoaderHandle>((_, ref) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [loaderText, setLoaderText] = useState<string>("Loading");
+  const [controller, setController] = useState<AbortController | null>(null);
+
+  const hideLoader = () => {
     setIsVisible(false);
+    setController(null);
   };
 
-  useImperativeHandle(forwardedRef, () => ({
-    show: () => {
+  useImperativeHandle(ref, () => ({
+    show: (text = "Loading", newController = null) => {
+      setLoaderText(text);
+      setController(newController);
       setIsVisible(true);
     },
-    hide: () => {
-      hideMoadl();
-    },
+    hide: hideLoader,
   }));
 
-  if (isVisibale) {
-    return <Loader />;
-  }
-  return null;
-};
+  return isVisible ? (
+    <div className="top-loader-container">
+      <Loader text={loaderText} />
+      {controller && (
+        <ImCross
+          className="top-loader-cancel-button"
+          onClick={() => controller.abort()}
+        />
+      )}
+    </div>
+  ) : null;
+});
 
-export default React.forwardRef(TopLoader);
+export default TopLoader;

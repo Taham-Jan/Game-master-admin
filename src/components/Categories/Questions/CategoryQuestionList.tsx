@@ -82,7 +82,7 @@ const CategoryQuestionList = () => {
               onClick={() => document.getElementById("fileInput")?.click()}
             >
               <img src="/images/categories/import.png" alt="Start Icon" />
-              <svg viewBox="0 0 500 70">
+              <svg viewBox="0 0 400 90">
                 <defs>
                   <linearGradient
                     id="startBtnGradient"
@@ -104,8 +104,9 @@ const CategoryQuestionList = () => {
                 <text
                   className="svgText"
                   x="20"
-                  y="52"
+                  y="45"
                   fill="url(#startBtnGradient)"
+                  alignmentBaseline="middle"
                 >
                   Import
                 </text>

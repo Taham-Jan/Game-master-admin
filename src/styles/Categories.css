@@ -321,14 +321,13 @@
 }
 
 .importButton > img {
-  height: 50px;
+  height: 40px;
 }
 
 .importButton > svg {
-  border: 2px solid red;
-  font-size: 50px;
+  font-size: 5rem;
   font-weight: bold;
-  width: 100px;
+  width: 10rem;
   height: auto;
 }
 

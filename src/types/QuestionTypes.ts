@@ -17,7 +17,7 @@ export type GetCategoryQuestionParams = {
 };
 
 export type CategoryQuestionCreatePayload = {
-  categoryName: string;
+  categoryId: string;
   questionType: string;
   text?: {
     en: string;

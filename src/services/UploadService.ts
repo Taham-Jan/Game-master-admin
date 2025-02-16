@@ -6,10 +6,11 @@ interface UploadResponse {
   message: string;
 }
 
-export async function uploadFile(data: any) {
+export async function uploadFile(data: any, controller?: AbortController) {
   return ApiService.fetchData<UploadResponse>({
     url: "/gameApp/upload",
     method: "post",
     data,
+    signal: controller?.signal,
   });
 }
