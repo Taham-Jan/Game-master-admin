@@ -109,20 +109,20 @@ const CategoryForm = () => {
       animation: "",
       background: "",
     };
-
+  
     const uploadedFiles: Record<string, File> = {};
     try {
       for (const key of ["icon", "animation", "background"] as const) {
         if (values[key]) {
           const formData = new FormData();
           formData.append("file", values[key]);
-
-          let uploadedLink;
-          handleHttpReq(async () => {
-            const response = await uploadFile(formData);
-            uploadedLink = response?.data?.url;
+  
+       
+          const response = await handleHttpReq(async () => {
+            return await uploadFile(formData);
           });
-
+  
+          const uploadedLink = response?.data?.url;
           if (uploadedLink) {
             uploadedUrls[key] = uploadedLink;
             uploadedFiles[key] = values[key];
@@ -131,17 +131,17 @@ const CategoryForm = () => {
           }
         }
       }
-
+  
       const categoryData = {
         name: values.categoryName,
         rules: values.rules,
         ...uploadedUrls,
       };
-
-      handleHttpReq(async () => {
+  
+      await handleHttpReq(async () => {
         await CreateNewCategory(categoryData);
       });
-
+  
       showNotificationMessage(
         "Success",
         `Successfully created new category`,
@@ -155,10 +155,11 @@ const CategoryForm = () => {
         `Upload failed. Rolling back uploaded files. ${error}`,
         "error"
       );
-
+  
       for (const key in uploadedFiles) {
         try {
           console.log(`Rolling back file: ${key}`);
+          // Here you can add logic to actually delete the uploaded file if needed
         } catch (rollbackError) {
           console.error(`Rollback failed for ${key}:`, rollbackError);
         }
@@ -167,6 +168,7 @@ const CategoryForm = () => {
       setSubmitting(false);
     }
   };
+  
 
   return (
     <Formik
