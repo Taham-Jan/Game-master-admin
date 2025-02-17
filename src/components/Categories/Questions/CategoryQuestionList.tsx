@@ -13,6 +13,7 @@ import {
 import { showNotificationMessage } from "../../../utils/toast";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
 import useCursorListApi from "../../../hooks/useCursorListApi";
+import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -20,7 +21,6 @@ type CategoryQuestionExtraData = {
   nextCursor: string;
   totalQuestions: number;
   currentPage: number;
-  // totalPages: number;
 };
 
 const CategoryQuestionList = () => {
@@ -35,27 +35,12 @@ const CategoryQuestionList = () => {
       initialFilter
     );
 
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (
-        loading ||
-        !hasMore ||
-        data.length >= (extraData?.totalQuestions || 0)
-      )
-        return;
-
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore();
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore, loadMore, data.length, extraData]
+  const lastElementRef = useInfiniteScroll(
+    loadMore,
+    hasMore,
+    loading,
+    extraData?.totalQuestions,
+    data.length
   );
 
   const handleFileChange = async (
@@ -129,7 +114,7 @@ const CategoryQuestionList = () => {
                 <text
                   className="svgText"
                   x="20"
-                  y="45"
+                  y="50"
                   fill="url(#startBtnGradient)"
                   alignmentBaseline="middle"
                 >

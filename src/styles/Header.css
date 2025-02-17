@@ -1,6 +1,19 @@
 :root {
-  --icon-size: 3em;
-  --font-bold: bolder;
+  --header-base-font-size: 1.6em;
+  --header-min-font-size: 0.35em;
+  --header-max-font-size: 1.6em;
+
+  --header-min-stroke-width: 2px;
+  --header-max-stroke-width: 6px;
+
+  --header-min-icon-size: 1.5em;
+  --header-max-icon-size: 3em;
+
+  --header-icon-size: clamp(
+    var(--header-min-icon-size),
+    2.5vw,
+    var(--header-max-icon-size)
+  );
 }
 
 .header {
@@ -50,7 +63,7 @@
 
 .back-icon,
 .right-icon {
-  height: var(--icon-size);
+  height: var(--header-icon-size);
 }
 
 .back-svg-text {
@@ -65,9 +78,17 @@
 
 .back-svg-text > text,
 .right-svg-text > text {
-  font-size: 1.6em;
+  font-size: clamp(
+    var(--header-min-font-size),
+    1.7vw,
+    var(--header-base-font-size)
+  );
   font-weight: var(--font-bold);
-  stroke-width: 7px;
+  stroke-width: clamp(
+    var(--header-min-stroke-width),
+    0.5vw,
+    var(--header-max-stroke-width)
+  );
   stroke-linejoin: round;
   paint-order: stroke;
 }
@@ -98,86 +119,35 @@
 }
 
 .title-svg-text > text {
-  font-size: 3em;
+  font-size: clamp(1.2em, 5vw, 3em);
   font-weight: bold;
-}
-
-@media (max-width: 1400px) {
-  .title-svg-text > text {
-    font-size: 4em;
-  }
-  .right-icon,
-  .back-icon {
-    height: 2.5em;
-  }
-
-  .back-svg-text > text,
-  .right-svg-text > text {
-    font-size: 1.6em;
-    stroke-width: 7px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .title-svg-text > text {
-    font-size: 2.5em;
-  }
-
-  .right-icon,
-  .back-icon {
-    height: 1.9em;
-  }
-
-  .back-svg-text > text,
-  .right-svg-text > text {
-    font-size: 1.3em;
-    stroke-width: 3px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .title-svg-text > text {
-    font-size: 2em;
-  }
-
-  .right-icon,
-  .back-icon {
-    height: 1.8em;
-  }
-
-  .back-svg-text > text,
-  .right-svg-text > text {
-    font-size: 1em;
-    stroke-width: 3px;
-  }
+  stroke-width: clamp(
+    var(--header-min-stroke-width),
+    0.5vw,
+    var(--header-max-stroke-width)
+  );
 }
 
 @media (max-width: 768px) {
-  .right-icon,
-  .back-icon {
-    height: 1em;
+  .title-svg-text > text {
+    font-size: clamp(1em, 4vw, 2em);
+    stroke-width: clamp(1px, 0.3vw, 4px);
   }
 
-  .back-svg-text > text,
-  .right-svg-text > text {
-    font-size: 0.7em;
-    stroke-width: 2px;
+  .back-icon,
+  .right-icon {
+    height: clamp(1.2em, 3vw, 2em);
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   .title-svg-text > text {
-    font-size: 1.2em;
+    font-size: clamp(0.8em, 3.5vw, 1.6em);
+    stroke-width: clamp(1px, 0.2vw, 3px);
   }
 
-  .right-icon,
-  .back-icon {
-    height: 0.7em;
-  }
-
-  .back-svg-text > text,
-  .right-svg-text > text {
-    font-size: 0.5em;
-    stroke-width: 1.3px;
+  .back-icon,
+  .right-icon {
+    height: clamp(0.7em, 2.5vw, 1.8em);
   }
 }

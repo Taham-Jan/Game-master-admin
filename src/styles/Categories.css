@@ -1,3 +1,17 @@
+:root {
+  --category-min-icon-size: 1.5em;
+  --max-icon-size: 3em;
+
+  --category-base-font-size: 2em;
+  --category-min-font-size: 0.35em;
+  --category-max-font-size: 3em;
+
+  --min-border: 2px;
+  --max-border: 4px;
+
+  --min-outline-width: 3px;
+  --max-outline-width: 6px;
+}
 .category-list-container {
   width: 100%;
   margin-top: 4%;
@@ -8,25 +22,28 @@
 }
 
 .category-card {
-  width: 13%;
+  width: 14vw;
   min-width: 100px;
   min-height: 150px;
   flex-direction: column;
   margin-bottom: 2%;
-  padding: 30px 10px;
-  gap: 15px;
+  padding: clamp(10px, 2.5vw, 30px);
+  gap: 0.8em;
   display: flex;
   cursor: pointer;
-  border-radius: 6%;
+  border-radius: 20px;
   box-shadow: var(--button-shadow);
-  border: 4px solid var(--nav-btn-border);
+  border: clamp(var(--min-border), 0.5vw, var(--max-border)) solid
+    var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 6px solid var(--outline-color);
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
 }
 
 .category-card:hover {
-  outline: 6px solid var(--outline-hover-color);
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-hover-color);
 }
 
 .category-card > img {
@@ -40,37 +57,43 @@
   color: #20618e;
   text-align: center;
   font-weight: bold;
-  font-size: 1.7vw;
+  font-size: clamp(
+    var(--category-min-font-size),
+    1.8vw,
+    var(--category-base-font-size)
+  );
+  line-height: 1.5;
   pointer-events: none;
-  line-height: 1;
   margin: auto;
   overflow-wrap: break-word;
-  inline-size: 70%;
+  inline-size: 80%;
 }
 
 .category-card:focus,
 .category-card:active {
-  outline: 6px solid var(--outline-color);
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-color);
 }
 
 @media (max-width: 1024px) {
   .category-card {
-    padding: 15px 30px 15px 20px;
-    border: 4px solid var(--nav-btn-border);
-    outline: 6px solid var(--outline-color);
+    padding: clamp(10px, 2.5vw, 20px);
   }
 }
 
 @media (max-width: 768px) {
   .category-card {
-    width: 40%;
+    width: 35%;
     gap: 5px;
-    padding: 8px 6px;
-    border: 2px solid var(--nav-btn-border);
-    outline: 3px solid var(--outline-color);
+    padding: clamp(8px, 2.5vw, 15px);
+    border: clamp(var(--min-border), 0.5vw, var(--max-border)) solid
+      var(--nav-btn-border);
+    outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+      solid var(--outline-color);
   }
+
   .category-card > label {
-    font-size: 5vw;
+    font-size: clamp(0.9em, 5vw, 1em);
   }
 }
 
@@ -78,7 +101,7 @@
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: clamp(12px, 3vw, 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,7 +118,7 @@
 .category-upload-section {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
   margin-bottom: 16px;
   width: 100%;
   justify-content: space-between;
@@ -111,7 +134,7 @@
 }
 
 .category-image-preview {
-  width: 60px;
+  width: clamp(50px, 10vw, 60px);
   cursor: pointer;
   height: auto;
 }
@@ -131,11 +154,11 @@
 
 .category-input {
   width: 100%;
-  padding: 18px;
+  padding: clamp(10px, 2vw, 18px);
   border-radius: 8px;
   border: 1px solid #20618e;
   background: #dff1ff;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 3vw, 1.3rem);
   color: #20618e;
   resize: none;
   font-weight: bold;
@@ -168,18 +191,14 @@
   font-weight: bold;
   margin-bottom: 6px;
   margin-left: 3%;
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
   color: #dff1ff;
-}
-
-.category-upload-section > h2 {
-  width: 30%;
 }
 
 .image-button {
   flex: 0.7;
   min-width: 120px;
-  padding: 10px 20px;
+  padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
   display: flex;
   gap: 6px;
   align-items: center;
@@ -189,7 +208,7 @@
   border: none;
   color: #20618e;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: clamp(1.3rem, 2.5vw, 1.5rem);
   background: var(--nav-btn-gradient);
   transition: background 0.3s ease-in-out;
 }
@@ -199,22 +218,15 @@
   height: auto;
 }
 
-/* Responsive Design */
 @media screen and (max-width: 768px) {
   .category-form-container {
     width: 85%;
-    padding: 16px;
+    padding: clamp(10px, 2.5vw, 16px);
   }
-  .category-input {
-    font-size: 14px;
-    padding: 12px;
-  }
-  .category-label {
-    font-size: 18px;
-  }
+
   .image-button {
-    font-size: 20px;
-    padding: 10px 16px;
+    font-size: clamp(1rem, 3vw, 2rem);
+    padding: clamp(8px, 2vw, 10px) clamp(8px, 2vw, 16px);
   }
 }
 
@@ -223,21 +235,26 @@
     width: 100%;
     padding: 12px;
   }
-  .category-upload-section {
-    flex-direction: column;
-    align-items: center;
+
+  .category-input,
+  .category-input::placeholder,
+  .category-upload-section > h2 {
+    font-size: clamp(0.9em, 3vw, 2em);
   }
-  .category-input {
-    font-size: 13px;
-    padding: 10px;
-  }
+
   .category-label {
-    font-size: 16px;
+    font-size: clamp(1rem, 3vw, 16px);
   }
+
   .image-button {
-    font-size: 18px;
+    font-size: clamp(0.9em, 3vw, 2em);
     padding: 8px 12px;
     width: 100%;
+  }
+
+  .image-button img {
+    width: 25px;
+    height: auto;
   }
 }
 
@@ -257,32 +274,37 @@
 .category-question-card {
   display: flex;
   justify-content: space-between;
-  padding: 20px 50px;
+  padding: clamp(15px, 3vw, 20px) clamp(40px, 5vw, 50px);
   width: 50%;
+  gap: 10px;
   align-items: center;
   cursor: pointer;
   border-radius: 15px;
   box-shadow: var(--button-shadow);
-  border: 2px solid var(--nav-btn-border);
+  border: clamp(var(--min-border), 0.5vw, var(--max-border)) solid
+    var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 6px solid var(--outline-color);
-
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
 }
+
 .category-question-card:hover {
-  transform: scale(1.02);
+  /* transform: scale(1.02); */
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-hover-color);
 }
 
 .category-question-card > span {
   pointer-events: none;
   color: #20618e;
   font-weight: bold;
-  font-size: 30px;
+  font-size: clamp(1rem, 2vw, 2rem);
 }
 
 .category-question-card > img {
   pointer-events: none;
-  width: 20px;
+  width: clamp(10px, 2vw, 20px);
 }
 
 .category-question-list-import {
@@ -294,38 +316,31 @@
   display: none;
 }
 
-/* .custom-file-label {
+.importButton {
   display: flex;
   align-items: center;
-  cursor: pointer;
   justify-content: center;
-  position: relative;
-  height: auto;
-  width: 100%;
-} */
 
-.importButton {
   background: var(--start-btn-gradient);
   border: 4px solid #bce17c;
-  padding: 15px 25px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  padding: clamp(12px, 3vw, 15px) clamp(20px, 3vw, 25px);
   border-radius: 20px;
   width: fit-content;
   box-shadow: var(--button-shadow);
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
   position: relative;
-  outline: 4px solid var(--outline-color);
+  outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
+    solid var(--outline-color);
 }
 
 .importButton > img {
-  height: 40px;
+  height: clamp(30px, 5vw, 40px);
 }
 
 .importButton > svg {
-  font-size: 5rem;
+  margin-left: 20px;
+  font-size: clamp(3rem, 5vw, 5rem);
   font-weight: bold;
   width: 10rem;
   height: auto;
@@ -336,4 +351,36 @@
   stroke-width: 6px;
   stroke-linejoin: round;
   paint-order: stroke;
+}
+
+@media screen and (max-width: 1400px) {
+  .importButton > svg {
+    font-size: clamp(4rem, 7vw, 7rem);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .category-question-card {
+    width: 70%;
+  }
+  .importButton > svg {
+    font-size: clamp(5rem, 9vw, 8rem);
+  }
+}
+@media screen and (max-width: 768px) {
+  .importButton {
+    padding: clamp(2px, 1vw, 10px) clamp(2px, 1vw, 15px);
+    width: fit-content;
+  }
+
+  .importButton > svg {
+    font-size: clamp(4rem, 9vw, 8rem);
+
+    margin-left: 10px;
+  }
+
+  .importButton > img {
+    margin-left: 10px;
+    height: clamp(1.8rem, 8vw, 8rem);
+  }
 }

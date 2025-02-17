@@ -28,34 +28,11 @@ const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const handleBackClick = onBackClick || (() => navigate(-1));
 
-  // const [viewBoxes, setViewBoxes] = useState({
-  //   back: "0 0 220 80",
-  //   title: "0 0 220 80",
-  //   right: "0 0 220 80",
-  // });
-
   const textRefs = {
     back: useRef<SVGTextElement>(null),
     title: useRef<SVGTextElement>(null),
     right: useRef<SVGTextElement>(null),
   };
-
-  // useEffect(() => {
-  //   const updateViewBox = (key: keyof typeof textRefs) => {
-  //     const textElement = textRefs[key].current;
-  //     if (textElement) {
-  //       const bbox = textElement.getBBox();
-  //       setViewBoxes((prev) => ({
-  //         ...prev,
-  //         [key]: 0 0 ${bbox.width + 30} ${bbox.height + 30},
-  //       }));
-  //     }
-  //   };
-
-  //   Object.keys(textRefs).forEach((key) =>
-  //     updateViewBox(key as keyof typeof textRefs)
-  //   );
-  // }, [pageTitle, rightButtonText]);
 
   return (
     <header className="header">
@@ -147,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({
               }}
               src={rightButtonIcon}
               alt="Right Icon"
-              className="right-icon responsive-img"
+              className="right-icon"
             />
           )}
           <svg
