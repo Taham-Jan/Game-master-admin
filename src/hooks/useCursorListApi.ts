@@ -53,8 +53,8 @@ function useCursorListApi<T, U = undefined>(
         setData((prev) =>
           reset ? result.data.data : [...prev, ...result.data.data]
         );
-        setCursor(result.data.page?.nextCursor || null);
-        setHasMore(!!result.data.page?.nextCursor);
+        setCursor(result.data?.nextCursor || null);
+        setHasMore(!!result.data?.nextCursor);
 
         const { data: _, ...rest } = result.data;
         setExtraData(rest as never);

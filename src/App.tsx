@@ -1,3 +1,9 @@
+import "./styles/MainScreen.css";
+import "./styles/Categories.css";
+import "./styles/CategoryQuestion.css";
+import "./styles/ErrorList.css";
+import "./styles/Header.css";
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import { ToastContainer } from "react-toastify";

@@ -1,4 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useRef } from "react";
 import Header from "../../Header";
 import CategoryQuestionCard from "./CategoryQuestionCard";
 import {
@@ -9,29 +10,53 @@ import {
   CategoryQuestionResponse,
   GetCategoryQuestionParams,
 } from "../../../types/QuestionTypes";
-import useListApi from "../../../hooks/useListApi";
-import { useState } from "react";
 import { showNotificationMessage } from "../../../utils/toast";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
+import useCursorListApi from "../../../hooks/useCursorListApi";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
-  currentPage: number;
   message: string;
-  totalPages: number;
+  nextCursor: string;
   totalQuestions: number;
+  currentPage: number;
+  // totalPages: number;
 };
 
 const CategoryQuestionList = () => {
   const navigate = useNavigate();
-  const listUrl = GetCategoryQuestionUrl();
   const { id } = useParams();
+  const listUrl = GetCategoryQuestionUrl();
   const initialFilter: GetCategoryQuestionParams = { categoryId: id! };
 
-  const { data, extraData, fetchDataApi } = useListApi<
-    CategoryQuestionResponse,
-    CategoryQuestionExtraData
-  >(listUrl, "", initialFilter);
+  const { data, extraData, fetchDataApi, hasMore, loadMore, loading } =
+    useCursorListApi<CategoryQuestionResponse, CategoryQuestionExtraData>(
+      listUrl,
+      initialFilter
+    );
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (
+        loading ||
+        !hasMore ||
+        data.length >= (extraData?.totalQuestions || 0)
+      )
+        return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore, loadMore, data.length, extraData]
+  );
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -114,9 +139,10 @@ const CategoryQuestionList = () => {
             </button>
           </label>
         </div>
-        {data.map((item) => (
+        {data.map((item, index) => (
           <CategoryQuestionCard
-            key={item._id}
+            key={item._id || `fallback-key-${index}`}
+            ref={index === data.length - 1 ? lastElementRef : null}
             props={{ ...item, categoryId: id }}
           />
         ))}
