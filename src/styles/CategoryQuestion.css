@@ -2,59 +2,79 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: clamp(2rem, 5vw, 3rem);
   max-width: 70%;
-  margin: auto;
+  margin: 2rem auto;
 }
 
+.question-select-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  /* gap: clamp(1rem, 2vw, 2.5rem); */
+}
 .question-mode-container,
 .age-range-container {
   display: flex;
-  gap: 2rem;
+  width: 100%;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 2rem);
 }
 
 .question-mode-select > select,
 .age-range-select > select {
   appearance: none;
   border-radius: 8px;
+  height: fit-content;
   box-shadow: var(--button-shadow);
-  border: 4px solid var(--nav-btn-border);
+  border: clamp(2px, 0.5vw, 4px) solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 4px solid var(--outline-color);
-  padding: 1rem;
+  outline: clamp(2px, 0.5vw, 4px) solid var(--outline-color);
+  padding: clamp(0.6rem, 2vw, 1rem);
   flex: 1;
-  font-size: 1.3rem;
+  font-size: clamp(0.9em, 3vw, 2em);
   font-weight: bold;
   color: #20618e;
   cursor: pointer;
 }
 
+.question-mode-select > select > option,
+.age-range-select > select > option {
+  background: #fff;
+  font-size: clamp(0.8em, 1vw, 0.8em);
+}
 .question-mode-select > select::-ms-expand,
 .age-range-select > select::-ms-expand {
   display: none;
+}
+
+.question-mode-container > h2,
+.age-range-container > h2 {
+  font-size: clamp(0.9em, 3vw, 2em);
 }
 
 .question-mode-select,
 .age-range-select {
   position: relative;
   display: flex;
-  width: 15em;
-  height: 4em;
+  width: clamp(10rem, 30vw, 20em);
+  height: clamp(2em, 5vw, 4em);
 }
 
 .question-mode-select::after,
 .age-range-select::after {
   content: "";
   position: absolute;
-  top: 15%;
+  top: 28%;
   right: 5%;
-  width: 6px;
-  height: 6px;
+  width: clamp(2px, 1vw, 6px);
+  height: clamp(2px, 1vw, 6px);
   background-image: url("/images/categories/question-dropdown-icon.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 1em;
+  padding: clamp(0.6em, 2vw, 1em);
   transition: 0.25s all ease;
   pointer-events: none;
 }
@@ -63,38 +83,38 @@
   border-radius: 25px;
   display: flex;
   width: 100%;
-  min-height: 140px;
-  border: 6px solid #6ba6fb;
+  min-height: clamp(120px, 10vw, 140px);
+  border: clamp(5px, 1vw, 6px) solid #6ba6fb;
   box-shadow: 0px 0px 20px #6ba6fb;
   background-color: #08124d;
   justify-content: space-around;
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vw, 2rem);
   align-items: center;
-  padding: 30px 5px;
+  padding: clamp(20px, 4vw, 30px) clamp(5px, 1vw, 5px);
 }
 
 .question-instruction {
-  margin-left: 1rem;
-  font-size: 1.3rem;
+  margin-left: clamp(0.8rem, 2vw, 1rem);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
   text-align: center;
 }
 
 .question-input {
   width: 100%;
-  flex: 1;
+  /* flex: 1; */
   text-align: center;
   display: block;
-  height: auto;
+  height: 100%;
   min-height: 30px;
   color: #f9fcff;
   resize: none;
   font-weight: lighter;
   background: transparent;
   transition: transform 0.2s ease-in-out;
-  font-size: 1.5rem;
+  font-size: clamp(0.9em, 3vw, 2em);
   outline: none;
   border: none;
-  padding: 1rem;
+  padding: clamp(0.8rem, 2vw, 1rem);
 }
 
 .question-input::placeholder {
@@ -120,23 +140,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-  margin-top: 20px;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-top: clamp(15px, 2vw, 20px);
 }
 
 .file-actions > .change-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  width: 180px;
-  height: 70px;
+  gap: clamp(0.3rem, 1vw, 0.5rem);
+  width: clamp(160px, 5vw, 180px);
+  height: clamp(60px, 5vw, 70px);
   border-radius: 10px;
   color: #20618e;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: bold;
   box-shadow: var(--button-shadow);
-  border: 4px solid var(--nav-btn-border);
+  border: clamp(3px, 0.5vw, 4px) solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
@@ -144,52 +164,53 @@
 
 .file-actions > .change-btn > img {
   cursor: pointer;
-  height: 25px;
+  height: clamp(20px, 3vw, 25px);
 }
 
 .file-actions > .delete-btn {
   cursor: pointer;
-  height: 70px;
+  height: clamp(60px, 5vw, 70px);
 }
 
 .question-upload-button {
   display: flex;
   font-weight: bold;
   align-items: center;
+  text-align: center;
   justify-content: center;
-  min-height: 70px;
-  font-size: 1.3rem;
+  min-height: clamp(60px, 5vw, 70px);
+  font-size: clamp(1rem, 2vw, 1.3rem);
   background: #1a2775;
-  border: 4px solid #4757af;
+  border: clamp(3px, 0.5vw, 4px) solid #4757af;
   color: #fff;
   border-radius: 25px;
-  padding: 15px 60px;
-  min-width: 250px;
+  padding: clamp(10px, 2vw, 15px) clamp(40px, 4vw, 60px);
+  min-width: clamp(200px, 10vw, 250px);
 }
 
 .question-uploaded-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70px;
+  min-height: clamp(60px, 5vw, 70px);
   max-width: 500px;
   max-height: 300px;
   overflow: hidden;
   width: 100%;
   background: #1a2775;
-  border: 4px solid #4757af;
+  border: clamp(3px, 0.5vw, 4px) solid #4757af;
   border-radius: 25px;
 }
 
 .question-upload-content {
   display: flex;
-  gap: 1rem;
+  gap: clamp(0.5rem, 1vw, 1rem);
   align-items: center;
 }
 
 .question-uploaded-image {
-  max-width: 70px;
-  max-height: 70px;
+  max-width: clamp(60px, 5vw, 70px);
+  max-height: clamp(60px, 5vw, 70px);
 }
 
 .uploaded-media {
@@ -201,64 +222,65 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.8rem, 1vw, 1rem);
   flex: 1;
 }
 
 .language-toggle > button {
   display: flex;
-  padding: 10px;
-  width: 180px;
+  padding: clamp(8px, 1.5vw, 10px);
+  width: clamp(120px, 5vw, 180px);
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: var(--button-shadow);
   border: 2px solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 4px solid var(--outline-color);
+  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
   color: #20618e;
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
 }
+
 .language-toggle > button.active {
-  outline: 4px solid var(--outline-hover-color);
+  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-hover-color);
 }
 
 .answer-button-group {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin-bottom: 50px;
-  gap: 2.5rem;
+  margin-bottom: clamp(40px, 5vw, 50px);
+  gap: clamp(2rem, 3vw, 2.5rem);
   width: 100%;
 }
 
 .answer-button {
   display: flex;
-  padding: 20px;
+  padding: clamp(15px, 2vw, 20px);
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
   border-radius: 20px;
   box-shadow: var(--button-shadow);
-  border: 4px solid var(--nav-btn-border);
+  border: clamp(3px, 0.5vw, 4px) solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 6px solid var(--outline-color);
+  outline: clamp(5px, 1vw, 6px) solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
-  gap: 0.7rem;
+  gap: clamp(0.5rem, 1vw, 0.7rem);
 }
 
 .answer-button.selected {
-  outline: 6px solid var(--outline-hover-color);
+  outline: clamp(5px, 1vw, 6px) solid var(--outline-hover-color);
 }
 
 .answer-button > label {
   cursor: pointer;
   color: #20618e;
   font-weight: bold;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  margin-bottom: clamp(0.4rem, 1vw, 0.5rem);
 }
 
 .answer-button > input {
@@ -268,8 +290,8 @@
   border-radius: 15px;
   background: transparent;
   transition: transform 0.2s ease-in-out;
-  padding: 0.5rem;
-  font-size: 1.3rem;
+  padding: clamp(0.4rem, 1vw, 0.5rem);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
   border: none;
   outline: none;
 }
@@ -281,8 +303,8 @@
 .audio-player {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 20px;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  padding: clamp(15px, 2vw, 20px);
   background: transparent;
   width: 100%;
 }
@@ -294,8 +316,8 @@
 }
 
 .audio-play-button > img {
-  max-width: 70px;
-  max-height: 70px;
+  max-width: clamp(60px, 5vw, 70px);
+  max-height: clamp(60px, 5vw, 70px);
 }
 
 .audio-info {
@@ -311,7 +333,7 @@
 
 .audio-title {
   color: #ffffff;
-  font-size: 14px;
+  font-size: clamp(12px, 2vw, 14px);
   font-weight: 500;
   white-space: nowrap;
   display: inline-block;
@@ -332,7 +354,7 @@
   -moz-appearance: none;
   appearance: none;
   margin: auto;
-  height: 10px;
+  height: clamp(8px, 1vw, 10px);
   width: 100%;
   background: #4757af;
   outline: none;
@@ -343,8 +365,8 @@
 
 .audio-progress::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -353,8 +375,8 @@
 
 .audio-progress::-moz-range-thumb {
   -moz-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -362,8 +384,8 @@
 
 .audio-progress::-ms-thumb {
   -ms-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -371,7 +393,7 @@
 
 .audio-time {
   color: #ffffff;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
   font-weight: 500;
   width: 60px;
   text-align: center;
@@ -416,13 +438,13 @@
   background: #4757af;
   border-radius: 15px;
   border: none;
-  height: 6px;
+  height: clamp(4px, 1vw, 6px);
 }
 
 .video.progress-bar::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -431,8 +453,8 @@
 
 .video.progress-bar::-moz-range-thumb {
   -moz-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -440,8 +462,8 @@
 
 .video.progress-bar::-ms-thumb {
   -ms-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -456,7 +478,7 @@
   right: 10%;
   margin-bottom: 20px;
   border: none;
-  height: 6px;
+  height: clamp(4px, 1vw, 6px);
 }
 
 .video.volume-control > input {
@@ -469,8 +491,9 @@
   width: 15%;
   background: #4757af;
   border-radius: 15px;
-  height: 6px;
+  height: clamp(4px, 1vw, 6px);
 }
+
 .video.volume-control > input::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 0px;
@@ -483,8 +506,8 @@
 
 .video.volume-control > input::-moz-range-thumb {
   -moz-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
@@ -492,9 +515,27 @@
 
 .video.volume-control > input::-ms-thumb {
   -ms-appearance: none;
-  width: 15px;
-  height: 15px;
+  width: clamp(12px, 2vw, 15px);
+  height: clamp(12px, 2vw, 15px);
   border-radius: 50%;
   background: #ffffff;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .question-form-container {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .question-container {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .answer-button-group {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

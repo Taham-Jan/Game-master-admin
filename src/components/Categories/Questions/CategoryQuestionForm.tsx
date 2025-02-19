@@ -243,29 +243,47 @@ const CategoryQuestionForm: React.FC = () => {
             }}
           />
           <div className="question-form-container">
-            <div className="question-mode-container">
-              <h2 style={{ opacity: id ? "0.5" : "1" }}>Question Mode</h2>
-              <div className="question-mode-select">
-                <select
-                  value={values.questionMode}
-                  disabled={!!id}
-                  onChange={(e) => {
-                    const newMode = e.target.value as QuestionMode;
-                    setFieldValue("questionMode", newMode);
-                    setFieldValue("selectedFile", null);
-                    setFieldValue("questionText", { en: "", ar: "" });
-                    if (fileInputRef.current) fileInputRef.current.value = "";
-                  }}
-                >
-                  {Object.values(QuestionMode).map((mode) => (
-                    <option key={mode} value={mode}>
-                      {mode}
-                    </option>
-                  ))}
-                </select>
+            <div className="question-select-box-container">
+              <div className="question-mode-container">
+                <h2 style={{ opacity: id ? "0.5" : "1" }}>Question Mode</h2>
+                <div className="question-mode-select">
+                  <select
+                    value={values.questionMode}
+                    disabled={!!id}
+                    onChange={(e) => {
+                      const newMode = e.target.value as QuestionMode;
+                      setFieldValue("questionMode", newMode);
+                      setFieldValue("selectedFile", null);
+                      setFieldValue("questionText", { en: "", ar: "" });
+                      if (fileInputRef.current) fileInputRef.current.value = "";
+                    }}
+                  >
+                    {Object.values(QuestionMode).map((mode) => (
+                      <option key={mode} value={mode}>
+                        {mode}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="age-range-container">
+                <h2>Age Range</h2>
+                <div className="age-range-select">
+                  <select
+                    value={values.ageRange}
+                    onChange={(e) => {
+                      setFieldValue("ageRange", e.target.value);
+                    }}
+                  >
+                    {AgeRanges.map((mode) => (
+                      <option key={mode} value={mode}>
+                        {mode}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
-
             <div className="language-toggle">
               <button
                 type="button"
@@ -282,24 +300,6 @@ const CategoryQuestionForm: React.FC = () => {
                 Arabic
               </button>
             </div>
-
-            <div className="age-range-container">
-              <h2>Age Range</h2>
-              <div className="age-range-select">
-                <select
-                  value={values.ageRange}
-                  onChange={(e) => {
-                    setFieldValue("ageRange", e.target.value);
-                  }}
-                >
-                  {AgeRanges.map((mode) => (
-                    <option key={mode} value={mode}>
-                      {mode}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
             <div className="question-container">
               {values.questionMode === QuestionMode.TEXT ? (
                 <textarea
@@ -309,6 +309,7 @@ const CategoryQuestionForm: React.FC = () => {
                   }
                   placeholder={`Please create the question text (${language})`}
                   className="question-input"
+                  maxLength={250}
                 />
               ) : (
                 <>

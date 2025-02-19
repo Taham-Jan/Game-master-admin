@@ -11,9 +11,15 @@
 
 .error-list {
   list-style-type: decimal;
-  font-size: 1rem;
+  font-size: clamp(0.9em, 3vw, 2em);
 }
 
 .error-item {
   margin: 5px 0;
+}
+
+@media screen and (max-width: 768px) {
+  .error-container {
+    margin: 0px 10px;
+  }
 }
