@@ -11,7 +11,7 @@ import {
   getCategoryQuestionById,
   updateCategoryQuestion,
 } from "../../../services/QuestionService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   AgeRanges,
   AgeRangeType,
@@ -19,6 +19,7 @@ import {
 } from "../../../types/QuestionTypes";
 import { uploadFile } from "../../../services/UploadService";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
+import { showNotificationMessage } from "../../../utils/toast";
 
 enum QuestionMode {
   TEXT = "Text Mode",
@@ -107,6 +108,7 @@ type FormValueType = {
 };
 
 const CategoryQuestionForm: React.FC = () => {
+  const navigate = useNavigate();
   const { categoryId, id } = useParams();
   const [language, setLanguage] = useState<"en" | "ar">("en");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -207,6 +209,13 @@ const CategoryQuestionForm: React.FC = () => {
           text: values.questionText,
         });
       }
+
+      showNotificationMessage(
+        "Success",
+        `Successfully ${id ? `Updated` : `Created New`} Question`,
+        "success"
+      );
+      navigate(-1);
     });
   };
 
@@ -313,6 +322,16 @@ const CategoryQuestionForm: React.FC = () => {
                 />
               ) : (
                 <>
+                  <textarea
+                    value={values.questionText[language]}
+                    onChange={(e) =>
+                      setFieldValue(`questionText.${language}`, e.target.value)
+                    }
+                    placeholder={`Please create the question text (${language})`}
+                    className="question-input"
+                    maxLength={250}
+                  />
+
                   {values.selectedFile ? (
                     <>
                       <p className="question-instruction">

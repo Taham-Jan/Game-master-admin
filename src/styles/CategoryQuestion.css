@@ -82,6 +82,7 @@
 .question-container {
   border-radius: 25px;
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: clamp(120px, 10vw, 140px);
   border: clamp(5px, 1vw, 6px) solid #6ba6fb;
@@ -100,10 +101,9 @@
 }
 
 .question-input {
-  width: 100%;
+  width: 90%;
   /* flex: 1; */
   text-align: center;
-  display: block;
   height: 100%;
   min-height: 30px;
   color: #f9fcff;

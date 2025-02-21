@@ -10,6 +10,7 @@
 }
 
 .error-list {
+  margin-left: 1.5rem;
   list-style-type: decimal;
   font-size: clamp(0.9em, 3vw, 2em);
 }
