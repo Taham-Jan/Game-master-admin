@@ -1,17 +1,43 @@
 import CategoryCard from "./CategoryCard";
 import { getCategoriesListUrl } from "../../services/CategoryService";
-import useListApi from "../../hooks/useListApi";
 import { GetCategoriesResponse } from "../../types/CategoryTypes";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import useCursorListApi from "../../hooks/useCursorListApi";
+
+type CategoriesExtraData = {
+  message: string;
+  nextCursor: string;
+  totalCategories: number;
+};
 
 const CategoriesList = () => {
   const listUrl = getCategoriesListUrl();
-  const { data: CategoryData } = useListApi<GetCategoriesResponse>(listUrl);
+
+  const {
+    data: CategoryData,
+    extraData,
+    hasMore,
+    loadMore,
+    loading,
+  } = useCursorListApi<GetCategoriesResponse, CategoriesExtraData>(listUrl);
+
+  const lastElementRef = useInfiniteScroll(
+    loadMore,
+    hasMore,
+    loading,
+    extraData?.totalCategories,
+    CategoryData.length
+  );
 
   return (
     <>
       <div className="category-list-container">
-        {CategoryData.map((item) => (
-          <CategoryCard key={item._id} item={item} />
+        {CategoryData.map((item, index) => (
+          <CategoryCard
+            key={item._id || `fallback-key-${index}`}
+            ref={index === CategoryData.length - 1 ? lastElementRef : null}
+            item={item}
+          />
         ))}
       </div>
     </>

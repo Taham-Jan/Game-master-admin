@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import "../../styles/Categories.css";
 import { GetCategoriesResponse } from "../../types/CategoryTypes";
+import { forwardRef } from "react";
 
-const CategoryCard: React.FC<{ item: GetCategoriesResponse }> = ({ item }) => {
+const CategoryCard = forwardRef<
+  HTMLDivElement,
+  { item: GetCategoriesResponse }
+>(({ item }, ref) => {
   const navigate = useNavigate();
 
   return (
     <div
       className="category-card"
       onClick={() => navigate(`/categories-questions/${item._id}`)}
+      ref={ref}
     >
       <img
         src={item.icon}
@@ -23,6 +28,6 @@ const CategoryCard: React.FC<{ item: GetCategoriesResponse }> = ({ item }) => {
       </label>
     </div>
   );
-};
+});
 
 export default CategoryCard;

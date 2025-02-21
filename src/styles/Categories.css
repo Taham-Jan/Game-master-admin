@@ -270,6 +270,13 @@
   justify-content: center;
   align-items: center;
 }
+.import-button-group {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
 
 .category-question-card {
   display: flex;
@@ -340,7 +347,7 @@
 
 .importButton > svg {
   margin-left: 20px;
-  font-size: clamp(3rem, 5vw, 5rem);
+  font-size: clamp(6rem, 5vw, 5rem);
   font-weight: bold;
   width: 10rem;
   height: auto;
@@ -365,6 +372,11 @@
   }
   .importButton > svg {
     font-size: clamp(5rem, 9vw, 8rem);
+  }
+  .import-button-group {
+    width: 80%;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
 @media screen and (max-width: 768px) {

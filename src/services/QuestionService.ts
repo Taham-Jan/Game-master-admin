@@ -5,6 +5,7 @@ import {
   CategoryQuestionUpdatePayload,
 } from "../types/QuestionTypes";
 import ApiService from "./ApiService";
+import { UploadResponse } from "./UploadService";
 
 export function GetCategoryQuestionUrl() {
   return "/gameApp/getQuestions";
@@ -43,5 +44,14 @@ export async function updateCategoryQuestion(
     url: "/gameApp/Editquestion",
     method: "patch",
     data: { ...data, _id: id },
+  });
+}
+
+export async function createNewMeme(data: any, controller?: AbortController) {
+  return ApiService.fetchData<UploadResponse>({
+    url: "/gameApp/createMeme",
+    method: "post",
+    data,
+    signal: controller?.signal,
   });
 }

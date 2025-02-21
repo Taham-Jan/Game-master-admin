@@ -7,6 +7,10 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   const backgroundMappings: { pattern: RegExp; background: string }[] = [
     { pattern: /^\/$/, background: "url('/images/backgrounds/home-bg.png')" },
     {
+      pattern: /^\/round-manager/,
+      background: "url('/images/backgrounds/app-bg.png')",
+    },
+    {
       pattern: /^\/categories/,
       background: "url('/images/backgrounds/app-bg.png')",
     },

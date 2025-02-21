@@ -1,0 +1,102 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.dialog-box {
+  text-align: center;
+  position: relative;
+  animation: slideIn 0.3s ease-in-out;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: auto;
+  min-height: clamp(180px, 10vw, 200px);
+  border: clamp(5px, 1vw, 6px) solid #6ba6fb;
+  box-shadow: 0px 0px 20px #6ba6fb;
+  background-color: #08124d;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  word-break: break-all;
+  padding: clamp(20px, 4vw, 30px) clamp(5px, 1vw, 5px);
+}
+
+.dialog-title {
+  font-size: clamp(0.9em, 3vw, 2em);
+  color: #f9fcff;
+}
+
+.dialog-content {
+  font-size: clamp(0.6em, 2.3vw, 1.8em);
+  color: #f9fcff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #f9fcff;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+.copy-button {
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: clamp(0.6em, 2.3vw, 1.8em);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.copy-button:hover {
+  color: greenyellow;
+}
+
+.copy-success {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,7 +1,7 @@
 import { ApiResponse } from "../types/ApiResponse";
 import ApiService from "./ApiService";
 
-interface UploadResponse {
+export interface UploadResponse {
   url: string;
   message: string;
 }

@@ -19,7 +19,7 @@ const menuItems: MenuItem[] = [
   {
     text: "Round Manager",
     img: "/images/mainScreen/round-icon.png",
-    navigateTo: "/categories",
+    navigateTo: "/round-manager",
   },
   {
     text: "Content Manager",

@@ -67,3 +67,18 @@ body {
   /* overflow-x: hidden; */
   min-height: 100vh;
 }
+
+.coming-soon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100vh;
+  font-size: 10rem;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.coming-soon > p {
+  border-bottom: 6px solid white;
+}

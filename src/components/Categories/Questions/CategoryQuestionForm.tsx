@@ -220,7 +220,7 @@ const CategoryQuestionForm: React.FC = () => {
       {({ values, setFieldValue, handleSubmit, validateForm }) => (
         <>
           <Header
-            pageTitle={`${id ? `Update` : `Create New`} Question`}
+            pageTitle={`${id ? `Update` : `Create`} Question`}
             showRightButton={true}
             rightButtonText="Save"
             rightButtonIcon="/images/header/save-icon.png"
