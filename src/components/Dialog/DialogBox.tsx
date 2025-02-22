@@ -9,6 +9,19 @@ interface DialogProps {
   title: string;
   children: string;
 }
+const unsecuredCopyToClipboard = (text) => {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand("copy");
+  } catch (err) {
+    console.error("Unable to copy to clipboard", err);
+  }
+  document.body.removeChild(textArea);
+};
 
 const Dialog: React.FC<DialogProps> = ({
   isOpen,
@@ -18,7 +31,12 @@ const Dialog: React.FC<DialogProps> = ({
 }) => {
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(children);
+      if (window.isSecureContext && navigator.clipboard) {
+        await navigator.clipboard.writeText(children);
+      } else {
+        unsecuredCopyToClipboard(children);
+      }
+
       showNotificationMessage(
         "Copied",
         "Successfully Copied media url",

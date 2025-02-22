@@ -304,6 +304,7 @@
 
 .category-question-card > span {
   pointer-events: none;
+  word-break: break-all;
   color: #20618e;
   font-weight: bold;
   font-size: clamp(1rem, 2vw, 2rem);

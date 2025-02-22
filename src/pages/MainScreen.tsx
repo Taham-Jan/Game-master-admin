@@ -11,11 +11,11 @@ export interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  {
-    text: "Station Configuration",
-    img: "/images/mainScreen/station-icon.png",
-    navigateTo: "/categories",
-  },
+  // {
+  //   text: "Station Configuration",
+  //   img: "/images/mainScreen/station-icon.png",
+  //   navigateTo: "/categories",
+  // },
   {
     text: "Round Manager",
     img: "/images/mainScreen/round-icon.png",
