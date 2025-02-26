@@ -22,6 +22,7 @@
 }
 
 .category-card {
+  position: relative;
   width: 14vw;
   min-width: 100px;
   min-height: 150px;
@@ -44,6 +45,24 @@
 .category-card:hover {
   outline: clamp(var(--min-outline-width), 0.5vw, var(--max-outline-width))
     solid var(--outline-hover-color);
+}
+
+.category-card-delete-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  color: white;
+  background-color: #be3144;
+  padding: 10px;
+  z-index: 10;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.category-card-delete-icon:hover {
+  transform: scale(1.2);
 }
 
 .category-card > img {
@@ -278,11 +297,25 @@
   gap: 2rem;
 }
 
+.category-question-card-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.category-question-card-delete {
+  cursor: pointer;
+  height: 60px;
+  width: 60px;
+}
+
 .category-question-card {
   display: flex;
   justify-content: space-between;
   padding: clamp(15px, 3vw, 20px) clamp(40px, 5vw, 50px);
-  width: 50%;
+  width: 70%;
   gap: 10px;
   align-items: center;
   cursor: pointer;
@@ -310,9 +343,31 @@
   font-size: clamp(1rem, 2vw, 2rem);
 }
 
-.category-question-card > img {
+.category-question-card-icon-container {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.category-question-next-icon {
   pointer-events: none;
   width: clamp(10px, 2vw, 20px);
+}
+
+.category-question-delete-icon {
+  cursor: pointer;
+  color: white;
+  background-color: #be3144;
+  padding: 10px;
+  border-radius: 50%;
+  font-weight: bold;
+  transition: transform 0.2s ease-in-out;
+  font-size: clamp(10px, 2vw, 30px);
+}
+
+.category-question-delete-icon:hover {
+  transform: scale(1.2);
 }
 
 .category-question-list-import {
@@ -381,6 +436,12 @@
   }
 }
 @media screen and (max-width: 768px) {
+  .category-question-card {
+    width: 90%;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
   .importButton {
     padding: clamp(2px, 1vw, 10px) clamp(2px, 1vw, 15px);
     width: fit-content;

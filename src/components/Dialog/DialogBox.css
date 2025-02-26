@@ -19,9 +19,9 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
-  width: 90rem;
+  width: 70rem;
   height: auto;
-  min-height: clamp(180px, 10vw, 200px);
+  min-height: 30em;
   border: clamp(5px, 1vw, 6px) solid #6ba6fb;
   box-shadow: 0px 0px 20px #6ba6fb;
   background-color: #08124d;
@@ -64,9 +64,9 @@
 .copy-button {
   color: white;
   border: none;
-  /* padding: 0px 15px; */
+
   margin-left: clamp(0.2em, 1vw, 1em);
-  /* font-size: clamp(0.6em, 2.3vw, 1.8em); */
+
   font-size: 70px;
   border-radius: 5px;
   cursor: pointer;
@@ -101,4 +101,91 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.dialog-status-icon {
+  display: flex;
+
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0.2em;
+  border-radius: 50%;
+}
+
+.dialog-status-icon.dialog-info {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.dialog-status-icon.dialog-info.dark {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #dbeafe;
+}
+
+.dialog-status-icon.dialog-success {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+.dialog-status-icon.dialog-success.dark {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #d1fae5;
+}
+
+.dialog-status-icon.dialog-warning {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.dialog-status-icon.dialog-warning.dark {
+  color: #fef3c7;
+}
+
+.dialog-status-icon.dialog-danger {
+  background-color: #fecaca;
+  color: #dc2626;
+}
+
+.dialog-status-icon.dialog-danger.dark {
+  color: #fecaca;
+}
+
+.dialog-status-icon span {
+  font-size: 2rem;
+}
+
+.dialog-title {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.dialog-actions {
+  width: 100%;
+  display: flex;
+  gap: 1em;
+  margin-right: 4em;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.dialog-cancel-button,
+.dialog-confirm-button {
+  padding: clamp(8px, 1.5vw, 10px);
+  width: clamp(120px, 5vw, 180px);
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: var(--button-shadow);
+  border: 2px solid var(--nav-btn-border);
+  background: var(--nav-btn-gradient);
+  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-color);
+  transition: transform 0.2s ease-in-out;
+  color: #20618e;
+  font-weight: bold;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+}
+.dialog-cancel-button:hover,
+.dialog-confirm-button:hover {
+  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-hover-color);
 }

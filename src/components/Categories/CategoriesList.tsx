@@ -3,6 +3,8 @@ import { getCategoriesListUrl } from "../../services/CategoryService";
 import { GetCategoriesResponse } from "../../types/CategoryTypes";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import useCursorListApi from "../../hooks/useCursorListApi";
+import RenderSvgButton from "../Shared/RenderSvgButton";
+import { useNavigate } from "react-router-dom";
 
 type CategoriesExtraData = {
   message: string;
@@ -28,9 +30,19 @@ const CategoriesList = () => {
     extraData?.totalCategories,
     CategoryData.length
   );
+  const navigate = useNavigate();
 
   return (
     <>
+      <div className="import-button-group">
+        <RenderSvgButton
+          iconUrl="/images/categories/meme-icon.png"
+          text="View Meme"
+          // onClick={() => navigate(`/categories-meme/form`)}
+          onClick={() => navigate(`/categories-meme`)}
+          forceSingleLine
+        />
+      </div>
       <div className="category-list-container">
         {CategoryData.map((item, index) => (
           <CategoryCard

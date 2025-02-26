@@ -13,7 +13,6 @@ import { lazy, Suspense } from "react";
 import TopLoader from "./components/Loader/TopLoader";
 import Datahandle from "./utils/Datahandle";
 import Loader from "./components/Loader/loader";
-import CategoryMemeForm from "./components/Categories/Meme/CategoryMemeForm";
 
 const MainScreen = lazy(() => import("./pages/MainScreen"));
 const Categories = lazy(() => import("./pages/Categories"));
@@ -24,6 +23,13 @@ const CategoryQuestionList = lazy(
 );
 const CategoryQuestionForm = lazy(
   () => import("./components/Categories/Questions/CategoryQuestionForm")
+);
+
+const CategoryMemeList = lazy(
+  () => import("./components/Categories/Meme/CategoryMemeList")
+);
+const CategoryMemeForm = lazy(
+  () => import("./components/Categories/Meme/CategoryMemeForm")
 );
 
 function App() {
@@ -50,10 +56,12 @@ function App() {
                 element={<CategoryQuestionForm />}
               />
             </Route>
-            <Route
-              path="/categories-meme/:categoryId/form"
-              element={<CategoryMemeForm />}
-            />
+
+            <Route path="/categories-meme">
+              <Route index element={<CategoryMemeList />} />
+              <Route path=":id" element={<CategoryMemeList />} />
+              <Route path="form" element={<CategoryMemeForm />} />
+            </Route>
 
             <Route path="/round-manager" element={<RoundManager />} />
           </Routes>

@@ -14,6 +14,11 @@ export interface GetCategoriesResponse {
   __v: number;
 }
 
+export interface GetCategoryMemeResponse {
+  _id: string;
+  background: string;
+}
+
 export type CreateCategoryPayload = {
   name: string;
   rules: string;

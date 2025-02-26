@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header";
 import CategoryQuestionCard from "./CategoryQuestionCard";
 import {
+  GetCategoryQuestionDeleteUrl,
   GetCategoryQuestionUrl,
   uploadCsvQuestions,
 } from "../../../services/QuestionService";
@@ -16,6 +17,8 @@ import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import { useEffect, useState } from "react";
 import Dialog from "../../Dialog/DialogBox";
 import { uploadFile } from "../../../services/UploadService";
+import CustomDeleteDialog from "../../Dialog/CustomDeleteDialog";
+import RenderSvgButton from "../../Shared/RenderSvgButton";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -29,13 +32,25 @@ const CategoryQuestionList = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const listUrl = GetCategoryQuestionUrl();
+  const deleteUrl = GetCategoryQuestionDeleteUrl();
   const initialFilter: GetCategoryQuestionParams = { categoryId: id! };
 
-  const { data, extraData, fetchDataApi, hasMore, loadMore, loading } =
-    useCursorListApi<CategoryQuestionResponse, CategoryQuestionExtraData>(
-      listUrl,
-      initialFilter
-    );
+  const {
+    data,
+    extraData,
+    fetchDataApi,
+    hasMore,
+    loadMore,
+    loading,
+    handleDeleteClick,
+    onDeleteConfirm,
+    onDeleteDialogClose,
+    showDeleteDialog,
+  } = useCursorListApi<CategoryQuestionResponse, CategoryQuestionExtraData>(
+    listUrl,
+    deleteUrl,
+    initialFilter
+  );
 
   const lastElementRef = useInfiniteScroll(
     loadMore,
@@ -82,71 +97,6 @@ const CategoryQuestionList = () => {
     setMediaUrl(response.data.url);
     setIsDialogOpen(true);
   };
-  const RenderButton = ({
-    text,
-    onClick,
-    iconUrl,
-  }: {
-    text: string;
-    iconUrl: string;
-    onClick: () => void;
-  }) => {
-    const [isSingleLine, setIsSingleLine] = useState(window.innerWidth <= 1024);
-
-    useEffect(() => {
-      const handleResize = () => {
-        setIsSingleLine(window.innerWidth <= 1024);
-      };
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    return (
-      <button className="importButton" onClick={onClick}>
-        <img src={iconUrl} alt="Start Icon" />
-        <svg viewBox="0 0 800 250">
-          <defs>
-            <linearGradient
-              id="btnGradient"
-              x1="100%"
-              y1="50%"
-              x2="100%"
-              y2="100%"
-            >
-              <stop
-                offset="0%"
-                style={{ stopColor: "#e6fbff", stopOpacity: 1 }}
-              />
-              <stop
-                offset="100%"
-                style={{ stopColor: "#96ffaa", stopOpacity: 1 }}
-              />
-            </linearGradient>
-          </defs>
-          <text
-            className="svgText"
-            x="20"
-            y={isSingleLine ? "130" : "100"}
-            fill="url(#btnGradient)"
-            alignmentBaseline="middle"
-          >
-            {isSingleLine ? (
-              text
-            ) : (
-              <>
-                <tspan x="20" dy="0">
-                  {text.split(" ")[0]}{" "}
-                </tspan>
-                <tspan x="20" dy="100">
-                  {text.split(" ")[1]}{" "}
-                </tspan>
-              </>
-            )}
-          </text>
-        </svg>
-      </button>
-    );
-  };
 
   return (
     <>
@@ -172,7 +122,7 @@ const CategoryQuestionList = () => {
               onChange={handleUploadMedia}
             />
             <label htmlFor="mediaInput" className="custom-file-label">
-              <RenderButton
+              <RenderSvgButton
                 iconUrl="/images/categories/upload-media.png"
                 text="Upload Media"
                 onClick={() => document.getElementById("mediaInput")?.click()}
@@ -188,24 +138,23 @@ const CategoryQuestionList = () => {
               onChange={handleFileChange}
             />
             <label htmlFor="fileInput" className="custom-file-label">
-              <RenderButton
+              <RenderSvgButton
                 iconUrl="/images/categories/import.png"
                 text="Import Questions"
                 onClick={() => document.getElementById("fileInput")?.click()}
               />
             </label>
           </div>
-          <RenderButton
-            iconUrl="/images/categories/meme-icon.png"
-            text="Create Meme"
-            onClick={() => navigate(`/categories-meme/${id}/form`)}
-          />
         </div>
         {data.map((item, index) => (
           <CategoryQuestionCard
             key={item._id || `fallback-key-${index}`}
             ref={index === data.length - 1 ? lastElementRef : null}
-            props={{ ...item, categoryId: id }}
+            props={{
+              ...item,
+              categoryId: id,
+              handleQuestionDeleteClick: handleDeleteClick(item._id),
+            }}
           />
         ))}
       </div>
@@ -217,6 +166,13 @@ const CategoryQuestionList = () => {
       >
         {mediaUrl}
       </Dialog>
+
+      <CustomDeleteDialog
+        title="Category Question"
+        isOpen={showDeleteDialog}
+        onDialogClose={onDeleteDialogClose}
+        onDeleteConfirm={onDeleteConfirm}
+      />
     </>
   );
 };

@@ -11,6 +11,10 @@ export function GetCategoryQuestionUrl() {
   return "/gameApp/getQuestions";
 }
 
+export function GetCategoryQuestionDeleteUrl() {
+  return "/gameApp/deletequetion/";
+}
+
 export async function uploadCsvQuestions(data: any) {
   return ApiService.fetchData<void>({
     url: "/gameApp/createquestion",

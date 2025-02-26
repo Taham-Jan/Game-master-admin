@@ -3,6 +3,7 @@ import _ from "lodash";
 import ApiService from "../services/ApiService";
 import { ApiResponse } from "../types/ApiResponse";
 import { handleHttpReq } from "../utils/HandleHttpReq";
+import { showNotificationMessage } from "../utils/toast";
 
 export type OnSortParam = { order: "asc" | "desc" | ""; key: string | number };
 
@@ -12,6 +13,7 @@ type FilterType = {
 
 function useCursorListApi<T, U = undefined>(
   listUrl: string,
+  deleteUrl: string = "",
   initialFilter: FilterType = null
 ) {
   const [data, setData] = useState<T[]>([]);
@@ -22,6 +24,8 @@ function useCursorListApi<T, U = undefined>(
   const [sort, setSort] = useState<OnSortParam | null>(null);
   const [query, setQuery] = useState<string>("");
   const [filter, setFilterState] = useState<FilterType>(initialFilter);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<string | undefined>("");
 
   const setFilter = (filters: FilterType) => {
     setFilterState(filters);
@@ -74,6 +78,44 @@ function useCursorListApi<T, U = undefined>(
     fetchDataApi(true);
   }, [listUrl, sort, query, filter]);
 
+  const handleDeleteClick = useCallback(
+    (id: string | undefined) => () => {
+      setSelectedItem(id);
+      setShowDeleteDialog(true);
+    },
+    []
+  );
+
+  const onDeleteDialogClose = () => {
+    setShowDeleteDialog(false);
+  };
+
+  const onDeleteConfirm = async () => {
+    try {
+      setShowDeleteDialog(false);
+      setLoading(true);
+
+      await ApiService.fetchData<ApiResponse<T>>({
+        url: deleteUrl + selectedItem,
+        method: "delete",
+        data: { id: selectedItem },
+      });
+
+      showNotificationMessage(
+        "Success",
+        "Your deletion has been processed successfully.",
+        "success"
+      );
+
+      setCursor(null);
+      setData([]);
+      fetchDataApi(true);
+    } catch (error) {
+      console.log(`error`, error);
+      setLoading(false);
+    }
+  };
+
   return {
     data,
     extraData,
@@ -83,6 +125,10 @@ function useCursorListApi<T, U = undefined>(
     loadMore,
     setSort,
     setFilter,
+    onDeleteDialogClose,
+    onDeleteConfirm,
+    handleDeleteClick,
+    showDeleteDialog,
   };
 }
 
