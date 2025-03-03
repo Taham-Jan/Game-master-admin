@@ -23,12 +23,12 @@
 
 .category-card {
   position: relative;
-  width: 14vw;
+  width: 10vw;
   min-width: 100px;
   min-height: 150px;
   flex-direction: column;
   margin-bottom: 2%;
-  padding: clamp(10px, 2.5vw, 30px);
+  padding: clamp(40px, 2vw, 60px);
   gap: 0.8em;
   display: flex;
   cursor: pointer;
@@ -78,7 +78,7 @@
   font-weight: bold;
   font-size: clamp(
     var(--category-min-font-size),
-    1.8vw,
+    1.2vw,
     var(--category-base-font-size)
   );
   line-height: 1.5;
@@ -314,7 +314,7 @@
 .category-question-card {
   display: flex;
   justify-content: space-between;
-  padding: clamp(15px, 3vw, 20px) clamp(40px, 5vw, 50px);
+  padding: clamp(10px, 2vw, 15px) clamp(30px, 4vw, 40px);
   width: 70%;
   gap: 10px;
   align-items: center;
@@ -340,7 +340,7 @@
   word-break: break-all;
   color: #20618e;
   font-weight: bold;
-  font-size: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(1rem, 2vw, 1.6rem);
 }
 
 .category-question-card-icon-container {
