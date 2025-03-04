@@ -31,7 +31,7 @@ const RenderSvgButton = ({
   return (
     <button className="importButton" onClick={onClick}>
       <img src={iconUrl} alt="Start Icon" />
-      <svg viewBox="0 0 800 250">
+      <svg viewBox="0 0 850 250">
         <defs>
           <linearGradient
             id="btnGradient"
