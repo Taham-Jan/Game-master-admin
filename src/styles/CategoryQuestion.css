@@ -74,7 +74,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: clamp(0.6em, 2vw, 1em);
+  padding: clamp(0.4em, 2vw, 0.7em);
   transition: 0.25s all ease;
   pointer-events: none;
 }

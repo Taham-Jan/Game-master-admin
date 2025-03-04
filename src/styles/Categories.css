@@ -26,7 +26,7 @@
 .category-card {
   position: relative;
   width: 6vw;
-  height: 10vw;
+  height: auto;
   min-width: 100px;
   min-height: 150px;
   flex-direction: column;
