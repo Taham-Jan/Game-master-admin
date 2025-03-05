@@ -17,7 +17,7 @@ const CategoryMemeForm: React.FC = () => {
   const [fileType, setFileType] = useState<FileType>("");
   const [uploadedLink, setUploadedLink] = useState<string>("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!selectedFile) {
       setPreviewUrl("");
@@ -80,6 +80,7 @@ const CategoryMemeForm: React.FC = () => {
         rightButtonText="Save"
         rightButtonIcon="/images/header/save-icon.png"
         onRightButtonClick={handleUpload}
+        onBackClick={() => navigate("/categories-meme")}
         RightButtonProps={{
           rightButtonAxis: "45%",
           rightButtonIconAxis: "25%",

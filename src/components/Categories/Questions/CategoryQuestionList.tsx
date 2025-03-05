@@ -105,6 +105,7 @@ const CategoryQuestionList = () => {
         showRightButton={true}
         rightButtonText="Add More"
         rightButtonIcon="/images/header/add-icon.png"
+        onBackClick={() => navigate("/categories")}
         onRightButtonClick={() => navigate(`/categories-questions/${id}/form`)}
         RightButtonProps={{
           rightButtonAxis: "35%",

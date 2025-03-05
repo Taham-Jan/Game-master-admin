@@ -109,19 +109,18 @@ const CategoryForm = () => {
       animation: "",
       background: "",
     };
-  
+
     const uploadedFiles: Record<string, File> = {};
     try {
       for (const key of ["icon", "animation", "background"] as const) {
         if (values[key]) {
           const formData = new FormData();
           formData.append("file", values[key]);
-  
-       
+
           const response = await handleHttpReq(async () => {
             return await uploadFile(formData);
           });
-  
+
           const uploadedLink = response?.data?.url;
           if (uploadedLink) {
             uploadedUrls[key] = uploadedLink;
@@ -131,17 +130,17 @@ const CategoryForm = () => {
           }
         }
       }
-  
+
       const categoryData = {
         name: values.categoryName,
         rules: values.rules,
         ...uploadedUrls,
       };
-  
+
       await handleHttpReq(async () => {
         await CreateNewCategory(categoryData);
       });
-  
+
       showNotificationMessage(
         "Success",
         `Successfully created new category`,
@@ -155,7 +154,7 @@ const CategoryForm = () => {
         `Upload failed. Rolling back uploaded files. ${error}`,
         "error"
       );
-  
+
       for (const key in uploadedFiles) {
         try {
           console.log(`Rolling back file: ${key}`);
@@ -168,7 +167,6 @@ const CategoryForm = () => {
       setSubmitting(false);
     }
   };
-  
 
   return (
     <Formik
@@ -182,6 +180,7 @@ const CategoryForm = () => {
           <Header
             pageTitle="Add Create"
             showRightButton={true}
+            onBackClick={() => navigate("/categories")}
             rightButtonText="Create"
             rightButtonIcon="/images/header/save-icon.png"
             onRightButtonClick={async () => {

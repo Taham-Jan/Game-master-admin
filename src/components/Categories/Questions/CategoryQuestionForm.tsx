@@ -233,6 +233,7 @@ const CategoryQuestionForm: React.FC = () => {
             showRightButton={true}
             rightButtonText="Save"
             rightButtonIcon="/images/header/save-icon.png"
+            onBackClick={() => navigate(`/categories-questions/${categoryId}`)}
             onRightButtonClick={async () => {
               const errors = await validateForm();
               if (Object.keys(errors).length > 0) {

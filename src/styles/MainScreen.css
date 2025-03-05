@@ -38,15 +38,15 @@
 }
 
 .game-logo {
-  width: 60vw;
-  max-width: 800px;
+  width: 50vw;
+  max-width: 600px;
   transform: translateX(5%);
 }
 
 .startButton {
   background: var(--start-btn-gradient);
-  border: 6px solid #bce17c;
-  padding: 30px 40px;
+  border: 4px solid #bce17c;
+  padding: 20px 20px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -56,7 +56,7 @@
   transition: transform 0.2s ease-in-out;
   transform: translateY(-50px);
   position: relative;
-  outline: 6px solid var(--outline-color);
+  outline: 5px solid var(--outline-color);
 }
 
 .startButton:hover {
@@ -64,13 +64,14 @@
 }
 
 .startButton > img {
+  margin-left: 20px;
   pointer-events: none;
-  height: 50px;
+  height: 40px;
 }
 
 .startButton > svg {
   pointer-events: none;
-  font-size: 58px;
+  font-size: 50px;
   font-weight: bold;
   width: fit-content;
   height: 100%;
@@ -95,7 +96,7 @@
 
 .navigationButton {
   min-width: 250px;
-  padding: 15px 30px 15px 20px;
+  padding: 15px 30px 15px 25px;
   display: flex;
   gap: 10px;
   align-items: center;

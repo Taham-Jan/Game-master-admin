@@ -34,14 +34,14 @@ const CategoriesList = () => {
 
   return (
     <div style={{ marginTop: "30px" }}>
-      <RenderSvgButton
+      {/* <RenderSvgButton
         iconUrl="/images/categories/meme-icon.png"
         text="View Meme"
         // onClick={() => navigate(`/categories-meme/form`)}
         onClick={() => navigate(`/categories-meme`)}
         forceSingleLine
-      />
-      <div className="import-button-group"></div>
+      /> */}
+
       <div className="category-list-container">
         {CategoryData.map((item, index) => (
           <CategoryCard

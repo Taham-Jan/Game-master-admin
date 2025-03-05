@@ -11,6 +11,7 @@ const Categories = () => {
         showRightButton={true}
         rightButtonText="Add Category"
         rightButtonIcon="/images/header/add-icon.png"
+        onBackClick={() => navigate("/")}
         onRightButtonClick={() => navigate("/categories-form")}
         RightButtonProps={{
           rightButtonAxis: "30%",

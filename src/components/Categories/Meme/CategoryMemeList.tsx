@@ -46,6 +46,7 @@ const CategoryMemeList = () => {
         showRightButton={true}
         rightButtonText="Add Meme"
         rightButtonIcon="/images/header/add-icon.png"
+        onBackClick={() => navigate("/")}
         onRightButtonClick={() => navigate("/categories-meme/form")}
         RightButtonProps={{
           rightButtonAxis: "35%",
