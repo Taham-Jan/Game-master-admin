@@ -28,10 +28,11 @@ function useCursorListApi<T, U = undefined>(
   const [selectedItem, setSelectedItem] = useState<string | undefined>("");
 
   const setFilter = (filters: FilterType) => {
+    console.log("filters", filters);
     setFilterState(filters);
     setCursor(null);
     setData([]);
-    fetchDataApi(true);
+    // fetchDataApi(true);
   };
 
   const fetchDataApi = async (reset = false) => {

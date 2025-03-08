@@ -1,6 +1,6 @@
 .main-screen {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -11,8 +11,7 @@
 
 .icon {
   position: absolute;
-  width: 25vw;
-  max-width: 300px;
+  width: clamp(100px, 12vw, 180px);
 }
 
 .top-left {
@@ -32,49 +31,45 @@
   right: -3%;
 }
 .bottom-center {
-  bottom: -25%;
+  bottom: -20%;
   left: 50%;
   transform: translateX(-50%);
 }
-
 .game-logo {
-  width: 50vw;
-  max-width: 600px;
-  transform: translateX(5%);
+  width: clamp(250px, 40vw, 600px);
+  transform: translate(5%, -10%);
 }
 
 .startButton {
+  width: 20rem;
   background: var(--start-btn-gradient);
-  border: 4px solid #bce17c;
-  padding: 20px 20px;
+  border: 2px solid #bce17c;
+  padding: clamp(10px, 2vw, 20px) clamp(8px, 1.5vw, 15px);
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-radius: 25px;
+  gap: 1vw;
+  border-radius: 20px;
   box-shadow: var(--button-shadow);
-  cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  transform: translateY(-50px);
+  transform: translateY(-3rem);
   position: relative;
-  outline: 5px solid var(--outline-color);
+  outline: 2px solid var(--outline-color);
 }
 
 .startButton:hover {
-  transform: translateY(-50px) scale(1.05);
+  /* transform: translateY(-50px) scale(1.05); */
 }
-
 .startButton > img {
-  margin-left: 20px;
+  margin-left: 2vw;
   pointer-events: none;
-  height: 40px;
+  height: clamp(20px, 2vw, 30px);
 }
 
 .startButton > svg {
   pointer-events: none;
-  font-size: 50px;
+  font-size: 2rem;
   font-weight: bold;
-  width: fit-content;
-  height: 100%;
+  width: 100%;
 }
 
 .startButton > svg > .svgText {
@@ -96,16 +91,16 @@
 
 .navigationButton {
   min-width: 250px;
-  padding: 15px 30px 15px 25px;
+  padding: 15px 20px 15px 25px;
   display: flex;
   gap: 10px;
   align-items: center;
   cursor: pointer;
-  border-radius: 25px;
+  border-radius: 20px;
   box-shadow: var(--button-shadow);
-  border: 4px solid var(--nav-btn-border);
+  border: 2px solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 6px solid var(--outline-color);
+  outline: 4px solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
 }
 
@@ -116,7 +111,7 @@
 .navigationButton > img {
   pointer-events: none;
   max-width: 100%;
-  height: 50px;
+  height: 35px;
 }
 
 .navigationButton > label {
@@ -125,7 +120,7 @@
   text-align: left;
   color: #20618e;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   pointer-events: none;
 }
 
@@ -143,18 +138,16 @@
   }
 
   .game-logo {
-    width: 70vw;
-    transform: translateX(3%);
-  }
-
-  .startButton {
-    padding: 25px 35px;
-    transform: translateY(-40px);
+    width: 50vw;
   }
 
   .navigationButton {
     min-width: 220px;
     padding: 12px 25px;
+  }
+
+  .startButton {
+    width: 280px;
   }
 
   .navigationButton > label {
@@ -164,26 +157,29 @@
 
 @media (max-width: 768px) {
   .icon {
-    width: 25vw;
-    max-width: 150px;
+    width: 20vw;
+    max-width: 200px;
   }
 
   .game-logo {
-    width: 80vw;
+    width: 50vw;
+    min-width: 300px;
     transform: translate(5%, -15%);
   }
 
   .startButton {
-    padding: 15px 25px;
+    width: 200px;
+    padding: 10px 10px;
     border-radius: 15px;
-    border: 6px solid #bce17c;
-    outline: 4px solid var(--outline-color);
+    border: 3px solid #bce17c;
+    outline: 2px solid var(--outline-color);
+    transform: translateY(-1.5rem);
   }
 
-  .startButton > img {
+  /* .startButton > img {
     pointer-events: none;
     height: 20px;
-  }
+  } */
 
   .navigation-container {
     gap: 20px;

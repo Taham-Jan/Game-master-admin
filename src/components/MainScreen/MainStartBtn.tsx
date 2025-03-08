@@ -1,12 +1,8 @@
 const MainStartButton: React.FC = () => {
   return (
     <button className="startButton">
-      <img
-        src="/images/mainScreen/start-icon.png"
-        height={50}
-        alt="Start Icon"
-      />
-      <svg viewBox="0 0 400 50">
+      <img src="/images/mainScreen/start-icon.png" alt="Start Icon" />
+      <svg viewBox="0 0 300 50">
         <defs>
           <linearGradient
             id="startBtnGradient"
@@ -25,7 +21,7 @@ const MainStartButton: React.FC = () => {
             />
           </linearGradient>
         </defs>
-        <text className="svgText" x="20" y="45" fill="url(#startBtnGradient)">
+        <text className="svgText" x="10" y="35" fill="url(#startBtnGradient)">
           Admin Panel
         </text>
       </svg>

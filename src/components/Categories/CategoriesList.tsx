@@ -33,23 +33,17 @@ const CategoriesList = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      {/* <RenderSvgButton
-        iconUrl="/images/categories/meme-icon.png"
-        text="View Meme"
-        // onClick={() => navigate(`/categories-meme/form`)}
-        onClick={() => navigate(`/categories-meme`)}
-        forceSingleLine
-      /> */}
-
-      <div className="category-list-container">
-        {CategoryData.map((item, index) => (
-          <CategoryCard
-            key={item._id || `fallback-key-${index}`}
-            ref={index === CategoryData.length - 1 ? lastElementRef : null}
-            item={item}
-          />
-        ))}
+    <div>
+      <div className="adaptable-container">
+        <div className="category-list-container">
+          {CategoryData.map((item, index) => (
+            <CategoryCard
+              key={item._id || `fallback-key-${index}`}
+              ref={index === CategoryData.length - 1 ? lastElementRef : null}
+              item={item}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

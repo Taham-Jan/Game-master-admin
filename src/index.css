@@ -59,6 +59,7 @@
 }
 
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   -webkit-user-select: none;
@@ -82,4 +83,84 @@ body {
 
 .coming-soon > p {
   border-bottom: 6px solid white;
+}
+
+.select-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 1vw, 1.6rem);
+}
+
+.select-box-children {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 1.8rem);
+}
+
+.select-box-children > h2 {
+  font-size: clamp(0.6em, 2vw, 0.8em);
+}
+
+.select-box > select {
+  appearance: none;
+  border-radius: 8px;
+  height: fit-content;
+  box-shadow: var(--button-shadow);
+  border: clamp(2px, 0.5vw, 4px) solid var(--nav-btn-border);
+  background: var(--nav-btn-gradient);
+  outline: clamp(2px, 0.5vw, 4px) solid var(--outline-color);
+  padding: clamp(0.6rem, 2vw, 0.8rem);
+  flex: 1;
+  font-size: clamp(0.6em, 2vw, 0.8em);
+  font-weight: bold;
+  color: #20618e;
+  cursor: pointer;
+}
+
+.select-box > select > option {
+  background: #fff;
+  font-size: clamp(0.6em, 2vw, 0.8em);
+}
+.select-box > select::-ms-expand {
+  display: none;
+}
+
+.select-box {
+  position: relative;
+  display: flex;
+  width: clamp(10rem, 20vw, 15em);
+  height: clamp(2em, 5vw, 4em);
+}
+
+.select-box::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  right: 5%;
+  width: clamp(1px, 0.8vw, 2px);
+  height: clamp(1px, 0.8vw, 2px);
+  background-image: url("/images/categories/question-dropdown-icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: clamp(0.4em, 2vw, 0.7em);
+  transition: 0.25s all ease;
+  pointer-events: none;
+}
+
+.adaptable-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  max-width: 70%;
+  margin: 2rem auto auto auto;
+}
+
+@media screen and (max-width: 1200px) {
+  .adaptable-container {
+    max-width: 90%;
+  }
 }

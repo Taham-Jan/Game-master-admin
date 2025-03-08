@@ -1,11 +1,19 @@
 import Header from "../../Header";
 import { useNavigate } from "react-router-dom";
 import CategoryMemeCard from "./CategoryMemeCard";
-import { DeleteMemesUrl, GetMemesUrl } from "../../../services/MemeService";
+import {
+  DeleteMemesUrl,
+  GetMemesUrl,
+  GetMemeTypes,
+} from "../../../services/MemeService";
 import useCursorListApi from "../../../hooks/useCursorListApi";
 import { MemesResponse } from "../../../types/MemeTypes";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import CustomDeleteDialog from "../../Dialog/CustomDeleteDialog";
+import { useEffect, useState } from "react";
+import { handleHttpReq } from "../../../utils/HandleHttpReq";
+import SelectBox from "../../Shared/SelectBox";
+import Loader from "../../Loader/loader";
 
 type MemesExtraData = {
   message: string;
@@ -15,13 +23,15 @@ type MemesExtraData = {
 
 const CategoryMemeList = () => {
   const navigate = useNavigate();
+  const [memeTypes, setMemeTypes] = useState<string[]>([]);
+  const [selectedMemeType, setSelectedMemeType] = useState<string | null>(null);
+
   const listUrl = GetMemesUrl();
   const deleteUrl = DeleteMemesUrl();
 
   const {
     data,
     extraData,
-
     hasMore,
     loadMore,
     loading,
@@ -29,6 +39,7 @@ const CategoryMemeList = () => {
     onDeleteConfirm,
     onDeleteDialogClose,
     showDeleteDialog,
+    setFilter,
   } = useCursorListApi<MemesResponse, MemesExtraData>(listUrl, deleteUrl);
 
   const lastElementRef = useInfiniteScroll(
@@ -38,6 +49,13 @@ const CategoryMemeList = () => {
     extraData?.totalMemes,
     data.length
   );
+
+  useEffect(() => {
+    handleHttpReq(async () => {
+      const memeTypeRes = await GetMemeTypes();
+      setMemeTypes(memeTypeRes?.data?.data);
+    });
+  }, []);
 
   return (
     <>
@@ -53,18 +71,37 @@ const CategoryMemeList = () => {
           rightButtonIconAxis: "18%",
         }}
       />
-      <div className="category-list-container">
-        {data.map((item, index) => (
-          <CategoryMemeCard
-            key={item._id || `fallback-key-${index}`}
-            ref={index === data.length - 1 ? lastElementRef : null}
-            props={{
-              ...item,
-              handleQuestionDeleteClick: handleDeleteClick(item._id),
+      {data.length && memeTypes.length ? (
+        <div className="adaptable-container">
+          <SelectBox
+            label="Meme Type"
+            value={selectedMemeType}
+            options={memeTypes}
+            includeAllOption
+            onChange={(e) => {
+              const value = e.target.value;
+
+              setSelectedMemeType(value);
+              if (value) setFilter({ memeType: value });
+              else setFilter({});
             }}
           />
-        ))}
-      </div>
+          <div className="category-list-container">
+            {data.map((item, index) => (
+              <CategoryMemeCard
+                key={item._id || `fallback-key-${index}`}
+                ref={index === data.length - 1 ? lastElementRef : null}
+                props={{
+                  ...item,
+                  handleQuestionDeleteClick: handleDeleteClick(item._id),
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
       <CustomDeleteDialog
         title="Meme"
         isOpen={showDeleteDialog}

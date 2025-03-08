@@ -1,12 +1,6 @@
 export type QuestionTypes = "text" | "image" | "video" | "audio";
 
-export const AgeRanges = [
-  "6-12",
-  "13-18",
-  "19-30",
-  "31-45",
-  "45 Above",
-] as const;
+export const AgeRanges = ["6-12", "13-18", "19-30", "31-45", "45 Above"];
 
 export type AgeRangeType = (typeof AgeRanges)[number];
 

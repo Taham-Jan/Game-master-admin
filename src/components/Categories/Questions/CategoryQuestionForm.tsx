@@ -20,6 +20,7 @@ import {
 import { uploadFile } from "../../../services/UploadService";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
 import { showNotificationMessage } from "../../../utils/toast";
+import SelectBox from "../../Shared/SelectBox";
 
 enum QuestionMode {
   TEXT = "Text Mode",
@@ -252,47 +253,29 @@ const CategoryQuestionForm: React.FC = () => {
               rightButtonIconAxis: "25%",
             }}
           />
-          <div className="question-form-container">
+          <div className="adaptable-container">
             <div className="question-select-box-container">
-              <div className="question-mode-container">
-                <h2 style={{ opacity: id ? "0.5" : "1" }}>Question Mode</h2>
-                <div className="question-mode-select">
-                  <select
-                    value={values.questionMode}
-                    disabled={!!id}
-                    onChange={(e) => {
-                      const newMode = e.target.value as QuestionMode;
-                      setFieldValue("questionMode", newMode);
-                      setFieldValue("selectedFile", null);
-                      setFieldValue("questionText", { en: "", ar: "" });
-                      if (fileInputRef.current) fileInputRef.current.value = "";
-                    }}
-                  >
-                    {Object.values(QuestionMode).map((mode) => (
-                      <option key={mode} value={mode}>
-                        {mode}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="age-range-container">
-                <h2>Age Range</h2>
-                <div className="age-range-select">
-                  <select
-                    value={values.ageRange}
-                    onChange={(e) => {
-                      setFieldValue("ageRange", e.target.value);
-                    }}
-                  >
-                    {AgeRanges.map((mode) => (
-                      <option key={mode} value={mode}>
-                        {mode}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+              <SelectBox
+                label="Question Mode"
+                value={values.questionMode}
+                options={Object.values(QuestionMode)}
+                onChange={(e) => {
+                  const newMode = e.target.value;
+                  setFieldValue("questionMode", newMode);
+                  setFieldValue("selectedFile", null);
+                  setFieldValue("questionText", { en: "", ar: "" });
+                  if (fileInputRef.current) fileInputRef.current.value = "";
+                }}
+                disabled={!!id}
+              />
+              <SelectBox
+                label="Age Range"
+                value={values.ageRange}
+                options={AgeRanges}
+                onChange={(e) => {
+                  setFieldValue("ageRange", e.target.value);
+                }}
+              />
             </div>
             <div className="language-toggle">
               <button
