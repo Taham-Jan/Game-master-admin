@@ -1,0 +1,25 @@
+:root {
+  --round-card-heading-bg: #15187f;
+  --round-card-border: 3px solid #777ab6;
+  --round-card-bg: #0d0f5c;
+  --round-card-header-fs: clamp(0.6em, 3vw, 1.2em);
+}
+
+.round-Manager-card-container {
+  border: var(--round-card-border);
+  background-color: var(--round-card-bg);
+  width: 400px;
+  min-height: 200px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.round-Manager-card-heading {
+  padding: 0.8rem;
+  text-align: center;
+  font-weight: bolder;
+  background-color: var(--round-card-heading-bg);
+  font-size: var(--round-card-header-fs);
+}
+.round-Manager-card-list {
+}

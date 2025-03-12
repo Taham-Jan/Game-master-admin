@@ -85,6 +85,13 @@ body {
   border-bottom: 6px solid white;
 }
 
+.optional-span {
+  color: azure;
+  font-style: italic;
+  opacity: 0.4;
+  margin-left: 5px;
+}
+
 .select-box-container {
   display: flex;
   flex-direction: column;

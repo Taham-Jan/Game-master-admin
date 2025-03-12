@@ -8,7 +8,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
     { pattern: /^\/$/, background: "url('/images/backgrounds/home-bg.png')" },
     {
       pattern: /^\/round-manager/,
-      background: "url('/images/backgrounds/app-bg.png')",
+      background: "url('/images/backgrounds/round-manager-bg.png')",
     },
     {
       pattern: /^\/categories/,

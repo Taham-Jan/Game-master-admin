@@ -4,6 +4,7 @@ import "./styles/CategoryQuestion.css";
 import "./styles/ErrorList.css";
 import "./styles/Header.css";
 import "./styles/CategoryMeme.css";
+import "./styles/RoundManager.css";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
@@ -38,12 +39,15 @@ function App() {
       <ToastContainer />
       <MainLayout>
         <TopLoader ref={(ref) => Datahandle.setTopLoaderRef(ref)} />
-
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<MainScreen />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/categories-form" element={<CategoryForm />} />
+            <Route
+              path="/categories-form-edit/:categoryId"
+              element={<CategoryForm />}
+            />
             <Route path="/categories-questions">
               <Route index element={<CategoryQuestionList />} />
               <Route path=":id" element={<CategoryQuestionList />} />

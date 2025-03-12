@@ -28,11 +28,9 @@ function useCursorListApi<T, U = undefined>(
   const [selectedItem, setSelectedItem] = useState<string | undefined>("");
 
   const setFilter = (filters: FilterType) => {
-    console.log("filters", filters);
     setFilterState(filters);
     setCursor(null);
     setData([]);
-    // fetchDataApi(true);
   };
 
   const fetchDataApi = async (reset = false) => {
@@ -55,14 +53,17 @@ function useCursorListApi<T, U = undefined>(
           params,
         });
 
-        setData((prev) =>
-          reset ? result.data.data : [...prev, ...result.data.data]
-        );
+        const newData = result.data.data;
+
+        setData((prev) => {
+          const combined = reset ? newData : [...prev, ...newData];
+          return _.uniqBy(combined, (item: any) => item._id);
+        });
         setCursor(result.data?.nextCursor || null);
         setHasMore(!!result.data?.nextCursor);
 
-        const { data: _, ...rest } = result.data;
-        setExtraData(rest as never);
+        const { data: NotNeeded, ...rest } = result.data;
+        setExtraData(rest as U);
       });
     } catch (error) {
       console.log(`Error fetching data:`, error);
@@ -71,7 +72,9 @@ function useCursorListApi<T, U = undefined>(
     setLoading(false);
   };
 
-  const loadMore = useCallback(() => fetchDataApi(), [cursor]);
+  const loadMore = useCallback(() => {
+    fetchDataApi();
+  }, [cursor, loading, data]);
 
   useEffect(() => {
     setData([]);
@@ -112,7 +115,7 @@ function useCursorListApi<T, U = undefined>(
       setData([]);
       fetchDataApi(true);
     } catch (error) {
-      console.log(`error`, error);
+      console.error("Error during deletion:", error);
       setLoading(false);
     }
   };

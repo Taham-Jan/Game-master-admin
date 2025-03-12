@@ -1,11 +1,8 @@
 import React from "react";
+import RounderManagerSetup from "../components/RoundManager/RounderManagerSetup";
 
 const RoundManager = () => {
-  return (
-    <div className="coming-soon">
-      <p>COMING SOON</p>
-    </div>
-  );
+  return <RounderManagerSetup />;
 };
 
 export default RoundManager;

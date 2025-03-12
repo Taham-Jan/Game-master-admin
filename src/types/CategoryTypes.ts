@@ -14,19 +14,26 @@ export interface GetCategoriesResponse {
   __v: number;
 }
 
+interface IRulesIntro {
+  english: string;
+  arabic: string;
+}
+
 export type CreateCategoryPayload = {
   name: string;
-  rules: string;
+  rules?: string;
   icon: string;
-  animation: string;
+  rulesIntro: IRulesIntro;
   background: string;
 };
+
+export type UpdateCategoryPayload = Partial<CreateCategoryPayload>;
 
 export interface CreateCategoryResponse {
   name: string;
   rules: string;
   icon: string;
-  animation: string;
+  rulesIntro: IRulesIntro;
   background: string;
   _id: string;
   createdAt: Date;

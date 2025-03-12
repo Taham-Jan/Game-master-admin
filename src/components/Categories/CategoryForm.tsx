@@ -1,44 +1,51 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, useFormikContext } from "formik";
 import * as Yup from "yup";
 import Header from "../Header";
 import ErrorList from "../ErrorList";
 import { uploadFile } from "../../services/UploadService";
 import { showNotificationMessage } from "../../utils/toast";
-import { CreateNewCategory } from "../../services/CategoryService";
-import { useNavigate } from "react-router-dom";
+import {
+  CreateNewCategory,
+  GetCategoryById,
+  UpdateNewCategory,
+} from "../../services/CategoryService";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleHttpReq } from "../../utils/HandleHttpReq";
+import VideoPlayer from "./Questions/VideoPlayer";
+import {
+  CreateCategoryPayload,
+  CreateCategoryResponse,
+} from "../../types/CategoryTypes";
+import Loader from "../Loader/loader";
 
 type FormValues = {
   categoryName: string;
   rules: string;
-  icon: File | null;
-  animation: File | null;
-  background: File | null;
+  icon: File | string | null;
+  ruleIntroEN: File | string | null;
+  ruleIntroAR: File | string | null;
+  background: File | string | null;
 };
 
 const validationSchema = Yup.object().shape({
   categoryName: Yup.string().required("Category name is required"),
-  rules: Yup.string().required("Rules are required"),
+  // rules: Yup.string().required("Rules are required"),
   icon: Yup.mixed().required("Icon is required"),
-  animation: Yup.mixed().required("Animation is required"),
+  // animation: Yup.mixed().required("Animation is required"),
+  // ruleIntroEN: Yup.mixed().required("Rule intro in english is required"),
+  // ruleIntroAR: Yup.mixed().required("Rule intro in arabic is required"),
   background: Yup.mixed().required("Background is required"),
 });
-
-const initialValues: FormValues = {
-  categoryName: "",
-  rules: "",
-  icon: null,
-  animation: null,
-  background: null,
-};
 
 const ImageUploadField = ({
   name,
   label,
+  allowVideo = false,
 }: {
   name: keyof FormValues;
   label: string;
+  allowVideo?: boolean;
 }) => {
   const { setFieldValue, values } = useFormikContext<FormValues>();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,25 +62,43 @@ const ImageUploadField = ({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  let previewUrl: string | null = null;
+  let isVideo = false;
+  if (file) {
+    if (typeof file === "string") {
+      previewUrl = file;
+      isVideo = false;
+    } else if (file instanceof File) {
+      previewUrl = URL.createObjectURL(file);
+      isVideo = file.type.startsWith("video");
+    }
+  }
+
   return (
     <div className="category-upload-section">
       <h2>{label}</h2>
       <div className="image-upload-container">
         <input
           type="file"
-          accept="image/*"
+          accept={allowVideo ? "image/*,video/*" : "image/*"}
           ref={fileInputRef}
           onChange={handleFileChange}
           style={{ display: "none" }}
         />
-        {file ? (
+        {previewUrl ? (
           <div className="image-preview-wrapper">
-            <img
-              src={URL.createObjectURL(file as Blob)}
-              alt="Preview"
-              className="category-image-preview"
-              onClick={() => fileInputRef.current?.click()}
-            />
+            {isVideo ? (
+              <div className="category-video-preview">
+                <VideoPlayer file={file instanceof File ? file : previewUrl} />
+              </div>
+            ) : (
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="category-image-preview"
+                onClick={() => fileInputRef.current?.click()}
+              />
+            )}
             <button
               type="button"
               className="category-image-remove-btn"
@@ -91,7 +116,7 @@ const ImageUploadField = ({
             <span>
               <img src="/images/categories/add-image-icon.png" alt={label} />
             </span>
-            <span>Add Image</span>
+            <span>Add {allowVideo ? "File" : "Image"}</span>
           </button>
         )}
       </div>
@@ -100,69 +125,105 @@ const ImageUploadField = ({
 };
 
 const CategoryForm = () => {
+  const { categoryId } = useParams();
+
   const formikRef = useRef<any>(null);
   const errorListRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const onSubmit = async (values: FormValues, { setSubmitting }: any) => {
-    const uploadedUrls: Record<"icon" | "animation" | "background", string> = {
-      icon: "",
-      animation: "",
-      background: "",
+  const [editData, setEditData] = useState<CreateCategoryResponse | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await GetCategoryById(categoryId);
+      setEditData(response.data.data);
     };
 
-    const uploadedFiles: Record<string, File> = {};
+    if (categoryId) {
+      handleHttpReq(fetchData);
+    }
+  }, [categoryId]);
+
+  const initialValues: FormValues = {
+    categoryName: editData?.name || "",
+    rules: editData?.rules || "",
+    icon: editData?.icon || null,
+    ruleIntroEN: editData?.rulesIntro?.english || null,
+    ruleIntroAR: editData?.rulesIntro?.arabic || null,
+    background: editData?.background || null,
+  };
+  const onSubmit = async (values: FormValues, { setSubmitting }: any) => {
+    const uploadedUrls: Record<
+      "icon" | "ruleIntroEN" | "ruleIntroAR" | "background",
+      string
+    > = {
+      icon:
+        typeof values.icon === "string" ? values.icon : editData?.icon || "",
+      ruleIntroEN:
+        typeof values.ruleIntroEN === "string"
+          ? values.ruleIntroEN
+          : editData?.rulesIntro?.english || "",
+      ruleIntroAR:
+        typeof values.ruleIntroAR === "string"
+          ? values.ruleIntroAR
+          : editData?.rulesIntro?.arabic || "",
+      background:
+        typeof values.background === "string"
+          ? values.background
+          : editData?.background || "",
+    };
+
     try {
-      for (const key of ["icon", "animation", "background"] as const) {
-        if (values[key]) {
+      for (const key of [
+        "icon",
+        "ruleIntroEN",
+        "ruleIntroAR",
+        "background",
+      ] as const) {
+        if (values[key] && values[key] instanceof File) {
           const formData = new FormData();
           formData.append("file", values[key]);
-
-          const response = await handleHttpReq(async () => {
-            return await uploadFile(formData);
-          });
-
-          const uploadedLink = response?.data?.url;
-          if (uploadedLink) {
-            uploadedUrls[key] = uploadedLink;
-            uploadedFiles[key] = values[key];
+          const response = await handleHttpReq(() => uploadFile(formData));
+          if (response?.data?.url) {
+            uploadedUrls[key] = response.data.url;
           } else {
             throw new Error(`Upload failed for ${key}`);
           }
         }
       }
 
-      const categoryData = {
+      const categoryData: CreateCategoryPayload = {
         name: values.categoryName,
         rules: values.rules,
-        ...uploadedUrls,
+        background: uploadedUrls.background,
+        icon: uploadedUrls.icon,
+        rulesIntro: {
+          english: uploadedUrls.ruleIntroEN,
+          arabic: uploadedUrls.ruleIntroAR,
+        },
       };
 
-      await handleHttpReq(async () => {
-        await CreateNewCategory(categoryData);
-      });
+      if (categoryId) {
+        await handleHttpReq(
+          async () => await UpdateNewCategory(categoryId, categoryData)
+        );
+        showNotificationMessage(
+          "Success",
+          "Category updated successfully",
+          "success"
+        );
+      } else {
+        await handleHttpReq(async () => await CreateNewCategory(categoryData));
+        showNotificationMessage(
+          "Success",
+          "Category created successfully",
+          "success"
+        );
+      }
 
-      showNotificationMessage(
-        "Success",
-        `Successfully created new category`,
-        "success"
-      );
       navigate("/categories");
     } catch (error) {
-      console.error("Upload failed, rolling back:", error);
-      showNotificationMessage(
-        "Fail",
-        `Upload failed. Rolling back uploaded files. ${error}`,
-        "error"
-      );
-
-      for (const key in uploadedFiles) {
-        try {
-          console.log(`Rolling back file: ${key}`);
-          // Here you can add logic to actually delete the uploaded file if needed
-        } catch (rollbackError) {
-          console.error(`Rollback failed for ${key}:`, rollbackError);
-        }
-      }
+      console.error("Error saving category:", error);
+      showNotificationMessage("Fail", `Operation failed. ${error}`, "error");
     } finally {
       setSubmitting(false);
     }
@@ -173,25 +234,24 @@ const CategoryForm = () => {
       innerRef={formikRef}
       initialValues={initialValues}
       validationSchema={validationSchema}
+      enableReinitialize
       onSubmit={onSubmit}
     >
       {({ handleSubmit, validateForm }) => (
         <Form>
           <Header
-            pageTitle="Add Create"
-            showRightButton={true}
+            pageTitle={categoryId ? "Edit Category" : "Add Category"}
+            showRightButton
             onBackClick={() => navigate("/categories")}
-            rightButtonText="Create"
+            rightButtonText={categoryId ? "Update" : "Create"}
             rightButtonIcon="/images/header/save-icon.png"
             onRightButtonClick={async () => {
               const errors = await validateForm();
-              if (Object.keys(errors).length > 0) {
-                if (errorListRef.current) {
-                  errorListRef.current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
+              if (Object.keys(errors).length > 0 && errorListRef.current) {
+                errorListRef.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
               } else {
                 handleSubmit();
               }
@@ -207,24 +267,35 @@ const CategoryForm = () => {
               <Field
                 name="categoryName"
                 className="category-input"
-                placeholder="Please Write Category Name..."
+                placeholder="Enter Category Name..."
               />
             </div>
 
             <div className="category-input-section">
-              <h3 className="category-label">Rules</h3>
+              <h3 className="category-label">
+                Rules <span className="optional-span">(optional)</span>
+              </h3>
               <Field
                 as="textarea"
                 name="rules"
                 className="category-input"
-                placeholder="Please Write Rules..."
+                placeholder="Enter Rules..."
                 rows={5}
               />
             </div>
 
             <ImageUploadField name="icon" label="Icon" />
-            <ImageUploadField name="animation" label="Animation" />
             <ImageUploadField name="background" label="Background" />
+            <ImageUploadField
+              name="ruleIntroEN"
+              label="Rules Intro (EN)"
+              allowVideo
+            />
+            <ImageUploadField
+              name="ruleIntroAR"
+              label="Rules Intro (AR)"
+              allowVideo
+            />
           </div>
           <div ref={errorListRef}>
             <ErrorList />
