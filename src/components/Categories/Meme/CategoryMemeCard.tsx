@@ -20,13 +20,16 @@ const CategoryMemeCard = forwardRef<HTMLDivElement, { props: MemeCardProps }>(
         }}
         ref={ref}
       >
-        <RiDeleteBin6Line
-          className="category-card-delete-icon"
-          onClick={(event) => {
-            event.stopPropagation();
-            handleQuestionDeleteClick();
-          }}
-        />
+        <div className="category-card-icons">
+          {" "}
+          <RiDeleteBin6Line
+            className="category-card-delete-icon"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleQuestionDeleteClick();
+            }}
+          />
+        </div>
         <img
           src={name}
           onError={(e) => {

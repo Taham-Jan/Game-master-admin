@@ -59,21 +59,41 @@
     solid var(--outline-hover-color);
 }
 
-.category-card-delete-icon {
+.category-card:hover .category-card-icons {
+  opacity: 1;
+}
+
+.category-card-icons {
   position: absolute;
   top: 5px;
   right: 5px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.category-card-delete-icon,
+.category-card-edit-icon {
   border-radius: 50%;
   font-weight: bold;
   color: white;
-  background-color: #be3144;
-  padding: 10px;
+  padding: 0.4em;
   z-index: 10;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  font-size: 20px;
+  font-size: 1.6em;
 }
 
+.category-card-delete-icon {
+  background-color: #be3144;
+}
+
+.category-card-edit-icon {
+  background-color: #20618e;
+}
+
+/* 
 .category-card-edit-container {
   font-weight: bold;
   cursor: pointer;
@@ -90,21 +110,7 @@
 
 .category-card-edit-container:hover {
   transform: scale(1.05);
-}
-.category-card-edit-icon {
-  position: absolute;
-  top: 5px;
-  right: 50px;
-  border-radius: 50%;
-  font-weight: bold;
-  color: white;
-  background-color: #20618e;
-  padding: 10px;
-  z-index: 10;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-  font-size: 20px;
-}
+} */
 
 .category-card-delete-icon:hover,
 .category-card-edit-icon:hover {

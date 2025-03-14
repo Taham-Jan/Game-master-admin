@@ -23,20 +23,22 @@ const CategoryCard = forwardRef<HTMLDivElement, { props: CategoryCardProps }>(
           onClick={() => navigate(`/categories-questions/${item._id}`)}
           ref={ref}
         >
-          <CiEdit
-            className="category-card-edit-icon"
-            onClick={(event) => {
-              event.stopPropagation();
-              navigate(`/categories-form-edit/${item._id}`);
-            }}
-          />
-          <RiDeleteBin6Line
-            className="category-card-delete-icon"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleQuestionDeleteClick();
-            }}
-          />
+          <div className="category-card-icons">
+            <CiEdit
+              className="category-card-edit-icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate(`/categories-form-edit/${item._id}`);
+              }}
+            />
+            <RiDeleteBin6Line
+              className="category-card-delete-icon"
+              onClick={(event) => {
+                event.stopPropagation();
+                handleQuestionDeleteClick();
+              }}
+            />
+          </div>
 
           <img
             src={item.icon}

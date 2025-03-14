@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import Header from "../../Header";
 import "../../../styles/CategoryQuestion.css";
@@ -21,6 +21,8 @@ import { uploadFile } from "../../../services/UploadService";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
 import { showNotificationMessage } from "../../../utils/toast";
 import SelectBox from "../../Shared/SelectBox";
+import CustomCheckBox from "../../Shared/CustomCheckBox";
+import MultiSelectCheckBox from "../../Shared/MultiSelectCheckBox";
 
 enum QuestionMode {
   TEXT = "Text Mode",
@@ -66,7 +68,8 @@ const validationSchema = Yup.object().shape({
     then: (schema) => schema.required("File is required"),
     otherwise: (schema) => schema.notRequired(),
   }),
-  ageRange: Yup.string().required("Age range is required"),
+  // ageRange: Yup.string().required("Age range is required"),
+  ageRange: Yup.array().min(1, "Please select at least one age range"),
 });
 
 function convertServerQuestionMode(questionType: string): QuestionMode {
@@ -105,7 +108,7 @@ type FormValueType = {
   answers: { [key: string]: { ar: string; en: string } };
   selectedAnswer: string | null;
   selectedFile: File | string | null;
-  ageRange: AgeRangeType;
+  ageRange: AgeRangeType[];
 };
 
 const CategoryQuestionForm: React.FC = () => {
@@ -166,7 +169,7 @@ const CategoryQuestionForm: React.FC = () => {
     },
     selectedAnswer: editData?.correctAnswer || (null as string | null),
     selectedFile: editData?.media || (null as File | string | null),
-    ageRange: editData?.ageRange || AgeRanges[0],
+    ageRange: editData?.ageRange || [],
   };
 
   const handleSubmit = async (values: FormValueType) => {
@@ -268,13 +271,19 @@ const CategoryQuestionForm: React.FC = () => {
                 }}
                 disabled={!!id}
               />
-              <SelectBox
+              {/* <SelectBox
                 label="Age Range"
                 value={values.ageRange}
                 options={AgeRanges}
                 onChange={(e) => {
                   setFieldValue("ageRange", e.target.value);
                 }}
+              /> */}
+              <Field
+                name="ageRange"
+                component={MultiSelectCheckBox}
+                options={AgeRanges}
+                label="Age Range"
               />
             </div>
             <div className="language-toggle">
@@ -408,29 +417,35 @@ const CategoryQuestionForm: React.FC = () => {
 
             <div className="answer-button-group">
               {(["A", "B", "C", "D"] as const).map((letter) => (
-                <div
-                  key={letter}
-                  className={`answer-button ${
-                    values.selectedAnswer === letter ? "selected" : ""
-                  }`}
-                  onClick={() => setFieldValue("selectedAnswer", letter)}
-                >
-                  <label htmlFor={`answer${letter}`}>
-                    {letter}.{/* ({language.toUpperCase()}) */}
-                  </label>
-                  <input
-                    id={`answer${letter}`}
-                    type="text"
-                    value={values.answers[letter][language]}
-                    onChange={(e) =>
-                      setFieldValue(
-                        `answers.${letter}.${language}`,
-                        e.target.value
-                      )
-                    }
-                    placeholder={`Enter the answer text (${language.toUpperCase()})`}
-                  />
-                </div>
+                <>
+                  <div
+                    key={letter}
+                    className={`answer-button 
+                      `}
+                    // ${values.selectedAnswer === letter ? "selected" : ""}
+                  >
+                    <CustomCheckBox
+                      checked={values.selectedAnswer === letter}
+                      onChange={() => setFieldValue("selectedAnswer", letter)}
+                      size={32}
+                    />
+                    <label htmlFor={`answer${letter}`}>
+                      {letter}.{/* ({language.toUpperCase()}) */}
+                    </label>
+                    <input
+                      id={`answer${letter}`}
+                      type="text"
+                      value={values.answers[letter][language]}
+                      onChange={(e) =>
+                        setFieldValue(
+                          `answers.${letter}.${language}`,
+                          e.target.value
+                        )
+                      }
+                      placeholder={`Enter the answer text (${language.toUpperCase()})`}
+                    />
+                  </div>
+                </>
               ))}
             </div>
           </div>

@@ -71,7 +71,7 @@ const CategoryMemeList = () => {
           rightButtonIconAxis: "18%",
         }}
       />
-      {data.length && memeTypes.length ? (
+      {data && memeTypes.length ? (
         <div className="adaptable-container">
           <SelectBox
             label="Meme Type"

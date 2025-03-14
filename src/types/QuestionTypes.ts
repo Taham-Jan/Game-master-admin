@@ -1,6 +1,6 @@
 export type QuestionTypes = "text" | "image" | "video" | "audio";
 
-export const AgeRanges = ["6-12", "13-18", "19-30", "31-45", "45 Above"];
+export const AgeRanges = ["All", "Kids", "Normal", "Hard"];
 
 export type AgeRangeType = (typeof AgeRanges)[number];
 
@@ -25,7 +25,7 @@ export type CategoryQuestionCreatePayload = {
   };
   media?: string;
   correctAnswer: string;
-  ageRange: AgeRangeType;
+  ageRange: AgeRangeType[];
 };
 
 export type CategoryQuestionUpdatePayload = CategoryQuestionCreatePayload;
@@ -34,7 +34,7 @@ export interface CategoryQuestionResponse {
   category: string;
   questionType: QuestionTypes;
   media: string;
-  ageRange: AgeRangeType;
+  ageRange: AgeRangeType[];
   text: {
     en: string;
     ar: string;

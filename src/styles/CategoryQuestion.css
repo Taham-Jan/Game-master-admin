@@ -190,9 +190,12 @@
   gap: clamp(0.5rem, 1vw, 0.7rem);
 }
 
-.answer-button.selected {
+.answer-button:hover {
   outline: clamp(5px, 1vw, 6px) solid var(--outline-hover-color);
 }
+/* .answer-button.selected {
+  outline: clamp(5px, 1vw, 6px) solid var(--outline-hover-color);
+} */
 
 .answer-button > label {
   cursor: pointer;
