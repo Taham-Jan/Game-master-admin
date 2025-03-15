@@ -10,7 +10,7 @@ interface SelectBoxProps {
   includeAllOption?: boolean;
 }
 
-const SelectBox: React.FC<SelectBoxProps> = ({
+export const SelectBox: React.FC<SelectBoxProps> = ({
   label,
   value,
   options,
@@ -38,4 +38,39 @@ const SelectBox: React.FC<SelectBoxProps> = ({
   );
 };
 
-export default SelectBox;
+export const RoundSettingSelectBox: React.FC<
+  SelectBoxProps & { seperatorLine?: boolean }
+> = ({
+  label,
+  value,
+  options,
+  onChange,
+  disabled = false,
+  className = "",
+  includeAllOption = false,
+  seperatorLine = false,
+}) => {
+  return (
+    <>
+      <div className="round-setting-card-option">
+        <span className="round-setting-card-heading">{label}</span>
+        <div className="round-setting-select-box">
+          <select value={value ?? ""} disabled={disabled} onChange={onChange}>
+            {includeAllOption && <option value="">ALL</option>}
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+      {seperatorLine && (
+        <img
+          className="seperator-line"
+          src="/images/roundManager/seperator-line.png"
+        />
+      )}
+    </>
+  );
+};

@@ -2,24 +2,301 @@
   --round-card-heading-bg: #15187f;
   --round-card-border: 3px solid #777ab6;
   --round-card-bg: #0d0f5c;
-  --round-card-header-fs: clamp(0.6em, 3vw, 1.2em);
+  --round-card-font-color: #244d72;
+  --basic-font-size: clamp(0.6em, 3vw, 1.2em);
+  --game-mode-green-gradient: linear-gradient(
+    0deg,
+    #94cbff 0%,
+    #81c8a6 1%,
+    #ffffff 90%
+  );
+  --game-mode-magenta-gradient: linear-gradient(
+    0deg,
+    #94cbff 0%,
+    #c381c9 1%,
+    #ffffff 90%
+  );
+  --game-mode-basic-gradient: linear-gradient(
+    0deg,
+    #94cbff 0%,
+    #94cbff 1%,
+    #ffffff 90%
+  );
+  --round-setting-select-box-gradient: linear-gradient(
+    0deg,
+    rgba(20, 43, 119, 1) 50%,
+    rgba(55, 120, 200, 1) 100%
+  );
+}
+.round-manager-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.round-manager-main-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 20px;
+}
+
+.round-manager-left-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  max-height: 100vh;
+}
+
+.round-manager-right-container {
+  height: 100%;
+  max-height: 100vh;
+}
+
+.round-manager-left-container .round-Manager-card-container {
+  flex-grow: 1;
+  height: 50%;
+}
+
+.round-manager-right-container .round-Manager-card-container {
+  max-height: 100%;
 }
 
 .round-Manager-card-container {
   border: var(--round-card-border);
   background-color: var(--round-card-bg);
-  width: 400px;
-  min-height: 200px;
   border-radius: 15px;
-  overflow: hidden;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 180px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.round-Manager-card-container:hover {
+  box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
 }
 
-.round-Manager-card-heading {
-  padding: 0.8rem;
+.round-Manager-card-parent-heading {
+  padding: 1rem;
   text-align: center;
   font-weight: bolder;
   background-color: var(--round-card-heading-bg);
-  font-size: var(--round-card-header-fs);
+  font-size: var(--basic-font-size);
+  color: white;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
+
 .round-Manager-card-list {
+  overflow: auto;
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.round-Manager-card-list::placeholder {
+  color: #f9fcff;
+}
+
+.round-Manager-card-list::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+
+.round-Manager-card-list::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+.round-Manager-card-list::-webkit-scrollbar-thumb {
+  background: #20618e;
+  cursor: pointer;
+}
+
+.round-Manager-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 0px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.round-Manager-card:hover {
+  transform: scale(1.01);
+}
+
+.round-Manager-card.green {
+  background: var(--game-mode-green-gradient);
+}
+.round-Manager-card.magenta {
+  background: var(--game-mode-magenta-gradient);
+}
+.round-Manager-card.basic {
+  background: var(--game-mode-basic-gradient);
+}
+
+.round-Manager-card-heading {
+  font-size: var(--basic-font-size);
+  font-weight: bolder;
+  padding: 15px 10px;
+  color: var(--round-card-font-color);
+  text-shadow: var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px, var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px, var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px;
+  -webkit-font-smoothing: antialiased;
+}
+.round-Manager-card img {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.round-Manager-card img:hover {
+  transform: rotate(180deg);
+}
+
+.round-setting-card-container {
+  border: var(--round-card-border);
+  background: var(--game-mode-basic-gradient);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.round-setting-card-parent-heading {
+  padding: 1rem;
+  text-align: center;
+  font-weight: bolder;
+  background: var(--game-mode-basic-gradient);
+  font-size: var(--basic-font-size);
+  color: var(--round-card-font-color);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.round-setting-card-child-container {
+  padding: 40px;
+}
+
+.round-setting-card-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.round-setting-card-heading {
+  color: var(--round-card-font-color);
+  font-weight: bolder;
+  font-size: var(--basic-font-size);
+  text-shadow: var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px, var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px, var(--round-card-bg) 0px 0px 0.4px,
+    var(--round-card-bg) 0px 0px 0.4px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.seperator-line {
+  display: flex;
+  padding: 10px 10px;
+  width: 100%;
+  height: 2px;
+}
+
+.round-setting-select-box > select {
+  appearance: none;
+  border-radius: 8px;
+  height: auto;
+  border: 2px solid #7b9bcc;
+  background: var(--round-setting-select-box-gradient);
+  padding: 10px;
+  flex: 1;
+  font-size: var(--basic-font-size);
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.round-setting-select-box {
+  position: relative;
+  display: flex;
+  width: clamp(6rem, 20vw, 10em);
+  min-height: clamp(1em, 3vw, 2em);
+}
+
+.round-setting-select-box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%);
+  background-image: url("/images/roundManager/dropdown-button-icon.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.round-setting-select-box > select > option {
+  background: rgba(20, 43, 119, 1);
+  font-size: clamp(0.6em, 2vw, 0.8em);
+}
+.round-setting-select-box > select::-ms-expand {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .round-manager-main-container {
+    grid-template-columns: 1fr;
+  }
+
+  .round-manager-left-container,
+  .round-manager-right-container {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .round-manager-main-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .round-manager-left-container,
+  .round-manager-right-container {
+    flex-direction: column;
+  }
+
+  .round-Manager-card-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .round-manager-main-container {
+    padding: 5px;
+  }
+
+  .round-Manager-card-container {
+    padding: 5px;
+    max-width: 100%;
+  }
+
+  .round-Manager-card-heading {
+    font-size: 0.9em;
+  }
 }
