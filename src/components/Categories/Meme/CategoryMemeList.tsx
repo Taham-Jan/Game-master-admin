@@ -12,7 +12,7 @@ import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
 import CustomDeleteDialog from "../../Dialog/CustomDeleteDialog";
 import { useEffect, useState } from "react";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
-import SelectBox from "../../Shared/SelectBox";
+import { SelectBox } from "../../Shared/SelectBox";
 import Loader from "../../Loader/loader";
 
 type MemesExtraData = {

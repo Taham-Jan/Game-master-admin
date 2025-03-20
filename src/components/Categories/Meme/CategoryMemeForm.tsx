@@ -7,7 +7,7 @@ import AudioPlayer from "../Questions/AudioPlayer";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
 import Dialog from "../../Dialog/DialogBox";
 import { createNewMeme, GetMemeTypes } from "../../../services/MemeService";
-import SelectBox from "../../Shared/SelectBox";
+import { SelectBox } from "../../Shared/SelectBox";
 import Loader from "../../Loader/loader";
 
 type FileType = "IMAGE" | "VIDEO" | "SOUND" | "";

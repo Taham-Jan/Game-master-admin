@@ -10,7 +10,7 @@ import RenderSvgButton from "../Shared/RenderSvgButton";
 import { useNavigate } from "react-router-dom";
 import CustomDeleteDialog from "../Dialog/CustomDeleteDialog";
 
-type CategoriesExtraData = {
+export type CategoriesExtraData = {
   message: string;
   nextCursor: string;
   totalCategories: number;

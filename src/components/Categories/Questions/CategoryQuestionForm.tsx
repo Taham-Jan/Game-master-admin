@@ -20,7 +20,7 @@ import {
 import { uploadFile } from "../../../services/UploadService";
 import { handleHttpReq } from "../../../utils/HandleHttpReq";
 import { showNotificationMessage } from "../../../utils/toast";
-import SelectBox from "../../Shared/SelectBox";
+import { SelectBox } from "../../Shared/SelectBox";
 import CustomCheckBox from "../../Shared/CustomCheckBox";
 import MultiSelectCheckBox from "../../Shared/MultiSelectCheckBox";
 

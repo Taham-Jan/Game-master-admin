@@ -129,7 +129,11 @@
   transition: all 0.3s ease-in-out;
 }
 
-.round-Manager-card:hover {
+.round-Manager-card.disabled {
+  opacity: 0.4;
+}
+
+.round-Manager-card:not(.disabled):hover {
   transform: scale(1.01);
 }
 
@@ -257,6 +261,10 @@
 }
 .round-setting-select-box > select::-ms-expand {
   display: none;
+}
+
+.round-manager-middle-container {
+  margin: auto 0px;
 }
 
 @media (max-width: 1024px) {
