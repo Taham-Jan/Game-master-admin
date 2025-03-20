@@ -12,7 +12,7 @@ export interface roundOrderMiniGame {
 export interface IRoundManager {
   _id: string;
   isManual: boolean;
-  roundOrder: roundOrderCategory | roundOrderMiniGame[];
+  roundOrder: (roundOrderCategory | roundOrderMiniGame)[];
   roundSettings: {
     suggestBreak: boolean;
     breakDuration: number;

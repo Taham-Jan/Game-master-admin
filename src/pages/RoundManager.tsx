@@ -1,6 +1,8 @@
-import React from "react";
-import RounderManagerSetup from "../components/RoundManager/RounderManagerSetup";
+import React, { lazy } from "react";
 
+const RounderManagerSetup = lazy(
+  () => import("../components/RoundManager/RounderManagerSetup")
+);
 const RoundManager = () => {
   return <RounderManagerSetup />;
 };
