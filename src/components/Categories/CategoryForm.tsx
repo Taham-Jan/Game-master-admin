@@ -35,7 +35,7 @@ const validationSchema = Yup.object().shape({
   // animation: Yup.mixed().required("Animation is required"),
   // ruleIntroEN: Yup.mixed().required("Rule intro in english is required"),
   // ruleIntroAR: Yup.mixed().required("Rule intro in arabic is required"),
-  background: Yup.mixed().required("Background is required"),
+  // background: Yup.mixed().required("Background is required"),
 });
 
 const ImageUploadField = ({
@@ -286,7 +286,7 @@ const CategoryForm = () => {
 
             <ImageUploadField name="icon" label="Icon" />
             <ImageUploadField name="background" label="Background" />
-            <ImageUploadField
+            {/* <ImageUploadField
               name="ruleIntroEN"
               label="Rules Intro (EN)"
               allowVideo
@@ -295,7 +295,7 @@ const CategoryForm = () => {
               name="ruleIntroAR"
               label="Rules Intro (AR)"
               allowVideo
-            />
+            /> */}
           </div>
           <div ref={errorListRef}>
             <ErrorList />

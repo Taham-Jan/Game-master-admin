@@ -4,6 +4,7 @@ import useCursorListApi from "../../../hooks/useCursorListApi";
 import { CategoriesExtraData } from "../../Categories/CategoriesList";
 import { getCategoriesListUrl } from "../../../services/CategoryService";
 import useInfiniteScroll from "../../../hooks/useInfiniteScroll";
+import Loader from "../../Loader/loader";
 
 interface RoundManagerCategoriesCardProps {
   type: "green" | "magenta" | "basic";
@@ -37,7 +38,9 @@ const RoundManagerCategoriesCard: React.FC<RoundManagerCategoriesCardProps> = ({
     extraData?.totalCategories,
     CategoryData.length
   );
-
+  if (loading) {
+    <Loader />;
+  }
   return (
     <div className="round-Manager-card-container">
       <div className="round-Manager-card-parent-heading">{title}</div>
