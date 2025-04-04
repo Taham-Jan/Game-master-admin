@@ -103,15 +103,17 @@ body {
   display: flex;
   width: 100%;
   justify-content: space-between;
+
   gap: clamp(1rem, 3vw, 1.8rem);
 }
 
 .select-box-children > h2 {
-  font-size: clamp(0.6em, 2vw, 1em);
+  font-size: clamp(0.3em, 1vw, 0.8em);
 }
+
 .check-box-text {
   font-weight: bold;
-  font-size: clamp(0.4em, 2vw, 0.8em);
+  font-size: clamp(0.4em, 1vw, 0.6em);
 }
 .checkbox-group {
   display: flex;
@@ -125,12 +127,12 @@ body {
   border-radius: 8px;
   height: fit-content;
   box-shadow: var(--button-shadow);
-  border: clamp(2px, 0.5vw, 4px) solid var(--nav-btn-border);
+  border: clamp(1px, 0.4vw, 2px) solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: clamp(2px, 0.5vw, 4px) solid var(--outline-color);
-  padding: clamp(0.6rem, 2vw, 0.8rem);
+  outline: clamp(1px, 0.4vw, 2px) solid var(--outline-color);
+  padding: clamp(0.4rem, 1vw, 0.5rem);
   flex: 1;
-  font-size: clamp(0.6em, 2vw, 0.8em);
+  font-size: clamp(0.4em, 1vw, 0.6em);
   font-weight: bold;
   color: #20618e;
   cursor: pointer;
@@ -147,8 +149,7 @@ body {
 .select-box {
   position: relative;
   display: flex;
-  width: clamp(10rem, 20vw, 15em);
-  height: clamp(2em, 5vw, 4em);
+  min-width: 100px;
 }
 
 .select-box::after {
@@ -156,13 +157,11 @@ body {
   position: absolute;
   top: 20%;
   right: 5%;
-  width: clamp(1px, 0.8vw, 2px);
-  height: clamp(1px, 0.8vw, 2px);
   background-image: url("/images/categories/question-dropdown-icon.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  padding: clamp(0.4em, 2vw, 0.7em);
+  padding: clamp(0.4rem, 1vw, 0.5rem);
   transition: 0.25s all ease;
   pointer-events: none;
 }

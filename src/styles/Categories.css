@@ -6,11 +6,11 @@
   --category-min-font-size: 0.8em;
   --category-max-font-size: 2.5em;
 
-  --min-border: 2px;
-  --max-border: 4px;
+  --min-border: 1px;
+  --max-border: 2px;
 
-  --min-outline-width: 3px;
-  --max-outline-width: 6px;
+  --min-outline-width: 2px;
+  --max-outline-width: 3px;
 }
 .category-list-container {
   margin: auto;
@@ -29,14 +29,15 @@
   min-height: 400px;
 }
 .category-card {
-  width: 6vw;
+  width: 5vw;
   height: auto;
-  min-width: 120px;
-  min-height: 200px;
+  min-width: 80px;
+  min-height: 100px;
   position: relative;
   flex-direction: column;
   margin-bottom: 2%;
-  padding: clamp(40px, 2vw, 60px);
+  /* padding: clamp(20px, 2vw, 60px); */
+  padding: 20px;
   gap: 0.8em;
   display: flex;
   justify-content: center;
@@ -78,11 +79,11 @@
   border-radius: 50%;
   font-weight: bold;
   color: white;
-  padding: 0.4em;
+  padding: 0.3em;
   z-index: 10;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  font-size: 1.6em;
+  font-size: 1em;
 }
 
 .category-card-delete-icon {
@@ -128,7 +129,6 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-
   color: #20618e;
   text-align: center;
   font-weight: bold;
@@ -174,7 +174,7 @@
 
 .category-form-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
   padding: clamp(12px, 3vw, 20px);
   display: flex;
@@ -217,7 +217,7 @@
 }
 
 .category-image-preview {
-  width: clamp(150px, 10vw, 200px);
+  width: clamp(100px, 5vw, 150px);
   cursor: pointer;
   height: auto;
 }
@@ -243,7 +243,7 @@
 
 .category-input {
   width: 100%;
-  padding: clamp(10px, 2vw, 18px);
+  padding: clamp(10px, 1vw, 15px);
   border-radius: 8px;
   border: 1px solid #20618e;
   background: #dff1ff;
@@ -298,8 +298,9 @@
 
 .image-button {
   flex: 0.7;
-  min-width: 180px;
-  padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
+  min-width: 140px;
+  /* padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 20px); */
+  padding: 10px 15px;
   display: flex;
   gap: 6px;
   align-items: center;
@@ -319,7 +320,7 @@
 }
 
 .image-button img {
-  width: 30px;
+  width: 25px;
   height: auto;
 }
 
@@ -477,9 +478,10 @@
   justify-content: center;
   background: var(--start-btn-gradient);
   border: 3px solid #bce17c;
-  padding: 5px clamp(10px, 2vw, 25px);
+  padding: 0px 0px 0px 20px;
   border-radius: 20px;
   width: fit-content;
+
   box-shadow: var(--button-shadow);
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
@@ -494,7 +496,7 @@
 
 .importButton > svg {
   margin-left: 20px;
-  font-size: clamp(6rem, 5vw, 5rem);
+  font-size: clamp(4rem, 8vw, 5rem);
   font-weight: bold;
   width: 10rem;
   height: auto;

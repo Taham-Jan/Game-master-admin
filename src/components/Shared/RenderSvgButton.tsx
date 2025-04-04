@@ -31,7 +31,7 @@ const RenderSvgButton = ({
   return (
     <button className="importButton" onClick={onClick}>
       <img src={iconUrl} alt="Start Icon" />
-      <svg viewBox="0 0 850 250">
+      <svg viewBox="0 0 950 250">
         <defs>
           <linearGradient
             id="btnGradient"
@@ -53,11 +53,13 @@ const RenderSvgButton = ({
         <text
           className="svgText"
           x="20"
-          y={isSingleLine ? "130" : "100"}
+          // y={isSingleLine ? "130" : "100"}
+          y="130"
           fill="url(#btnGradient)"
           alignmentBaseline="middle"
         >
-          {isSingleLine || words.length === 1 ? (
+          {text}
+          {/* {isSingleLine || words.length === 1 ? (
             text
           ) : (
             <>
@@ -68,7 +70,7 @@ const RenderSvgButton = ({
                 {words.slice(1).join(" ")}{" "}
               </tspan>
             </>
-          )}
+          )} */}
         </text>
       </svg>
     </button>

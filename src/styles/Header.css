@@ -1,17 +1,17 @@
 :root {
-  --header-base-font-size: 1em;
-  --header-min-font-size: 0.9em;
-  --header-max-font-size: 1.6em;
+  --header-base-font-size: 0.9em;
+  --header-min-font-size: 0.6em;
+  --header-max-font-size: 1.2em;
 
   --header-min-stroke-width: 2px;
   --header-max-stroke-width: 6px;
 
-  --header-min-icon-size: 1.5em;
-  --header-max-icon-size: 2em;
+  --header-min-icon-size: 1.2em;
+  --header-max-icon-size: 1.8em;
 
   --header-icon-size: clamp(
     var(--header-min-icon-size),
-    1.6vw,
+    1vw,
     var(--header-max-icon-size)
   );
 }
@@ -49,10 +49,10 @@
 }
 
 .back-btn {
-  max-width: 9rem;
+  max-width: 6rem;
 }
 .right-btn {
-  max-width: 12rem;
+  max-width: 8rem;
 }
 
 .back-content,
@@ -64,7 +64,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  gap: 3%;
+  gap: 5px;
   align-items: center;
   justify-content: flex-end;
 }
@@ -88,7 +88,7 @@
 .right-svg-text > text {
   font-size: clamp(
     var(--header-min-font-size),
-    0.9vw,
+    0.7vw,
     var(--header-base-font-size)
   );
   font-weight: var(--font-bold);
@@ -117,7 +117,7 @@
 
 .header-title-container > img {
   width: 100%;
-  max-width: 30rem;
+  max-width: 20rem;
 }
 
 .title-svg-text {
@@ -129,7 +129,7 @@
 }
 
 .title-svg-text > text {
-  font-size: clamp(0.8em, 3vw, 1.6em);
+  font-size: clamp(1em, 1vw, 1.2em);
   font-weight: bold;
   stroke-width: clamp(
     var(--header-min-stroke-width),

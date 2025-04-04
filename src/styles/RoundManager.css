@@ -1,9 +1,9 @@
 :root {
   --round-card-heading-bg: #15187f;
-  --round-card-border: 3px solid #777ab6;
+  --round-card-border: 3px solid #a5a5a5;
   --round-card-bg: #0d0f5c;
   --round-card-font-color: #244d72;
-  --basic-font-size: clamp(0.6em, 3vw, 1.2em);
+  --basic-font-size: clamp(0.5em, 1vw, 0.9em);
   --game-mode-green-gradient: linear-gradient(
     0deg,
     #94cbff 0%,
@@ -32,7 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .round-manager-main-container {
@@ -40,7 +40,7 @@
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
-  gap: 20px;
+  gap: 10px;
 }
 
 .round-manager-left-container {
@@ -97,7 +97,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
 .round-Manager-card-list::placeholder {
@@ -125,7 +125,7 @@
   justify-content: space-between;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 0px 20px;
+  padding: 0px 15px;
   transition: all 0.3s ease-in-out;
 }
 
@@ -159,8 +159,8 @@
   -webkit-font-smoothing: antialiased;
 }
 .round-Manager-card img {
-  width: 32px;
-  height: 32px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }
@@ -190,7 +190,7 @@
 }
 
 .round-setting-card-child-container {
-  padding: 40px;
+  padding: 20px;
 }
 
 .round-setting-card-option {

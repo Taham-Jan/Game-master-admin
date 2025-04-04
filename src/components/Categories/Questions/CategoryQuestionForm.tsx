@@ -257,21 +257,21 @@ const CategoryQuestionForm: React.FC = () => {
             }}
           />
           <div className="adaptable-container">
-            <div className="question-select-box-container">
-              <SelectBox
-                label="Question Mode"
-                value={values.questionMode}
-                options={Object.values(QuestionMode)}
-                onChange={(e) => {
-                  const newMode = e.target.value;
-                  setFieldValue("questionMode", newMode);
-                  setFieldValue("selectedFile", null);
-                  setFieldValue("questionText", { en: "", ar: "" });
-                  if (fileInputRef.current) fileInputRef.current.value = "";
-                }}
-                disabled={!!id}
-              />
-              {/* <SelectBox
+            {/* <div className="question-select-box-container"> */}
+            <SelectBox
+              label="Question Mode"
+              value={values.questionMode}
+              options={Object.values(QuestionMode)}
+              onChange={(e) => {
+                const newMode = e.target.value;
+                setFieldValue("questionMode", newMode);
+                setFieldValue("selectedFile", null);
+                setFieldValue("questionText", { en: "", ar: "" });
+                if (fileInputRef.current) fileInputRef.current.value = "";
+              }}
+              disabled={!!id}
+            />
+            {/* <SelectBox
                 label="Age Range"
                 value={values.ageRange}
                 options={AgeRanges}
@@ -279,13 +279,13 @@ const CategoryQuestionForm: React.FC = () => {
                   setFieldValue("ageRange", e.target.value);
                 }}
               /> */}
-              <Field
-                name="ageRange"
-                component={MultiSelectCheckBox}
-                options={AgeRanges}
-                label="Age Range"
-              />
-            </div>
+            <Field
+              name="ageRange"
+              component={MultiSelectCheckBox}
+              options={AgeRanges}
+              label="Age Range"
+            />
+            {/* </div> */}
             <div className="language-toggle">
               <button
                 type="button"

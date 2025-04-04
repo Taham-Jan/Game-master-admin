@@ -36,18 +36,19 @@
   transform: translateX(-50%);
 }
 .game-logo {
-  width: clamp(250px, 40vw, 600px);
+  width: clamp(200px, 30vw, 500px);
   transform: translate(5%, -10%);
 }
 
 .startButton {
-  width: 20rem;
+  width: 15rem;
   background: var(--start-btn-gradient);
   border: 2px solid #bce17c;
-  padding: clamp(10px, 2vw, 20px) clamp(8px, 1.5vw, 15px);
+  /* padding: clamp(10px, 2vw, 20px) clamp(8px, 1.5vw, 15px); */
+  padding: 15px 0px;
   display: flex;
   align-items: center;
-  gap: 1vw;
+  /* gap: 1vw; */
   border-radius: 20px;
   box-shadow: var(--button-shadow);
   transition: transform 0.2s ease-in-out;
@@ -60,7 +61,7 @@
   /* transform: translateY(-50px) scale(1.05); */
 }
 .startButton > img {
-  margin-left: 2vw;
+  margin-left: 40px;
   pointer-events: none;
   height: clamp(20px, 2vw, 30px);
 }
@@ -90,7 +91,7 @@
 }
 
 .navigationButton {
-  min-width: 250px;
+  min-width: 180px;
   padding: 15px 20px 15px 25px;
   display: flex;
   gap: 10px;
@@ -111,7 +112,7 @@
 .navigationButton > img {
   pointer-events: none;
   max-width: 100%;
-  height: 35px;
+  height: 30px;
 }
 
 .navigationButton > label {
@@ -120,7 +121,7 @@
   text-align: left;
   color: #20618e;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 12px;
   pointer-events: none;
 }
 

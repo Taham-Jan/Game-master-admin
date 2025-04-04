@@ -21,7 +21,6 @@ const CategoryMemeCard = forwardRef<HTMLDivElement, { props: MemeCardProps }>(
         ref={ref}
       >
         <div className="category-card-icons">
-          {" "}
           <RiDeleteBin6Line
             className="category-card-delete-icon"
             onClick={(event) => {

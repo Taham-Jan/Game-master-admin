@@ -32,7 +32,7 @@ const MultiSelectCheckBox: React.FC<MultiSelectCheckBoxProps> = ({
             <CustomCheckBox
               checked={selectedValues.includes(option)}
               onChange={() => handleChange(option)}
-              size={32}
+              size={22}
             />
             <span className="check-box-text">{option}</span>
           </div>

@@ -147,8 +147,8 @@
 
 .language-toggle > button {
   display: flex;
-  padding: clamp(8px, 1.5vw, 10px);
-  width: clamp(120px, 5vw, 180px);
+  padding: clamp(6px, 1.5vw, 8px);
+  width: clamp(100px, 3vw, 150px);
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
@@ -156,15 +156,15 @@
   box-shadow: var(--button-shadow);
   border: 2px solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-color);
+  outline: clamp(2px, 0.5vw, 3px) solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
   color: #20618e;
   font-weight: bold;
-  font-size: clamp(0.6em, 2vw, 0.8em);
+  font-size: clamp(0.6em, 2vw, 0.7em);
 }
 
 .language-toggle > button.active {
-  outline: clamp(3px, 0.5vw, 4px) solid var(--outline-hover-color);
+  outline: clamp(2px, 0.5vw, 3px) solid var(--outline-hover-color);
 }
 
 .answer-button-group {
@@ -177,7 +177,7 @@
 
 .answer-button {
   display: flex;
-  padding: clamp(15px, 2vw, 20px);
+  padding: clamp(10px, 1vw, 15px);
   align-items: flex-end;
   justify-content: center;
   cursor: pointer;
@@ -185,7 +185,7 @@
   box-shadow: var(--button-shadow);
   border: clamp(3px, 0.5vw, 4px) solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: clamp(5px, 1vw, 6px) solid var(--outline-color);
+  outline: clamp(3px, 1vw, 4px) solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
   gap: clamp(0.5rem, 1vw, 0.7rem);
 }
