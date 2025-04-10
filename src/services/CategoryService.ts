@@ -33,8 +33,8 @@ export async function UpdateNewCategory(
   data: CreateCategoryPayload
 ) {
   return ApiService.fetchData<ApiResponse<CreateCategoryResponse>>({
-    url: "/gameApp/createcategory",
-    method: "post",
+    url: "/gameApp/editCategory",
+    method: "patch",
     data: { _id: categoryId, ...data },
   });
 }

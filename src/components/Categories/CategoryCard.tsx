@@ -50,6 +50,8 @@ const CategoryCard = forwardRef<HTMLDivElement, { props: CategoryCardProps }>(
           />
           <label>
             <span>{item.name}</span>
+            <br />
+            <span>{item.nameAR}</span>
           </label>
         </div>
         {/* <div className="category-card-edit-container">
