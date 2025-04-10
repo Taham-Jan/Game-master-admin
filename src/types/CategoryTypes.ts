@@ -1,11 +1,15 @@
+interface ITrans {
+  english: string;
+  arabic: string;
+}
 export interface GetCategoriesParams {
   name?: string;
 }
 
 export interface GetCategoriesResponse {
   _id: string;
-  name: string;
-  rules: string;
+  name: ITrans;
+  rules: ITrans;
   icon: string;
   animation: string;
   background: string;
@@ -14,26 +18,21 @@ export interface GetCategoriesResponse {
   __v: number;
 }
 
-interface IRulesIntro {
-  english: string;
-  arabic: string;
-}
-
 export type CreateCategoryPayload = {
-  name: string;
-  rules?: string;
+  name: ITrans;
+  rules?: ITrans;
   icon: string;
-  rulesIntro: IRulesIntro;
+  rulesIntro: ITrans;
   background: string;
 };
 
 export type UpdateCategoryPayload = Partial<CreateCategoryPayload>;
 
 export interface CreateCategoryResponse {
-  name: string;
-  rules: string;
+  name: ITrans;
+  rules: ITrans;
   icon: string;
-  rulesIntro: IRulesIntro;
+  rulesIntro: ITrans;
   background: string;
   _id: string;
   createdAt: Date;

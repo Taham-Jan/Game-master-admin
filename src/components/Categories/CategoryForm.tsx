@@ -20,23 +20,50 @@ import {
 import Loader from "../Loader/loader";
 
 type FormValues = {
-  categoryName: string;
-  rules: string;
+  categoryNameEN: string;
+  categoryNameAR: string;
+  rulesEN: string;
+  rulesAR: string;
   icon: File | string | null;
   ruleIntroEN: File | string | null;
   ruleIntroAR: File | string | null;
   background: File | string | null;
 };
 
-const validationSchema = Yup.object().shape({
-  categoryName: Yup.string().required("Category name is required"),
-  // rules: Yup.string().required("Rules are required"),
-  icon: Yup.mixed().required("Icon is required"),
-  // animation: Yup.mixed().required("Animation is required"),
-  // ruleIntroEN: Yup.mixed().required("Rule intro in english is required"),
-  // ruleIntroAR: Yup.mixed().required("Rule intro in arabic is required"),
-  // background: Yup.mixed().required("Background is required"),
-});
+const validationSchema = Yup.object()
+  .shape({
+    categoryNameEN: Yup.string().required(
+      "Category name in English is required"
+    ),
+    categoryNameAR: Yup.string().required(
+      "Category name in Arabic is required"
+    ),
+    rulesEN: Yup.string(),
+    rulesAR: Yup.string(),
+    icon: Yup.mixed().required("Icon is required"),
+    // animation: Yup.mixed().required("Animation is required"),
+    // ruleIntroEN: Yup.mixed().required("Rule intro in english is required"),
+    // ruleIntroAR: Yup.mixed().required("Rule intro in arabic is required"),
+    // background: Yup.mixed().required("Background is required"),
+  })
+  .test(
+    "both-or-none",
+    "Both English and Arabic rules must be filled or both left empty",
+    function (values) {
+      const { rulesEN, rulesAR } = values as any;
+      const isENFilled = !!rulesEN?.trim();
+      const isARFilled = !!rulesAR?.trim();
+
+      if ((isENFilled && isARFilled) || (!isENFilled && !isARFilled)) {
+        return true;
+      }
+      return this.createError({
+        path: "rulesEN",
+        message:
+          "Both English and Arabic rules must be filled or both left empty",
+      });
+    }
+  );
 
 const ImageUploadField = ({
   name,
@@ -144,8 +171,10 @@ const CategoryForm = () => {
   }, [categoryId]);
 
   const initialValues: FormValues = {
-    categoryName: editData?.name || "",
-    rules: editData?.rules || "",
+    categoryNameEN: editData?.name?.english || "",
+    categoryNameAR: editData?.name?.arabic || "",
+    rulesEN: editData?.rules?.english || "",
+    rulesAR: editData?.rules?.arabic || "",
     icon: editData?.icon || null,
     ruleIntroEN: editData?.rulesIntro?.english || null,
     ruleIntroAR: editData?.rulesIntro?.arabic || null,
@@ -192,8 +221,14 @@ const CategoryForm = () => {
       }
 
       const categoryData: CreateCategoryPayload = {
-        name: values.categoryName,
-        rules: values.rules,
+        name: {
+          english: values.categoryNameEN,
+          arabic: values.categoryNameAR,
+        },
+        rules: {
+          english: values.rulesEN,
+          arabic: values.rulesAR,
+        },
         background: uploadedUrls.background,
         icon: uploadedUrls.icon,
         rulesIntro: {
@@ -203,24 +238,26 @@ const CategoryForm = () => {
       };
 
       if (categoryId) {
-        await handleHttpReq(
-          async () => await UpdateNewCategory(categoryId, categoryData)
-        );
-        showNotificationMessage(
-          "Success",
-          "Category updated successfully",
-          "success"
-        );
+        await handleHttpReq(async () => {
+          await UpdateNewCategory(categoryId, categoryData);
+          showNotificationMessage(
+            "Success",
+            "Category updated successfully",
+            "success"
+          );
+          navigate("/categories");
+        });
       } else {
-        await handleHttpReq(async () => await CreateNewCategory(categoryData));
-        showNotificationMessage(
-          "Success",
-          "Category created successfully",
-          "success"
-        );
+        await handleHttpReq(async () => {
+          await CreateNewCategory(categoryData);
+          showNotificationMessage(
+            "Success",
+            "Category created successfully",
+            "success"
+          );
+        });
+        navigate("/categories");
       }
-
-      navigate("/categories");
     } catch (error) {
       console.error("Error saving category:", error);
       showNotificationMessage("Fail", `Operation failed. ${error}`, "error");
@@ -263,30 +300,51 @@ const CategoryForm = () => {
           />
           <div className="category-form-container">
             <div className="category-input-section">
-              <h2 className="category-label">Category Name</h2>
+              <h2 className="category-label">Category Name (EN)</h2>
               <Field
-                name="categoryName"
+                name="categoryNameEN"
                 className="category-input"
-                placeholder="Enter Category Name..."
+                placeholder="Enter Category Name in English..."
+              />
+            </div>
+
+            <div className="category-input-section">
+              <h2 className="category-label">Category Name (AR)</h2>
+              <Field
+                name="categoryNameAR"
+                className="category-input"
+                placeholder="Enter Category Name in Arabic..."
+              />
+            </div>
+            <div className="category-input-section">
+              <h3 className="category-label">
+                Rules (EN) <span className="optional-span">(optional)</span>
+              </h3>
+              <Field
+                as="textarea"
+                name="rulesEN"
+                className="category-input"
+                placeholder="Enter Rules in English..."
+                rows={5}
               />
             </div>
 
             <div className="category-input-section">
               <h3 className="category-label">
-                Rules <span className="optional-span">(optional)</span>
+                Rules (AR) <span className="optional-span">(optional)</span>
               </h3>
               <Field
                 as="textarea"
-                name="rules"
+                name="rulesAR"
                 className="category-input"
-                placeholder="Enter Rules..."
+                placeholder="Enter Rules in Arabic..."
                 rows={5}
               />
             </div>
 
             <ImageUploadField name="icon" label="Icon" />
             <ImageUploadField name="background" label="Background" />
-            {/* <ImageUploadField
+            <ImageUploadField
               name="ruleIntroEN"
               label="Rules Intro (EN)"
               allowVideo
@@ -295,7 +353,7 @@ const CategoryForm = () => {
               name="ruleIntroAR"
               label="Rules Intro (AR)"
               allowVideo
-            /> */}
+            />
           </div>
           <div ref={errorListRef}>
             <ErrorList />
