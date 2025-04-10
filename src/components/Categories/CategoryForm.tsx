@@ -171,10 +171,10 @@ const CategoryForm = () => {
   }, [categoryId]);
 
   const initialValues: FormValues = {
-    categoryNameEN: editData?.name?.english || "",
-    categoryNameAR: editData?.name?.arabic || "",
-    rulesEN: editData?.rules?.english || "",
-    rulesAR: editData?.rules?.arabic || "",
+    categoryNameEN: editData?.name || "",
+    categoryNameAR: editData?.nameAR || "",
+    rulesEN: editData?.rules || "",
+    rulesAR: editData?.rulesAR || "",
     icon: editData?.icon || null,
     ruleIntroEN: editData?.rulesIntro?.english || null,
     ruleIntroAR: editData?.rulesIntro?.arabic || null,
@@ -221,14 +221,12 @@ const CategoryForm = () => {
       }
 
       const categoryData: CreateCategoryPayload = {
-        name: {
-          english: values.categoryNameEN,
-          arabic: values.categoryNameAR,
-        },
-        rules: {
-          english: values.rulesEN,
-          arabic: values.rulesAR,
-        },
+        name: values.categoryNameEN,
+        nameAR: values.categoryNameAR,
+
+        rules: values.rulesEN,
+        rulesAR: values.rulesAR,
+
         background: uploadedUrls.background,
         icon: uploadedUrls.icon,
         rulesIntro: {

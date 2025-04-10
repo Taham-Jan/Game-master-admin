@@ -7,9 +7,10 @@ export interface GetCategoriesParams {
 }
 
 export interface GetCategoriesResponse {
-  _id: string;
-  name: ITrans;
-  rules: ITrans;
+  name: string;
+  nameAR: string;
+  rules?: string;
+  rulesAR?: string;
   icon: string;
   animation: string;
   background: string;
@@ -19,8 +20,10 @@ export interface GetCategoriesResponse {
 }
 
 export type CreateCategoryPayload = {
-  name: ITrans;
-  rules?: ITrans;
+  name: string;
+  nameAR: string;
+  rules?: string;
+  rulesAR?: string;
   icon: string;
   rulesIntro: ITrans;
   background: string;
@@ -29,8 +32,10 @@ export type CreateCategoryPayload = {
 export type UpdateCategoryPayload = Partial<CreateCategoryPayload>;
 
 export interface CreateCategoryResponse {
-  name: ITrans;
-  rules: ITrans;
+  name: string;
+  nameAR: string;
+  rules?: string;
+  rulesAR?: string;
   icon: string;
   rulesIntro: ITrans;
   background: string;
