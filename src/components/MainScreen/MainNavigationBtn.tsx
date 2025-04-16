@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { MenuItem } from "../../pages/MainScreen";
 
-const MainNavigationButton: React.FC<{ item: MenuItem }> = ({ item }) => {
+const MainNavigationButton: React.FC<{
+  item: MenuItem;
+  onButtonClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "submit" | "reset" | "button" | undefined;
+}> = ({ item, onButtonClick, type = "button" }) => {
   const words = item.text.split(" ");
 
   const navigate = useNavigate();
-  const onButtonClick = () => {
-    navigate(item.navigateTo);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (onButtonClick) {
+      onButtonClick(event);
+    } else {
+      navigate(item.navigateTo);
+    }
   };
   return (
-    <button className="navigationButton" onClick={onButtonClick}>
+    <button type={type} className="navigationButton" onClick={handleClick}>
       <img src={item.img} alt={item.text} />
       <label>
         <span>{words[0]}</span>

@@ -33,6 +33,9 @@ const CategoryMemeForm = lazy(
   () => import("./components/Categories/Meme/CategoryMemeForm")
 );
 
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute"));
+
 function App() {
   return (
     <Router>
@@ -41,33 +44,37 @@ function App() {
         <TopLoader ref={(ref) => Datahandle.setTopLoaderRef(ref)} />
         <Suspense fallback={<Loader />}>
           <Routes>
-            <Route path="/" element={<MainScreen />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/categories-form" element={<CategoryForm />} />
-            <Route
-              path="/categories-form-edit/:categoryId"
-              element={<CategoryForm />}
-            />
-            <Route path="/categories-questions">
-              <Route index element={<CategoryQuestionList />} />
-              <Route path=":id" element={<CategoryQuestionList />} />
-              <Route
-                path=":categoryId/form"
-                element={<CategoryQuestionForm />}
-              />
-              <Route
-                path=":categoryId/form/:id"
-                element={<CategoryQuestionForm />}
-              />
-            </Route>
+            <Route path="/login" element={<LoginPage />} />
 
-            <Route path="/categories-meme">
-              <Route index element={<CategoryMemeList />} />
-              <Route path=":id" element={<CategoryMemeList />} />
-              <Route path="form" element={<CategoryMemeForm />} />
-            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<MainScreen />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/categories-form" element={<CategoryForm />} />
+              <Route
+                path="/categories-form-edit/:categoryId"
+                element={<CategoryForm />}
+              />
+              <Route path="/categories-questions">
+                <Route index element={<CategoryQuestionList />} />
+                <Route path=":id" element={<CategoryQuestionList />} />
+                <Route
+                  path=":categoryId/form"
+                  element={<CategoryQuestionForm />}
+                />
+                <Route
+                  path=":categoryId/form/:id"
+                  element={<CategoryQuestionForm />}
+                />
+              </Route>
 
-            <Route path="/round-manager" element={<RoundManager />} />
+              <Route path="/categories-meme">
+                <Route index element={<CategoryMemeList />} />
+                <Route path=":id" element={<CategoryMemeList />} />
+                <Route path="form" element={<CategoryMemeForm />} />
+              </Route>
+
+              <Route path="/round-manager" element={<RoundManager />} />
+            </Route>
           </Routes>
         </Suspense>
       </MainLayout>
