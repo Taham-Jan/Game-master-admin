@@ -19,6 +19,13 @@ const RoundSettingsCard = () => {
           onChange={(value: string) => setFieldValue("isManual", value)}
           seperatorLine={true}
         />
+        <RoundSettingSelectBox
+          label="Stations Count"
+          value={values.stationsCount}
+          options={["4", "8"]}
+          onChange={(value: string) => setFieldValue("stationsCount", value)}
+          seperatorLine={true}
+        />
         <div className="round-setting-card-option">
           <span className="round-setting-card-heading">Suggest Break</span>
           <CustomCheckBox
@@ -58,7 +65,46 @@ const RoundSettingsCard = () => {
           onChange={(value: number) =>
             setFieldValue("roundSettings.pauseAfterQuestion", value)
           }
+          seperatorLine={true}
         />
+        <div className="round-setting-card-option">
+          <span className="round-setting-card-heading">50/50</span>
+          <CustomCheckBox
+            checked={values.roundSettings.halfPoint}
+            onChange={(checked: boolean) =>
+              setFieldValue("roundSettings.halfPoint", checked)
+            }
+            size={32}
+          />
+        </div>
+        <img
+          className="seperator-line"
+          src="/images/roundManager/seperator-line.png"
+        />
+        <div className="round-setting-card-option">
+          <span className="round-setting-card-heading">Double Points</span>
+          <CustomCheckBox
+            checked={values.roundSettings.doublePoint}
+            onChange={(checked: boolean) =>
+              setFieldValue("roundSettings.doublePoint", checked)
+            }
+            size={32}
+          />
+        </div>
+        <img
+          className="seperator-line"
+          src="/images/roundManager/seperator-line.png"
+        />
+        <div className="round-setting-card-option">
+          <span className="round-setting-card-heading">Steal Points</span>
+          <CustomCheckBox
+            checked={values.roundSettings.stealPoint}
+            onChange={(checked: boolean) =>
+              setFieldValue("roundSettings.stealPoint", checked)
+            }
+            size={32}
+          />
+        </div>
       </div>
     </div>
   );

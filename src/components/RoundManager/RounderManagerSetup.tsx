@@ -34,6 +34,9 @@ const validationSchema = Yup.object().shape({
     breakDuration: Yup.number().required("Break Duration required"),
     pauseAfterRule: Yup.number().required("Pause After Rule required"),
     pauseAfterQuestion: Yup.number().required("Pause After Question required"),
+    halfPoint: Yup.boolean(),
+    doublePoint: Yup.boolean(),
+    stealPoint: Yup.boolean(),
   }),
 });
 
@@ -71,6 +74,7 @@ const RounderManagerSetup = () => {
         ? "Manual"
         : "Auto"
       : "Manual",
+    stationsCount: roundManagerPreset?.stationsCount || "4",
     roundOrder: roundManagerPreset?.roundOrder || [],
     roundSettings: {
       suggestBreak: roundManagerPreset?.roundSettings.suggestBreak || false,
@@ -78,6 +82,9 @@ const RounderManagerSetup = () => {
       pauseAfterRule: roundManagerPreset?.roundSettings.pauseAfterRule || 1,
       pauseAfterQuestion:
         roundManagerPreset?.roundSettings.pauseAfterQuestion || 1,
+      halfPoint: roundManagerPreset?.roundSettings.halfPoint || false,
+      doublePoint: roundManagerPreset?.roundSettings.doublePoint || false,
+      stealPoint: roundManagerPreset?.roundSettings.stealPoint || false,
     },
   };
   const errorListRef = useRef<HTMLDivElement | null>(null);

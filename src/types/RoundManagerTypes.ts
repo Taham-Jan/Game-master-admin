@@ -13,11 +13,15 @@ export interface IRoundManager {
   _id: string;
   isManual: boolean;
   roundOrder: (roundOrderCategory | roundOrderMiniGame)[];
+  stationsCount: number;
   roundSettings: {
     suggestBreak: boolean;
     breakDuration: number;
     pauseAfterRule: number;
     pauseAfterQuestion: number;
+    halfPoint: boolean;
+    doublePoint: boolean;
+    stealPoint: boolean;
   };
   createdAt: Date;
   updatedAt: Date;

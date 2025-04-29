@@ -190,7 +190,25 @@
 }
 
 .round-setting-card-child-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 100vh;
   padding: 20px;
+}
+
+.round-setting-card-child-container::-webkit-scrollbar {
+  width: 6px;
+  cursor: pointer;
+}
+
+.round-setting-card-child-container::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+.round-setting-card-child-container::-webkit-scrollbar-thumb {
+  background: #20618e;
+  cursor: pointer;
 }
 
 .round-setting-card-option {
