@@ -101,7 +101,7 @@
   box-shadow: var(--button-shadow);
   border: 2px solid var(--nav-btn-border);
   background: var(--nav-btn-gradient);
-  outline: 4px solid var(--outline-color);
+  outline: 3px solid var(--outline-color);
   transition: transform 0.2s ease-in-out;
 }
 
@@ -129,7 +129,7 @@
 .startButton:active,
 .navigationButton:focus,
 .navigationButton:active {
-  outline: 6px solid var(--outline-color);
+  outline: 3px solid var(--outline-color);
 }
 
 @media (max-width: 1024px) {

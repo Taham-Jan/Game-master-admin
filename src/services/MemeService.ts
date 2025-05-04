@@ -24,3 +24,10 @@ export async function createNewMeme(data: any, controller?: AbortController) {
     signal: controller?.signal,
   });
 }
+
+export async function DeleteAllMemes() {
+  return ApiService.fetchData<void>({
+    url: "/gameApp/deleteAllMemes",
+    method: "delete",
+  });
+}

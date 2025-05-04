@@ -49,3 +49,10 @@ export async function updateCategoryQuestion(
     data: { ...data, _id: id },
   });
 }
+
+export async function DeleteAllQuestions() {
+  return ApiService.fetchData<void>({
+    url: "/gameApp/deleteAllQuestions",
+    method: "delete",
+  });
+}

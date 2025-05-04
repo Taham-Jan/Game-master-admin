@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header";
 import CategoryQuestionCard from "./CategoryQuestionCard";
 import {
+  DeleteAllQuestions,
   GetCategoryQuestionDeleteUrl,
   GetCategoryQuestionUrl,
   uploadCsvQuestions,
@@ -19,6 +20,7 @@ import Dialog from "../../Dialog/DialogBox";
 import { uploadFile } from "../../../services/UploadService";
 import CustomDeleteDialog from "../../Dialog/CustomDeleteDialog";
 import RenderSvgButton from "../../Shared/RenderSvgButton";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -98,6 +100,26 @@ const CategoryQuestionList = () => {
     setIsDialogOpen(true);
   };
 
+  const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
+
+  const onDeleteAllDialogClose = () => {
+    setShowDeleteAllDialog(false);
+  };
+
+  const onDeleteAllConfirm = async () => {
+    setShowDeleteAllDialog(false);
+
+    await handleHttpReq(async () => {
+      try {
+        DeleteAllQuestions();
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    fetchDataApi();
+  };
+
   return (
     <>
       <Header
@@ -146,7 +168,26 @@ const CategoryQuestionList = () => {
               />
             </label>
           </div>
+          <div className="category-question-list-import">
+            <button
+              type="button"
+              className="navigationButton"
+              onClick={() => setShowDeleteAllDialog(true)}
+            >
+              <RiDeleteBin6Line
+                style={{ color: "#20618e" }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              />
+
+              <label>
+                <span>Delete All Questions</span>
+              </label>
+            </button>
+          </div>
         </div>
+
         {data.map((item, index) => (
           <CategoryQuestionCard
             key={item._id || `fallback-key-${index}`}
@@ -173,6 +214,13 @@ const CategoryQuestionList = () => {
         isOpen={showDeleteDialog}
         onDialogClose={onDeleteDialogClose}
         onDeleteConfirm={onDeleteConfirm}
+      />
+
+      <CustomDeleteDialog
+        title="All Questions"
+        isOpen={showDeleteAllDialog}
+        onDialogClose={onDeleteAllDialogClose}
+        onDeleteConfirm={onDeleteAllConfirm}
       />
     </>
   );
