@@ -6,16 +6,18 @@ type CheckboxProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   size?: number;
+  style?: React.CSSProperties;
 };
 
 const CustomCheckBox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   size = 24,
+  style,
 }) => {
   return (
     <div
-      style={{ cursor: "pointer", width: size, height: size }}
+      style={{ cursor: "pointer", width: size, height: size, ...style }}
       onClick={() => onChange(!checked)}
     >
       <img

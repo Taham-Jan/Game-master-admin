@@ -1,14 +1,24 @@
 import { forwardRef } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MemesResponse } from "../../../types/MemeTypes";
+import CustomCheckBox from "../../Shared/CustomCheckBox";
 
 interface MemeCardProps extends MemesResponse {
   handleQuestionDeleteClick: () => void;
+  showCheckbox: boolean;
+  checkboxChecked: boolean;
+  onCheckboxChange: () => void;
 }
 
 const CategoryMemeCard = forwardRef<HTMLDivElement, { props: MemeCardProps }>(
   ({ props }, ref) => {
-    const { name, handleQuestionDeleteClick } = props;
+    const {
+      name,
+      handleQuestionDeleteClick,
+      checkboxChecked,
+      onCheckboxChange,
+      showCheckbox,
+    } = props;
 
     return (
       <div
@@ -20,15 +30,27 @@ const CategoryMemeCard = forwardRef<HTMLDivElement, { props: MemeCardProps }>(
         }}
         ref={ref}
       >
-        <div className="category-card-icons">
-          <RiDeleteBin6Line
-            className="category-card-delete-icon"
-            onClick={(event) => {
-              event.stopPropagation();
-              handleQuestionDeleteClick();
-            }}
+        {showCheckbox && (
+          <CustomCheckBox
+            style={{ position: "absolute", top: 8, left: 8 }}
+            checked={checkboxChecked}
+            onChange={onCheckboxChange}
+            size={24}
           />
-        </div>
+        )}
+
+        {!showCheckbox && (
+          <div className="category-card-icons">
+            <RiDeleteBin6Line
+              className="category-card-delete-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleQuestionDeleteClick();
+              }}
+            />
+          </div>
+        )}
+
         <img
           src={name}
           onError={(e) => {

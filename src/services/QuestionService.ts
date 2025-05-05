@@ -50,9 +50,20 @@ export async function updateCategoryQuestion(
   });
 }
 
-export async function DeleteAllQuestions() {
+export async function DeleteAllQuestions(categoryId: string) {
   return ApiService.fetchData<void>({
-    url: "/gameApp/deleteAllQuestions",
+    url: "/gameApp/deleteAllQuestions/" + categoryId,
     method: "delete",
+  });
+}
+
+export async function DeleteSelectedQuestions(
+  categoryId: string,
+  idx: string[]
+) {
+  return ApiService.fetchData<void>({
+    url: "/gameApp/deleteSelectedQuestions/" + categoryId,
+    method: "post",
+    data: { idx },
   });
 }

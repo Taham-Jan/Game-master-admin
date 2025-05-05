@@ -3,6 +3,7 @@ import Header from "../../Header";
 import CategoryQuestionCard from "./CategoryQuestionCard";
 import {
   DeleteAllQuestions,
+  DeleteSelectedQuestions,
   GetCategoryQuestionDeleteUrl,
   GetCategoryQuestionUrl,
   uploadCsvQuestions,
@@ -21,6 +22,8 @@ import { uploadFile } from "../../../services/UploadService";
 import CustomDeleteDialog from "../../Dialog/CustomDeleteDialog";
 import RenderSvgButton from "../../Shared/RenderSvgButton";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { GrSelect } from "react-icons/gr";
+import { MdCancel } from "react-icons/md";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -33,6 +36,10 @@ type CategoryQuestionExtraData = {
 const CategoryQuestionList = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   const listUrl = GetCategoryQuestionUrl();
   const deleteUrl = GetCategoryQuestionDeleteUrl();
   const initialFilter: GetCategoryQuestionParams = { categoryId: id! };
@@ -111,12 +118,39 @@ const CategoryQuestionList = () => {
 
     await handleHttpReq(async () => {
       try {
-        DeleteAllQuestions();
+        DeleteAllQuestions(id);
       } catch (error) {
         console.error(error);
       }
     });
 
+    fetchDataApi();
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const onStartSelect = () => {
+    setSelectionMode(true);
+    setSelectedIds([]);
+  };
+
+  const onCancelSelect = () => {
+    setSelectionMode(false);
+    setSelectedIds([]);
+  };
+
+  const onDeleteSelected = async () => {
+    if (!selectedIds.length) return;
+
+    await handleHttpReq(async () => {
+      await DeleteSelectedQuestions(id, selectedIds);
+    });
+    setSelectionMode(false);
+    setSelectedIds([]);
     fetchDataApi();
   };
 
@@ -168,24 +202,75 @@ const CategoryQuestionList = () => {
               />
             </label>
           </div>
-          <div className="category-question-list-import">
-            <button
-              type="button"
-              className="navigationButton"
-              onClick={() => setShowDeleteAllDialog(true)}
-            >
-              <RiDeleteBin6Line
-                style={{ color: "#20618e" }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              />
+          {!selectionMode ? (
+            <>
+              <div className="category-question-list-import">
+                <button className="navigationButton" onClick={onStartSelect}>
+                  <GrSelect
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
+                  <label>
+                    <span>Select</span>
+                  </label>
+                </button>
+              </div>
+              <div className="category-question-list-import">
+                <button
+                  type="button"
+                  className="navigationButton"
+                  onClick={() => setShowDeleteAllDialog(true)}
+                >
+                  <RiDeleteBin6Line
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
 
-              <label>
-                <span>Delete All Questions</span>
-              </label>
-            </button>
-          </div>
+                  <label>
+                    <span>Delete All Questions</span>
+                  </label>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="category-question-list-import">
+                <button className="navigationButton" onClick={onCancelSelect}>
+                  <MdCancel
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
+
+                  <label>
+                    <span>Cancel</span>
+                  </label>
+                </button>
+              </div>
+              <div className="category-question-list-import">
+                <button
+                  className="navigationButton"
+                  disabled={!selectedIds.length}
+                  onClick={onDeleteSelected}
+                >
+                  <RiDeleteBin6Line
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
+                  <label>
+                    <span>Delete Selected</span>
+                  </label>
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
         {data.map((item, index) => (
@@ -195,6 +280,9 @@ const CategoryQuestionList = () => {
             props={{
               ...item,
               categoryId: id,
+              showCheckbox: selectionMode,
+              checkboxChecked: selectedIds.includes(item._id),
+              onCheckboxChange: () => toggleSelect(item._id),
               handleQuestionDeleteClick: handleDeleteClick(item._id),
             }}
           />

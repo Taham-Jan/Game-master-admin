@@ -31,3 +31,11 @@ export async function DeleteAllMemes() {
     method: "delete",
   });
 }
+
+export async function DeleteSelectedMemes(idx: string[]) {
+  return ApiService.fetchData<void>({
+    url: "/gameApp/deleteSelectedMemes/",
+    method: "post",
+    data: { idx },
+  });
+}

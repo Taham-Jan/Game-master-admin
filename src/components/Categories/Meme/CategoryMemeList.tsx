@@ -4,6 +4,7 @@ import CategoryMemeCard from "./CategoryMemeCard";
 import {
   DeleteAllMemes,
   DeleteMemesUrl,
+  DeleteSelectedMemes,
   GetMemesUrl,
   GetMemeTypes,
 } from "../../../services/MemeService";
@@ -17,6 +18,8 @@ import { SelectBox } from "../../Shared/SelectBox";
 import Loader from "../../Loader/loader";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { showNotificationMessage } from "../../../utils/toast";
+import { MdCancel } from "react-icons/md";
+import { GrSelect } from "react-icons/gr";
 
 type MemesExtraData = {
   message: string;
@@ -29,6 +32,9 @@ const CategoryMemeList = () => {
   const [memeTypes, setMemeTypes] = useState<string[]>([]);
   const [selectedMemeType, setSelectedMemeType] = useState<string | null>(null);
   const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
+
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const listUrl = GetMemesUrl();
   const deleteUrl = DeleteMemesUrl();
@@ -76,9 +82,36 @@ const CategoryMemeList = () => {
   useEffect(() => {
     handleHttpReq(async () => {
       const memeTypeRes = await GetMemeTypes();
-      setMemeTypes(memeTypeRes?.data?.data);
+      setMemeTypes(memeTypeRes?.data?.data || []);
     });
   }, []);
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const onStartSelect = () => {
+    setSelectionMode(true);
+    setSelectedIds([]);
+  };
+
+  const onCancelSelect = () => {
+    setSelectionMode(false);
+    setSelectedIds([]);
+  };
+
+  const onDeleteSelected = async () => {
+    if (!selectedIds.length) return;
+
+    await handleHttpReq(async () => {
+      await DeleteSelectedMemes(selectedIds);
+    });
+    setSelectionMode(false);
+    setSelectedIds([]);
+    fetchDataApi();
+  };
 
   return (
     <>
@@ -114,41 +147,71 @@ const CategoryMemeList = () => {
               display: "flex",
               width: "100%",
               justifyContent: "flex-end",
+              flexWrap: "wrap",
               gap: "20px",
             }}
           >
-            {/* <button
-              type="button"
-              className="navigationButton"
-              onClick={() => {}}
-            >
-              <RiDeleteBin6Line
-                style={{ color: "#20618e" }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              />
+            {!selectionMode ? (
+              <>
+                <button className="navigationButton" onClick={onStartSelect}>
+                  <GrSelect
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
+                  <label>
+                    <span>Select</span>
+                  </label>
+                </button>
+                <button
+                  type="button"
+                  className="navigationButton"
+                  onClick={() => setShowDeleteAllDialog(true)}
+                >
+                  <RiDeleteBin6Line
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
 
-              <label>
-                <span>Delete Selected</span>
-              </label>
-            </button> */}
-            <button
-              type="button"
-              className="navigationButton"
-              onClick={() => setShowDeleteAllDialog(true)}
-            >
-              <RiDeleteBin6Line
-                style={{ color: "#20618e" }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              />
+                  <label>
+                    <span>Delete All Memes</span>
+                  </label>
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="navigationButton" onClick={onCancelSelect}>
+                  <MdCancel
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
 
-              <label>
-                <span>Delete All Memes</span>
-              </label>
-            </button>
+                  <label>
+                    <span>Cancel</span>
+                  </label>
+                </button>
+                <button
+                  className="navigationButton"
+                  disabled={!selectedIds.length}
+                  onClick={onDeleteSelected}
+                >
+                  <RiDeleteBin6Line
+                    style={{ color: "#20618e" }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  />
+                  <label>
+                    <span>Delete Selected</span>
+                  </label>
+                </button>
+              </>
+            )}
           </div>
           <div className="category-list-container">
             {data.map((item, index) => (
@@ -157,6 +220,9 @@ const CategoryMemeList = () => {
                 ref={index === data.length - 1 ? lastElementRef : null}
                 props={{
                   ...item,
+                  showCheckbox: selectionMode,
+                  checkboxChecked: selectedIds.includes(item._id),
+                  onCheckboxChange: () => toggleSelect(item._id),
                   handleQuestionDeleteClick: handleDeleteClick(item._id),
                 }}
               />
