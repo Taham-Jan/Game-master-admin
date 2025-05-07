@@ -22,7 +22,7 @@ const RoundSettingsCard = () => {
         <RoundSettingSelectBox
           label="Stations Count"
           value={values.stationsCount}
-          options={["4", "8"]}
+          options={["4", "5", "6", "7", "8"]}
           onChange={(value: string) => setFieldValue("stationsCount", value)}
           seperatorLine={true}
         />

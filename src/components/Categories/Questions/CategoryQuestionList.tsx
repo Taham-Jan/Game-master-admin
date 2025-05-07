@@ -9,6 +9,8 @@ import {
   uploadCsvQuestions,
 } from "../../../services/QuestionService";
 import {
+  AgeRanges,
+  AgeRangeType,
   CategoryQuestionResponse,
   GetCategoryQuestionParams,
 } from "../../../types/QuestionTypes";
@@ -24,6 +26,7 @@ import RenderSvgButton from "../../Shared/RenderSvgButton";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrSelect } from "react-icons/gr";
 import { MdCancel } from "react-icons/md";
+import { SelectBox } from "../../Shared/SelectBox";
 
 type CategoryQuestionExtraData = {
   categoryName: string;
@@ -39,10 +42,13 @@ const CategoryQuestionList = () => {
 
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
+  const [selectedAgeRange, setSelectedAgeRange] = useState<AgeRangeType>("All");
   const listUrl = GetCategoryQuestionUrl();
   const deleteUrl = GetCategoryQuestionDeleteUrl();
-  const initialFilter: GetCategoryQuestionParams = { categoryId: id! };
+  const initialFilter: GetCategoryQuestionParams = {
+    categoryId: id!,
+    ageRange: selectedAgeRange,
+  };
 
   const {
     data,
@@ -55,6 +61,7 @@ const CategoryQuestionList = () => {
     onDeleteConfirm,
     onDeleteDialogClose,
     showDeleteDialog,
+    setFilter,
   } = useCursorListApi<CategoryQuestionResponse, CategoryQuestionExtraData>(
     listUrl,
     deleteUrl,
@@ -272,7 +279,42 @@ const CategoryQuestionList = () => {
             </>
           )}
         </div>
-
+        <div
+          style={{
+            margin: "auto",
+            width: "72%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: "0.5rem",
+              marginLeft: "auto",
+              width: "fit-content",
+            }}
+          >
+            <SelectBox
+              label="Age Range"
+              value={
+                AgeRanges.includes(selectedAgeRange) ? selectedAgeRange : ""
+              }
+              options={AgeRanges}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedAgeRange(value);
+                setFilter({
+                  ...initialFilter,
+                  ageRange: value || "All",
+                });
+              }}
+            />
+            <span style={{ fontSize: "0.8rem" }}>
+              Total Questions: {extraData?.totalQuestions || 0}
+            </span>
+          </div>
+        </div>
         {data.map((item, index) => (
           <CategoryQuestionCard
             key={item._id || `fallback-key-${index}`}

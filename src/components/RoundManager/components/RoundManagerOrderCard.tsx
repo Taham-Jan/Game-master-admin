@@ -22,12 +22,20 @@ const RoundManagerOrderCard: React.FC<RoundManagerOrderCardProps> = ({
       <div className="round-Manager-card-parent-heading">{title}</div>
       <div className="round-Manager-card-list">
         {data.map((item, index) => (
-          <div className={`round-Manager-card ${type}`} key={index}>
+          // <div className={`round-Manager-card ${type}`} key={index}>
+          <div
+            className={`round-Manager-card ${
+              item.type === "category" ? "green" : "magenta"
+            }`}
+            key={index}
+          >
             <span className="round-Manager-card-heading">
               {item.type === "category" ? item.categoryName : item.minigame}
             </span>
             <img
-              src={`/images/roundManager/game-mode-active-${type}-icon.png`}
+              src={`/images/roundManager/game-mode-active-${
+                item.type === "category" ? "green" : "magenta"
+              }-icon1.png`}
               alt="remove item"
               onClick={() => onRemove(item)}
               style={{ cursor: "pointer" }}

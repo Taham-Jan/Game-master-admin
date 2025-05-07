@@ -17,6 +17,10 @@ export type CategoryQuestionCreatePayload = {
     en: string;
     ar: string;
   };
+  extraNotes?: {
+    en: string;
+    ar: string;
+  };
   options: {
     [key: string]: {
       ar: string;
@@ -35,6 +39,10 @@ export interface CategoryQuestionResponse {
   questionType: QuestionTypes;
   media: string;
   ageRange: AgeRangeType[];
+  extraNotes?: {
+    en: string;
+    ar: string;
+  };
   text: {
     en: string;
     ar: string;

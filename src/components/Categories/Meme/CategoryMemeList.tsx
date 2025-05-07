@@ -129,19 +129,6 @@ const CategoryMemeList = () => {
       />
       {data && memeTypes.length ? (
         <div className="adaptable-container">
-          <SelectBox
-            label="Meme Type"
-            value={selectedMemeType}
-            options={memeTypes}
-            includeAllOption
-            onChange={(e) => {
-              const value = e.target.value;
-
-              setSelectedMemeType(value);
-              if (value) setFilter({ memeType: value });
-              else setFilter({});
-            }}
-          />
           <div
             style={{
               display: "flex",
@@ -212,6 +199,40 @@ const CategoryMemeList = () => {
                 </button>
               </>
             )}
+          </div>
+          <div
+            style={{
+              margin: "auto",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+                gap: "0.5rem",
+                marginLeft: "auto",
+                width: "fit-content",
+              }}
+            >
+              <SelectBox
+                label="Meme Type"
+                value={selectedMemeType}
+                options={memeTypes}
+                includeAllOption
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  setSelectedMemeType(value);
+                  if (value) setFilter({ memeType: value });
+                  else setFilter({});
+                }}
+              />
+              <span style={{ fontSize: "0.8rem" }}>
+                Total Memes: {extraData?.totalMemes || 0}
+              </span>
+            </div>
           </div>
           <div className="category-list-container">
             {data.map((item, index) => (

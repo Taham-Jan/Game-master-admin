@@ -44,6 +44,19 @@ const validationSchema = Yup.object().shape({
       otherwise: (schema) => schema.notRequired(),
     }),
   }),
+  extraNotes: Yup.object({
+    en: Yup.string().trim(),
+    ar: Yup.string().trim(),
+  }).test(
+    "both-or-none",
+    "Both English and Arabic extra notes are required if one is provided",
+    ({ en, ar }) => {
+      const hasEn = Boolean(en);
+      const hasAr = Boolean(ar);
+      return (hasEn && hasAr) || (!hasEn && !hasAr);
+    }
+  ),
+
   selectedAnswer: Yup.string().required("Please select the correct answer"),
   answers: Yup.object().shape({
     A: Yup.object().shape({
@@ -105,6 +118,7 @@ function convertQuestionModeForServer(questionType: QuestionMode): string {
 type FormValueType = {
   questionMode: QuestionMode;
   questionText: { en: string; ar: string };
+  extraNotes: { en: string; ar: string };
   answers: { [key: string]: { ar: string; en: string } };
   selectedAnswer: string | null;
   selectedFile: File | string | null;
@@ -161,6 +175,7 @@ const CategoryQuestionForm: React.FC = () => {
   const initialValues: FormValueType = {
     questionMode: convertServerQuestionMode(editData?.questionType || "text"),
     questionText: editData?.text || { en: "", ar: "" },
+    extraNotes: editData?.extraNotes || { en: "", ar: "" },
     answers: editData?.options || {
       A: { en: "", ar: "" },
       B: { en: "", ar: "" },
@@ -201,6 +216,10 @@ const CategoryQuestionForm: React.FC = () => {
           questionType: convertQuestionModeForServer(values.questionMode),
           media: uploadedLink || undefined,
           text: values.questionText,
+          extraNotes:
+            values.extraNotes.en && values.extraNotes.ar
+              ? values.extraNotes
+              : undefined,
         });
       } else {
         await createNewCategoryQuestion({
@@ -211,6 +230,10 @@ const CategoryQuestionForm: React.FC = () => {
           questionType: convertQuestionModeForServer(values.questionMode),
           media: uploadedLink || undefined,
           text: values.questionText,
+          extraNotes:
+            values.extraNotes.en && values.extraNotes.ar
+              ? values.extraNotes
+              : undefined,
         });
       }
 
@@ -447,6 +470,28 @@ const CategoryQuestionForm: React.FC = () => {
                   </div>
                 </>
               ))}
+            </div>
+            <div
+              className="question-container"
+              style={{ marginBottom: "2rem" }}
+            >
+              <span
+                style={{
+                  paddingInline: "20px",
+                  marginRight: "auto",
+                }}
+              >
+                Extra Notes <span>(Optional)</span>
+              </span>
+              <textarea
+                value={values.extraNotes[language]}
+                onChange={(e) =>
+                  setFieldValue(`extraNotes.${language}`, e.target.value)
+                }
+                placeholder={`Please provide extra notes (${language})`}
+                className="question-input"
+                maxLength={250}
+              />
             </div>
           </div>
           <div ref={errorListRef}>

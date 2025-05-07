@@ -51,14 +51,30 @@ const CategoryMemeCard = forwardRef<HTMLDivElement, { props: MemeCardProps }>(
           </div>
         )}
 
-        <img
-          src={name}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              "/images/categories/404-error.png";
-          }}
-          alt={"Card image"}
-        />
+        {name.endsWith(".mp4") ? (
+          <video
+            src={name}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onError={(e) => {
+              (e.target as HTMLVideoElement).poster =
+                "/images/categories/404-error.png";
+            }}
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          />
+        ) : (
+          <img
+            src={name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src =
+                "/images/categories/404-error.png";
+            }}
+            alt="Card image"
+            style={{ width: "100%", height: "auto", objectFit: "cover" }}
+          />
+        )}
       </div>
     );
   }
