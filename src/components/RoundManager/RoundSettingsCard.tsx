@@ -2,11 +2,11 @@ import React from "react";
 import CustomCheckBox from "../Shared/CustomCheckBox";
 import { RoundSettingSelectBox } from "../Shared/SelectBox";
 import { useFormikContext } from "formik";
+import { numberOptions, RoundType, StationsCount } from "./RoundManager.const";
+import { AgeRanges } from "../../types/QuestionTypes";
 
 const RoundSettingsCard = () => {
   const { values, setFieldValue } = useFormikContext<any>();
-
-  const numberOptions = Array.from({ length: 60 }, (_, i) => i + 1);
 
   return (
     <div className="round-setting-card-container">
@@ -15,14 +15,21 @@ const RoundSettingsCard = () => {
         <RoundSettingSelectBox
           label="Mode"
           value={values.isManual}
-          options={["Auto", "Manual"]}
+          options={RoundType}
           onChange={(value: string) => setFieldValue("isManual", value)}
+          seperatorLine={true}
+        />
+        <RoundSettingSelectBox
+          label="Age Range"
+          value={values.ageRange}
+          options={AgeRanges}
+          onChange={(value: string) => setFieldValue("ageRange", value)}
           seperatorLine={true}
         />
         <RoundSettingSelectBox
           label="Stations Count"
           value={values.stationsCount}
-          options={["4", "5", "6", "7", "8"]}
+          options={StationsCount}
           onChange={(value: string) => setFieldValue("stationsCount", value)}
           seperatorLine={true}
         />

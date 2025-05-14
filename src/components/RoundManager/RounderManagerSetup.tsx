@@ -23,11 +23,22 @@ import * as Yup from "yup";
 import ErrorList from "../ErrorList";
 import Loader from "../Loader/loader";
 import { showNotificationMessage } from "../../utils/toast";
+import { RoundType, StationsCount } from "./RoundManager.const";
+import { AgeRanges } from "../../types/QuestionTypes";
 
 const validationSchema = Yup.object().shape({
   isManual: Yup.string()
-    .oneOf(["Auto", "Manual"], "Mode must be Auto or Manual")
+    .oneOf(RoundType, "Mode must be Auto or Manual")
     .required("Mode is required"),
+  stationsCount: Yup.string()
+    .oneOf(
+      StationsCount,
+      `Station Count must be one of: ${StationsCount.join(", ")}`
+    )
+    .required("Station Count is required"),
+  ageRange: Yup.string()
+    .oneOf(AgeRanges, `Age range must be one of: ${AgeRanges.join(", ")}`)
+    .required("Age range is required"),
   roundOrder: Yup.array().min(1, "At least one round order item is required"),
   roundSettings: Yup.object().shape({
     suggestBreak: Yup.boolean(),
@@ -74,8 +85,9 @@ const RounderManagerSetup = () => {
         ? "Manual"
         : "Auto"
       : "Manual",
-    stationsCount: roundManagerPreset?.stationsCount || "4",
+    stationsCount: roundManagerPreset?.stationsCount || StationsCount[0],
     roundOrder: roundManagerPreset?.roundOrder || [],
+    ageRange: roundManagerPreset?.ageRange || AgeRanges[0],
     roundSettings: {
       suggestBreak: roundManagerPreset?.roundSettings.suggestBreak || false,
       breakDuration: roundManagerPreset?.roundSettings.breakDuration || 1,

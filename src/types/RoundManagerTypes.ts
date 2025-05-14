@@ -1,3 +1,5 @@
+import { AgeRangeType } from "./QuestionTypes";
+
 export interface roundOrderCategory {
   type: "category";
   categoryId: string;
@@ -14,6 +16,7 @@ export interface IRoundManager {
   isManual: boolean;
   roundOrder: (roundOrderCategory | roundOrderMiniGame)[];
   stationsCount: number;
+  ageRange: AgeRangeType;
   roundSettings: {
     suggestBreak: boolean;
     breakDuration: number;
