@@ -56,5 +56,6 @@ export interface CategoryQuestionResponse {
   correctAnswer: string;
   createdAt: Date | string;
   updatedAt: Date | string;
+  isShow: boolean;
   __v: number;
 }

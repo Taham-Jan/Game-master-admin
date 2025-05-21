@@ -20,6 +20,7 @@ const CategoryQuestionCard = forwardRef<
   const {
     categoryId,
     _id,
+    isShow,
     text,
     handleQuestionDeleteClick,
     checkboxChecked,
@@ -28,54 +29,65 @@ const CategoryQuestionCard = forwardRef<
   } = props;
   const navigate = useNavigate();
   return (
-    <div className="category-question-card-container">
-      <div
-        ref={ref}
-        className="category-question-card"
-        onClick={() => {
-          if (showCheckbox) {
-            onCheckboxChange();
-          } else {
-            navigate(`/categories-questions/${categoryId}/form/${_id}`);
-          }
-        }}
-      >
-        <span
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "10px",
+    <>
+      <div className="category-question-card-container">
+        <div
+          ref={ref}
+          className="category-question-card"
+          onClick={() => {
+            if (showCheckbox) {
+              onCheckboxChange();
+            } else {
+              navigate(`/categories-questions/${categoryId}/form/${_id}`);
+            }
           }}
         >
-          {showCheckbox && (
-            <CustomCheckBox
-              style={{ padding: "5px" }}
-              checked={checkboxChecked}
-              onChange={onCheckboxChange}
-              size={24}
-            />
+          <span
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            {showCheckbox && (
+              <CustomCheckBox
+                style={{ padding: "5px" }}
+                checked={checkboxChecked}
+                onChange={onCheckboxChange}
+                size={24}
+              />
+            )}
+            {text.en}
+          </span>
+          {!showCheckbox && (
+            <div className="category-question-card-icon-container">
+              <img
+                src="/images/categories/question-list-button-icon.png"
+                alt="Question List"
+                className="category-question-next-icon"
+              />
+              <RiDeleteBin6Line
+                className="category-question-delete-icon"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleQuestionDeleteClick();
+                }}
+              />
+            </div>
           )}
-          {text.en}
+        </div>
+        <span style={{ textAlign: "center", fontSize: "0.6em" }}>
+          USED
+          <CustomCheckBox
+            style={{ padding: "5px", cursor: "not-allowed" }}
+            checked={isShow || false}
+            onChange={(e) => console.log(e)}
+            size={24}
+          />
         </span>
-        {!showCheckbox && (
-          <div className="category-question-card-icon-container">
-            <img
-              src="/images/categories/question-list-button-icon.png"
-              alt="Question List"
-              className="category-question-next-icon"
-            />
-            <RiDeleteBin6Line
-              className="category-question-delete-icon"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleQuestionDeleteClick();
-              }}
-            />
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 });
 export default CategoryQuestionCard;
